@@ -3,35 +3,34 @@ title: "Sesión 1. Primeros pasos con R"
 subtitle: "Curso de iniciación a R. Departamento de Ciencias de la Educación, Universidad de Alcalá"
 ---
 
-<!-- Versión del profesorado (con soluciones): quarto render --profile profesor -->
+<!-- Las soluciones están ocultas. Para verlas: quarto render sesionX.qmd -M solucion:true -->
 
 ::: {.callout-note}
 ## Cómo usar este material
 
 Cada bloque sigue la misma estructura:
 
-1. Demostración (unos 10 minutos): el profesor ejecuta el código en directo y tú lo sigues.
-2. Ejercicio (unos 20 minutos) en tres niveles. Haz el que te corresponda y, si terminas, pasa al siguiente:
+1. Demostración: el profesor ejecuta el código en directo y tú lo sigues.
+2. Ejercicio en tres niveles. Haz el que te corresponda y, si terminas, pasa al siguiente:
    - Básico: completa los huecos `___`.
    - Intermedio: la misma tarea con menos ayuda.
    - Reto: para quien ya tiene algo de experiencia con R.
 
    En el fichero de ejercicios, cada uno empieza con la marca `[EJERCICIO]` seguida del nivel.
-3. Puesta en común (unos 5 minutos).
+3. Puesta en común.
 
 Los ejercicios están en el fichero `sesion1_ejercicios.qmd`. Si en algún momento te pierdes,
 cada bloque indica un **punto de control** (_checkpoint_) desde el que puedes continuar.
 :::
 
-| Bloque | Contenido | Tiempo |
-|---|---|---|
-| 1.1 | RStudio, proyectos y `renv`. Tu primera línea de código | 35' |
-| 1.2 | Objetos, tipos y vectores. Valores perdidos | 45' |
-| 1.3 | Factores y tablas de datos | 25' |
-| | _Descanso_ | 15' |
-| 1.4 | Importar y limpiar los datos de una encuesta | 45' |
-| 1.5 | Explorar los datos | 45' |
-| 1.6 | Ejercicio integrador | 30' |
+| Bloque | Contenido |
+|---|---|
+| 1.1 | RStudio, proyectos y `renv`. Tu primera línea de código |
+| 1.2 | Objetos, tipos y vectores. Valores perdidos |
+| 1.3 | Factores y tablas de datos |
+| 1.4 | Importar y limpiar los datos de una encuesta |
+| 1.5 | Explorar los datos |
+| 1.6 | Ejercicio integrador |
 
 # 1.1. RStudio, proyectos y `renv` {#bloque-1-1}
 

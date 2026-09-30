@@ -3,17 +3,16 @@ title: "Sesión 2. De los datos a los resultados"
 subtitle: "Curso de iniciación a R. Departamento de Ciencias de la Educación, Universidad de Alcalá"
 ---
 
-<!-- Versión del profesorado (con soluciones): quarto render --profile profesor -->
+<!-- Las soluciones están ocultas. Para verlas: quarto render sesionX.qmd -M solucion:true -->
 
-| Bloque | Contenido | Tiempo |
-|---|---|---|
-| 2.1 | Transformar datos con `dplyr` | 75' |
-| 2.2 | Escalas Likert: ítems invertidos, puntuaciones y fiabilidad | 30' |
-| | _Descanso_ | 15' |
-| 2.3 | Reorganizar y combinar tablas | 15' |
-| 2.4 | Gráficos con `ggplot2` | 40' |
-| 2.5 | Primeros análisis: correlación, prueba _t_ y regresión | 30' |
-| 2.6 | Ejercicio integrador y tu propio proyecto con `renv` | 35' |
+| Bloque | Contenido |
+|---|---|
+| 2.1 | Transformar datos con `dplyr` |
+| 2.2 | Escalas Likert: ítems invertidos, puntuaciones y fiabilidad |
+| 2.3 | Reorganizar y combinar tablas |
+| 2.4 | Gráficos con `ggplot2` |
+| 2.5 | Primeros análisis: correlación, prueba _t_ y regresión |
+| 2.6 | Ejercicio integrador y tu propio proyecto con `renv` |
 
 Recuerda: los ejercicios están en `sesion2_ejercicios.qmd`, en tres niveles (básico, intermedio y reto).
 
@@ -701,7 +700,7 @@ Responder a una pregunta de investigación de principio a fin con todo lo aprend
 propio y reproducible para tus análisis.
 :::
 
-## Una pregunta de principio a fin (25')
+## Una pregunta de principio a fin
 
 Elige una de estas preguntas y respóndela en un _script_ nuevo, con la estructura de la sesión 1
 (paquetes, importar, preparar, describir, graficar, analizar):
@@ -733,7 +732,7 @@ t.test(motivacion ~ zona, data = encuesta_zona)
 :::
 :::
 
-## Tu propio proyecto con `renv` (10')
+## Tu propio proyecto con `renv`
 
 Para cada análisis nuevo, crea un proyecto con `renv`. Así, dentro de un año podrás volver a ejecutarlo
 con las mismas versiones de los paquetes, y cualquier colaborador podrá reproducirlo con `renv::restore()`.

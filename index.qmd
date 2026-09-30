@@ -1,0 +1,55 @@
+---
+title: "Curso de iniciación a R"
+subtitle: "Departamento de Ciencias de la Educación, Universidad de Alcalá"
+toc: false
+---
+
+Curso práctico de introducción a R para el profesorado del área de Psicología Evolutiva y de la Educación.
+El objetivo es adquirir una base sólida para importar, preparar, describir, representar y analizar datos
+con R, que sirva de punto de partida para formaciones más específicas (modelos de ecuaciones estructurales,
+metaanálisis, etc.).
+
+El curso consta de dos sesiones. No se requiere experiencia previa con R ni con otros programas de análisis de datos.
+
+## Profesorado
+
+- Rubén Rodríguez Fernández (<ruben.rodriguez@urjc.es>)
+- Víctor Aceña Gil (<victor.acena@urjc.es>)
+
+## Antes del curso
+
+Es imprescindible instalar R, RStudio y los paquetes del curso antes de la primera sesión.
+Sigue las instrucciones de [Preparación](00_preparacion/preparacion.qmd). Si nunca has usado R,
+la segunda parte de ese documento es una breve introducción opcional.
+
+## Sesiones
+
+| Sesión | Contenidos | Materiales |
+|---|---|---|
+| 1. Primeros pasos con R | RStudio, proyectos y `renv`. Objetos, tipos y vectores. Factores y tablas de datos. Importación y limpieza de los datos de una encuesta. Exploración de los datos. | [Apuntes](sesion1.qmd), [Ejercicios](sesion1_ejercicios.qmd) |
+| 2. De los datos a los resultados | Transformación de datos con `dplyr`. Escalas Likert: ítems invertidos, puntuaciones y fiabilidad. Reorganización y combinación de tablas. Gráficos con `ggplot2`. Correlación, prueba _t_ y regresión lineal. Proyectos propios con `renv`. | [Apuntes](sesion2.qmd), [Ejercicios](sesion2_ejercicios.qmd) |
+
+## Cómo se trabaja
+
+Cada sesión se divide en bloques. En cada bloque, el profesor presenta los contenidos ejecutando el código en directo,
+a continuación se resuelve un ejercicio y, por último, se ponen en común las soluciones.
+
+Los ejercicios están en los ficheros `sesion1_ejercicios.qmd` y `sesion2_ejercicios.qmd`, que se abren y completan
+en RStudio desde el proyecto del curso (`curso_R_UAH.Rproj`). Cada ejercicio tiene tres niveles (básico, intermedio y reto),
+para que cada participante avance a su ritmo. Si en algún momento te pierdes, cada bloque indica un punto de control
+desde el que continuar con los datos preparados.
+
+## Datos
+
+Durante el curso se utilizan datos simulados de un estudio con estudiantes de ESO:
+
+- `datos/encuesta_bruta.xlsx`: encuesta a 320 estudiantes de 10 centros, con ítems de motivación, ansiedad ante los exámenes
+  y autoeficacia académica, y la nota media de la primera evaluación. La segunda hoja contiene el diccionario de datos.
+- `datos/centros.csv`: titularidad y zona de cada centro.
+- `datos/intervencion_prepost.csv`: comprensión lectora antes, después y en el seguimiento de una intervención, en un grupo de intervención y un grupo control.
+
+## Para seguir aprendiendo
+
+- _R para Ciencia de Datos_ (2.ª ed., en español): <https://es.r4ds.hadley.nz>
+- Chuletas de los principales paquetes: <https://posit.co/resources/cheatsheets/>
+- Documentación de `renv`: <https://rstudio.github.io/renv/>

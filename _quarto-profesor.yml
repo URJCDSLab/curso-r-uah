@@ -1,6 +1,0 @@
-# Versión del profesorado: muestra las soluciones de los ejercicios.
-# quarto render --profile profesor
-project:
-  output-dir: _output/profesor
-
-solucion: true

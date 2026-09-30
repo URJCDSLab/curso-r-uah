@@ -1,21 +1,50 @@
 project:
-  type: default
-  output-dir: _output/alumnado
+  type: website
+  output-dir: _output
   execute-dir: project
   render:
+    - index.qmd
     - 00_preparacion/preparacion.qmd
     - sesion1.qmd
     - sesion1_ejercicios.qmd
     - sesion2.qmd
     - sesion2_ejercicios.qmd
 
+website:
+  title: "Curso de iniciación a R"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: 00_preparacion/preparacion.qmd
+        text: Preparación
+      - text: Sesión 1
+        menu:
+          - href: sesion1.qmd
+            text: Apuntes
+          - href: sesion1_ejercicios.qmd
+            text: Ejercicios
+      - text: Sesión 2
+        menu:
+          - href: sesion2.qmd
+            text: Apuntes
+          - href: sesion2_ejercicios.qmd
+            text: Ejercicios
+
 lang: es
+
+author:
+  - name: Rubén Rodríguez Fernández
+    email: ruben.rodriguez@urjc.es
+    affiliation: Universidad Rey Juan Carlos
+  - name: Víctor Aceña Gil
+    email: victor.acena@urjc.es
+    affiliation: Universidad Rey Juan Carlos
 
 format:
   html:
     toc: true
     toc-depth: 2
-    embed-resources: true
     fig-width: 7
     fig-height: 4
 
