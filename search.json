@@ -18,7 +18,7 @@
     "href": "00_preparacion/preparacion.html",
     "title": "Antes del curso: preparación",
     "section": "",
-    "text": "ImportanteHaz la parte A antes de la primera sesión\n\n\n\nInstalar el software durante la clase nos quitaría la primera hora. La parte A lleva unos 20-30 minutos. Si algo falla, escríbenos antes del curso con una captura de pantalla del error."
+    "text": "ImportanteAntes de la primera sesión\n\n\n\nInstalar el software durante la clase nos quitaría la primera hora. La parte A lleva unos 20-30 minutos. Si algo falla, escríbenos antes del curso con una captura de pantalla del error."
   },
   {
     "objectID": "00_preparacion/preparacion.html#instala-r",
@@ -56,46 +56,11 @@
     "text": "5. Comprueba que todo funciona\nCopia y ejecuta en la consola:\n\nlibrary(tidyverse)\nlibrary(readxl)\nlibrary(psych)\nencuesta &lt;- read_excel(\"datos/encuesta_bruta.xlsx\")\nnrow(encuesta)\n\nSi el resultado es [1] 320, la instalación es correcta.\n\n\n\n\n\n\nTipSi algo falla\n\n\n\n\n\n\nAviso de que la versión de R no coincide con la de renv.lock: es normal si tienes una versión más reciente de R. Continúa.\nError al instalar un paquete concreto: vuelve a ejecutar renv::restore(). Si sigue fallando, instálalo con install.packages(\"nombre_del_paquete\").\nEn Windows, error de permisos: comprueba que la carpeta del curso no está en OneDrive ni en una carpeta de red.\nCualquier otro problema: envíanos una captura de pantalla de la consola."
   },
   {
-    "objectID": "00_preparacion/preparacion.html#la-consola-r-como-calculadora",
-    "href": "00_preparacion/preparacion.html#la-consola-r-como-calculadora",
-    "title": "Antes del curso: preparación",
-    "section": "La consola: R como calculadora",
-    "text": "La consola: R como calculadora\nEscribe en la consola cada una de estas líneas y pulsa EnterEnter:\n\n2 + 3\n(6.5 + 8 + 7.2) / 3\nsqrt(81)\nround(7.4666, 1)\n\nsqrt() y round() son funciones: reciben unos datos entre paréntesis (argumentos) y devuelven un resultado."
-  },
-  {
-    "objectID": "00_preparacion/preparacion.html#guardar-valores-en-objetos",
-    "href": "00_preparacion/preparacion.html#guardar-valores-en-objetos",
-    "title": "Antes del curso: preparación",
-    "section": "Guardar valores en objetos",
-    "text": "Guardar valores en objetos\nCon &lt;- guardamos un valor con un nombre, para usarlo después. Mira cómo aparece en el panel Environment (arriba a la derecha):\n\nnota_ana &lt;- 7.5\nnota_luis &lt;- 6\n(nota_ana + nota_luis) / 2"
-  },
-  {
-    "objectID": "00_preparacion/preparacion.html#un-conjunto-de-valores-vectores",
-    "href": "00_preparacion/preparacion.html#un-conjunto-de-valores-vectores",
-    "title": "Antes del curso: preparación",
-    "section": "Un conjunto de valores: vectores",
-    "text": "Un conjunto de valores: vectores\nCon c() combinamos varios valores. Las funciones como mean() resumen todos los valores a la vez:\n\nnotas &lt;- c(6.5, 8, 4.5, 9.2, 5)\nmean(notas)\nmax(notas)\nnotas &gt;= 5\nsum(notas &gt;= 5)\n\nLa última línea cuenta cuántas notas son mayores o iguales que 5: R cuenta cada TRUE como un 1."
-  },
-  {
-    "objectID": "00_preparacion/preparacion.html#escribir-en-un-script",
-    "href": "00_preparacion/preparacion.html#escribir-en-un-script",
-    "title": "Antes del curso: preparación",
-    "section": "Escribir en un script",
-    "text": "Escribir en un script\nLa consola está bien para probar, pero lo que escribimos en ella no se guarda.\n\nCrea un script nuevo: File &gt; New File &gt; R Script (Ctrl+Shift+NCtrl+Shift+N).\nEscribe en él las líneas anteriores.\nSitúa el cursor en una línea y pulsa Ctrl+EnterCtrl+Enter (Cmd+EnterCmd+Enter en Mac) para ejecutarla.\nGuarda el script (Ctrl+SCtrl+S) con el nombre prueba.R."
-  },
-  {
-    "objectID": "00_preparacion/preparacion.html#para-practicar-un-poco-más",
-    "href": "00_preparacion/preparacion.html#para-practicar-un-poco-más",
-    "title": "Antes del curso: preparación",
-    "section": "Para practicar un poco más",
-    "text": "Para practicar un poco más\n\nCapítulo Flujo de trabajo: conceptos básicos de R para Ciencia de Datos: https://es.r4ds.hadley.nz/02-workflow-basics.html"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Curso de iniciación a R",
     "section": "",
-    "text": "Curso práctico de introducción a R para el profesorado del área de Psicología Evolutiva y de la Educación. El objetivo es adquirir una base sólida para importar, preparar, describir, representar y analizar datos con R, que sirva de punto de partida para formaciones más específicas (modelos de ecuaciones estructurales, metaanálisis, etc.).\nEl curso consta de dos sesiones. No se requiere experiencia previa con R ni con otros programas de análisis de datos."
+    "text": "Curso práctico de introducción a R para el profesorado del área de Psicología Evolutiva y de la Educación. El curso consta de dos sesiones. No se requiere experiencia previa con R ni con otros programas de análisis de datos."
   },
   {
     "objectID": "index.html#profesorado",

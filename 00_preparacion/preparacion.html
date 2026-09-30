@@ -184,22 +184,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">En esta página</h2>
    
   <ul class="collapse">
-  <li><a href="#parte-a.-instalación-obligatoria" id="toc-parte-a.-instalación-obligatoria" class="nav-link active" data-scroll-target="#parte-a.-instalación-obligatoria">Parte A. Instalación (obligatoria)</a>
-  <ul class="collapse">
-  <li><a href="#instala-r" id="toc-instala-r" class="nav-link" data-scroll-target="#instala-r">1. Instala R</a></li>
+  <li><a href="#instala-r" id="toc-instala-r" class="nav-link active" data-scroll-target="#instala-r">1. Instala R</a></li>
   <li><a href="#instala-rstudio" id="toc-instala-rstudio" class="nav-link" data-scroll-target="#instala-rstudio">2. Instala RStudio</a></li>
   <li><a href="#descarga-los-materiales-del-curso" id="toc-descarga-los-materiales-del-curso" class="nav-link" data-scroll-target="#descarga-los-materiales-del-curso">3. Descarga los materiales del curso</a></li>
   <li><a href="#abre-el-proyecto-e-instala-los-paquetes" id="toc-abre-el-proyecto-e-instala-los-paquetes" class="nav-link" data-scroll-target="#abre-el-proyecto-e-instala-los-paquetes">4. Abre el proyecto e instala los paquetes</a></li>
   <li><a href="#comprueba-que-todo-funciona" id="toc-comprueba-que-todo-funciona" class="nav-link" data-scroll-target="#comprueba-que-todo-funciona">5. Comprueba que todo funciona</a></li>
-  </ul></li>
-  <li><a href="#parte-b.-primeros-pasos-opcional-30-45-minutos" id="toc-parte-b.-primeros-pasos-opcional-30-45-minutos" class="nav-link" data-scroll-target="#parte-b.-primeros-pasos-opcional-30-45-minutos">Parte B. Primeros pasos (opcional, 30-45 minutos)</a>
-  <ul class="collapse">
-  <li><a href="#la-consola-r-como-calculadora" id="toc-la-consola-r-como-calculadora" class="nav-link" data-scroll-target="#la-consola-r-como-calculadora">La consola: R como calculadora</a></li>
-  <li><a href="#guardar-valores-en-objetos" id="toc-guardar-valores-en-objetos" class="nav-link" data-scroll-target="#guardar-valores-en-objetos">Guardar valores en objetos</a></li>
-  <li><a href="#un-conjunto-de-valores-vectores" id="toc-un-conjunto-de-valores-vectores" class="nav-link" data-scroll-target="#un-conjunto-de-valores-vectores">Un conjunto de valores: vectores</a></li>
-  <li><a href="#escribir-en-un-script" id="toc-escribir-en-un-script" class="nav-link" data-scroll-target="#escribir-en-un-script">Escribir en un script</a></li>
-  <li><a href="#para-practicar-un-poco-más" id="toc-para-practicar-un-poco-más" class="nav-link" data-scroll-target="#para-practicar-un-poco-más">Para practicar un poco más</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -253,15 +242,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Haz la parte A antes de la primera sesión
+<span class="screen-reader-only">Importante</span>Antes de la primera sesión
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Instalar el software durante la clase nos quitaría la primera hora. La parte A lleva unos 20-30 minutos. Si algo falla, escríbenos antes del curso con una captura de pantalla del error.</p>
 </div>
 </div>
-<section id="parte-a.-instalación-obligatoria" class="level1">
-<h1>Parte A. Instalación (obligatoria)</h1>
 <section id="instala-r" class="level2">
 <h2 class="anchored" data-anchor-id="instala-r">1. Instala R</h2>
 <p>Descarga e instala la última versión de R desde <a href="https://cran.r-project.org" class="uri">https://cran.r-project.org</a>:</p>
@@ -336,61 +323,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="parte-b.-primeros-pasos-opcional-30-45-minutos" class="level1">
-<h1>Parte B. Primeros pasos (opcional, 30-45 minutos)</h1>
-<p>Si nunca has usado R, esta parte te permitirá llegar a la primera sesión con los conceptos más básicos. Si ya has usado R alguna vez, puedes saltártela.</p>
-<section id="la-consola-r-como-calculadora" class="level2">
-<h2 class="anchored" data-anchor-id="la-consola-r-como-calculadora">La consola: R como calculadora</h2>
-<p>Escribe en la consola cada una de estas líneas y pulsa <kbd title="Enter" aria-hidden="true">Enter</kbd><span class="visually-hidden">Enter</span>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>(<span class="fl">6.5</span> <span class="sc">+</span> <span class="dv">8</span> <span class="sc">+</span> <span class="fl">7.2</span>) <span class="sc">/</span> <span class="dv">3</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">81</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">7.4666</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><code>sqrt()</code> y <code>round()</code> son <strong>funciones</strong>: reciben unos datos entre paréntesis (<strong>argumentos</strong>) y devuelven un resultado.</p>
-</section>
-<section id="guardar-valores-en-objetos" class="level2">
-<h2 class="anchored" data-anchor-id="guardar-valores-en-objetos">Guardar valores en objetos</h2>
-<p>Con <code>&lt;-</code> guardamos un valor con un nombre, para usarlo después. Mira cómo aparece en el panel <strong>Environment</strong> (arriba a la derecha):</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nota_ana <span class="ot">&lt;-</span> <span class="fl">7.5</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nota_luis <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>(nota_ana <span class="sc">+</span> nota_luis) <span class="sc">/</span> <span class="dv">2</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="un-conjunto-de-valores-vectores" class="level2">
-<h2 class="anchored" data-anchor-id="un-conjunto-de-valores-vectores">Un conjunto de valores: vectores</h2>
-<p>Con <code>c()</code> combinamos varios valores. Las funciones como <code>mean()</code> resumen todos los valores a la vez:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>notas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.5</span>, <span class="dv">8</span>, <span class="fl">4.5</span>, <span class="fl">9.2</span>, <span class="dv">5</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(notas)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(notas)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>notas <span class="sc">&gt;=</span> <span class="dv">5</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(notas <span class="sc">&gt;=</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>La última línea cuenta cuántas notas son mayores o iguales que 5: R cuenta cada <code>TRUE</code> como un 1.</p>
-</section>
-<section id="escribir-en-un-script" class="level2">
-<h2 class="anchored" data-anchor-id="escribir-en-un-script">Escribir en un script</h2>
-<p>La consola está bien para probar, pero lo que escribimos en ella no se guarda.</p>
-<ol type="1">
-<li>Crea un <em>script</em> nuevo: <em>File &gt; New File &gt; R Script</em> (<kbd title="Ctrl+Shift+N" aria-hidden="true">Ctrl+Shift+N</kbd><span class="visually-hidden">Ctrl+Shift+N</span>).</li>
-<li>Escribe en él las líneas anteriores.</li>
-<li>Sitúa el cursor en una línea y pulsa <kbd title="Ctrl+Enter" aria-hidden="true">Ctrl+Enter</kbd><span class="visually-hidden">Ctrl+Enter</span> (<kbd title="Cmd+Enter" aria-hidden="true">Cmd+Enter</kbd><span class="visually-hidden">Cmd+Enter</span> en Mac) para ejecutarla.</li>
-<li>Guarda el <em>script</em> (<kbd title="Ctrl+S" aria-hidden="true">Ctrl+S</kbd><span class="visually-hidden">Ctrl+S</span>) con el nombre <code>prueba.R</code>.</li>
-</ol>
-</section>
-<section id="para-practicar-un-poco-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-practicar-un-poco-más">Para practicar un poco más</h2>
-<ul>
-<li>Capítulo <em>Flujo de trabajo: conceptos básicos</em> de <em>R para Ciencia de Datos</em>: <a href="https://es.r4ds.hadley.nz/02-workflow-basics.html" class="uri">https://es.r4ds.hadley.nz/02-workflow-basics.html</a></li>
-</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -467,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/URJCDSLab\.github\.io\/curso-r-uah\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
