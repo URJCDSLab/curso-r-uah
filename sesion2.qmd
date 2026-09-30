@@ -1,0 +1,790 @@
+---
+title: "Sesión 2. De los datos a los resultados"
+subtitle: "Curso de iniciación a R. Departamento de Ciencias de la Educación, Universidad de Alcalá"
+---
+
+<!-- Versión del profesorado (con soluciones): quarto render --profile profesor -->
+
+| Bloque | Contenido | Tiempo |
+|---|---|---|
+| 2.1 | Transformar datos con `dplyr` | 75' |
+| 2.2 | Escalas Likert: ítems invertidos, puntuaciones y fiabilidad | 30' |
+| | _Descanso_ | 15' |
+| 2.3 | Reorganizar y combinar tablas | 15' |
+| 2.4 | Gráficos con `ggplot2` | 40' |
+| 2.5 | Primeros análisis: correlación, prueba _t_ y regresión | 30' |
+| 2.6 | Ejercicio integrador y tu propio proyecto con `renv` | 35' |
+
+Recuerda: los ejercicios están en `sesion2_ejercicios.qmd`, en tres niveles (básico, intermedio y reto).
+
+Partimos de los datos que limpiamos en la sesión 1:
+
+```{r}
+library(tidyverse)
+library(psych)
+
+encuesta <- readRDS("checkpoints/encuesta_limpia.rds")
+```
+
+# 2.1. Transformar datos con `dplyr` {#bloque-2-1}
+
+::: {.callout-tip}
+## Objetivo
+Seleccionar, filtrar, crear variables y resumir datos por grupos: las operaciones que harás en todos tus análisis.
+
+**Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_limpia.rds")`
+:::
+
+<!-- Fuente: contenido_R/04_manipulacion_r.qmd § El tidyverse y su flujo de trabajo, Transformación de datos, Agrupación de datos -->
+
+## El _tidyverse_ y la "tubería" `|>`
+
+El _tidyverse_ es un conjunto de paquetes diseñados para el análisis de datos que comparten una misma filosofía
+y "gramática". Lo cargamos con `library(tidyverse)`. El paquete central para transformar datos es `dplyr`, que
+ofrece un conjunto de **verbos** (funciones) con nombres que dicen lo que hacen.
+
+Todos los verbos reciben una tabla como primer argumento y devuelven otra tabla. Por eso se pueden encadenar con
+el operador `|>` (_pipe_ o tubería, atajo {{< kbd Ctrl+Shift+M >}}): el resultado de la izquierda pasa como primer
+argumento a la función de la derecha. Se lee como **"y después"**:
+
+```{r}
+#| eval: false
+encuesta |>              # toma la encuesta, y después
+  filter(...) |>         # quédate con algunas filas, y después
+  select(...) |>         # quédate con algunas columnas, y después
+  summarise(...)         # resume
+```
+
+Si queremos guardar el resultado, lo asignamos a un nombre al principio:
+
+```{r}
+#| eval: false
+resultado <- encuesta |>
+  filter(...)
+```
+
+## Operaciones con filas
+
+**Filtrar** filas que cumplen una condición, con `filter()`. Se usan las comparaciones de la sesión 1,
+combinadas con `&` (Y) y `|` (O):
+
+```{r}
+encuesta |>
+  filter(curso == "1º ESO")
+
+encuesta |>
+  filter(curso == "4º ESO" & nota < 5)
+```
+
+Para comprobar si un valor está en un conjunto, usamos `%in%`:
+
+```{r}
+encuesta |>
+  filter(centro %in% c("C01", "C02", "C03"))
+```
+
+Y para quitar los casos sin nota, `!is.na()` ("que **no** sea `NA`"):
+
+```{r}
+encuesta |>
+  filter(!is.na(nota))
+```
+
+**Ordenar** con `arrange()`; para orden descendente, `desc()`:
+
+```{r}
+encuesta |>
+  arrange(desc(nota))
+```
+
+## Operaciones con columnas
+
+**Seleccionar** columnas con `select()`, por su nombre, por rango (`m1:m4`) o con funciones auxiliares como
+`starts_with()`. Un signo menos elimina columnas:
+
+```{r}
+encuesta |>
+  select(id, curso, sexo, nota)
+
+encuesta |>
+  select(id, starts_with("ae"))
+
+encuesta |>
+  select(-marca_temporal)
+```
+
+**Crear o modificar** variables con `mutate()`, con pares `nombre = expresión`:
+
+```{r}
+encuesta |>
+  mutate(
+    aprobado = nota >= 5,
+    nota_100 = nota * 10
+  ) |>
+  select(id, nota, aprobado, nota_100)
+```
+
+Para recodificar en varias categorías, `case_when()` evalúa las condiciones en orden y asigna el valor de la primera que se cumple:
+
+```{r}
+encuesta <- encuesta |>
+  mutate(
+    calificacion = case_when(
+      nota < 5 ~ "Suspenso",
+      nota < 7 ~ "Aprobado",
+      nota < 9 ~ "Notable",
+      nota >= 9 ~ "Sobresaliente"
+    ),
+    calificacion = factor(calificacion,
+                          levels = c("Suspenso", "Aprobado", "Notable", "Sobresaliente")),
+    ciclo = if_else(curso %in% c("1º ESO", "2º ESO"), "Primer ciclo", "Segundo ciclo")
+  )
+
+encuesta |>
+  select(nota, calificacion, curso, ciclo)
+```
+
+## Resumir datos
+
+**Contar** con `count()`:
+
+```{r}
+encuesta |>
+  count(curso)
+
+encuesta |>
+  count(curso, calificacion)
+```
+
+**Resumir** con `summarise()`: cualquier función que devuelva un único valor (`mean`, `sd`, `median`, `min`, `max`...)
+y `n()` para el número de casos:
+
+```{r}
+encuesta |>
+  summarise(
+    n = n(),
+    media_nota = mean(nota, na.rm = TRUE),
+    dt_nota = sd(nota, na.rm = TRUE)
+  )
+```
+
+## Resumir por grupos
+
+Lo más habitual es combinar `summarise()` con `group_by()`, de modo que el resumen se calcula para cada grupo.
+
+```{r}
+encuesta |>
+  group_by(curso) |>
+  summarise(
+    n = n(),
+    media_nota = mean(nota, na.rm = TRUE),
+    dt_nota = sd(nota, na.rm = TRUE)
+  )
+```
+
+Se puede agrupar por varias variables:
+
+```{r}
+encuesta |>
+  filter(sexo != "Prefiero no decirlo") |>
+  group_by(curso, sexo) |>
+  summarise(
+    n = n(),
+    media_nota = mean(nota, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+::: {.callout-tip}
+Para ver cualquier resultado como hoja de cálculo, añade `|> View()` al final de la cadena.
+:::
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 2.1
+```{r}
+# Básico
+encuesta |>
+  filter(curso == "2º ESO" & nota >= 7) |>
+  select(id, sexo, nota)
+
+encuesta |>
+  count(calificacion)
+
+encuesta |>
+  group_by(centro) |>
+  summarise(media_nota = mean(nota, na.rm = TRUE))
+
+# Intermedio
+encuesta |>
+  filter(!is.na(nota)) |>
+  group_by(centro) |>
+  summarise(
+    n = n(),
+    media_nota = mean(nota),
+    porcentaje_aprobados = mean(nota >= 5) * 100
+  ) |>
+  arrange(desc(porcentaje_aprobados))
+
+# Reto
+encuesta |>
+  mutate(
+    edad_maxima = 12 + as.integer(curso),
+    repetidor = edad > edad_maxima
+  ) |>
+  group_by(repetidor) |>
+  summarise(n = n(), media_nota = mean(nota, na.rm = TRUE))
+```
+:::
+:::
+
+# 2.2. Escalas Likert {#bloque-2-2}
+
+::: {.callout-tip}
+## Objetivo
+Invertir ítems, calcular la puntuación de cada escala y estimar su fiabilidad.
+
+**Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_limpia.rds")`
+
+**Al final del bloque:** `checkpoints/encuesta_escalas.rds`
+:::
+
+## Ítems invertidos
+
+En el diccionario de datos vimos que dos ítems están redactados en sentido contrario al resto de su escala:
+
+- `m4`: _Solo estudio porque me obligan_ (motivación).
+- `ae3`: _Cuando algo es difícil, me rindo enseguida_ (autoeficacia).
+
+Una puntuación alta en ellos indica **menos** motivación o autoeficacia. Antes de sumar o promediar hay que invertirlos.
+En una escala de 1 a 5, el valor invertido es `6 - valor` (en general, `mínimo + máximo - valor`):
+
+```{r}
+encuesta <- encuesta |>
+  mutate(
+    m4_inv = 6 - m4,
+    ae3_inv = 6 - ae3
+  )
+
+encuesta |>
+  count(m4, m4_inv)
+```
+
+::: {.callout-note}
+Creamos variables nuevas (`m4_inv`) en lugar de sobrescribir las originales. Así, si ejecutamos la línea dos veces
+por error, no volvemos a invertir el ítem.
+:::
+
+## Fiabilidad: alfa de Cronbach
+
+La función `alpha()` del paquete `psych` calcula el alfa de Cronbach y otros indicadores de fiabilidad de una escala.
+Le pasamos una tabla con los ítems:
+
+```{r}
+encuesta |>
+  select(m1, m2, m3, m4_inv) |>
+  alpha()
+```
+
+::: {.callout-note}
+Es posible que veas un aviso sobre `response.frequency ... deprecated`. Es un aviso interno del paquete `psych` y se puede ignorar.
+:::
+
+Lo más importante de la salida:
+
+- `raw_alpha`: el alfa de Cronbach.
+- **Reliability if an item is dropped**: cómo cambiaría el alfa si elimináramos cada ítem.
+- **Item statistics**, `r.drop`: correlación de cada ítem con el resto de la escala (correlación ítem-total corregida).
+
+¿Qué pasa si olvidamos invertir el ítem?
+
+```{r}
+encuesta |>
+  select(m1, m2, m3, m4) |>
+  alpha()
+```
+
+El alfa baja, `m4` tiene una correlación ítem-total negativa y `psych` nos avisa: _"Some items were negatively correlated
+with the first principal component and probably should be reversed"_. Revisar este aviso es una buena forma de detectar
+ítems que hemos olvidado invertir.
+
+## Puntuación de cada escala
+
+La puntuación de cada participante en la escala suele ser la media de sus ítems. Usamos `rowMeans()` (medias por fila)
+con `pick()`, que selecciona las columnas dentro de `mutate()`:
+
+```{r}
+encuesta <- encuesta |>
+  mutate(
+    motivacion = rowMeans(pick(m1, m2, m3, m4_inv), na.rm = TRUE),
+    ansiedad = rowMeans(pick(a1:a4), na.rm = TRUE),
+    autoeficacia = rowMeans(pick(ae1, ae2, ae3_inv, ae4), na.rm = TRUE)
+  )
+
+encuesta |>
+  select(motivacion, ansiedad, autoeficacia) |>
+  describe()
+```
+
+::: {.callout-note}
+Con `na.rm = TRUE`, a un participante que no respondió un ítem se le calcula la media con los que sí respondió.
+Es una decisión razonable si faltan pocos ítems; si faltan muchos, conviene dejar la puntuación como `NA`.
+:::
+
+Guardamos los datos con las escalas:
+
+```{r}
+saveRDS(encuesta, "checkpoints/encuesta_escalas.rds")
+```
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 2.2
+```{r}
+# Básico
+encuesta |> select(a1, a2, a3, a4) |> alpha()
+encuesta |> select(ae1, ae2, ae3_inv, ae4) |> alpha()
+# Intermedio
+encuesta |>
+  group_by(curso) |>
+  summarise(across(c(motivacion, ansiedad, autoeficacia), \(x) mean(x, na.rm = TRUE)))
+# Reto
+encuesta |>
+  mutate(n_perdidos_ae = rowSums(is.na(pick(ae1:ae4))),
+         autoeficacia_estricta = if_else(n_perdidos_ae > 1, NA, autoeficacia)) |>
+  count(n_perdidos_ae)
+```
+:::
+:::
+
+# 2.3. Reorganizar y combinar tablas {#bloque-2-3}
+
+::: {.callout-tip}
+## Objetivo
+Pasar datos de medidas repetidas de formato ancho a largo, y unir información que está en tablas distintas.
+
+**Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_escalas.rds")`
+:::
+
+<!-- Fuente: contenido_R/04_manipulacion_r.qmd § Combinación de datos, Reorganización de datos -->
+
+## De ancho a largo: `pivot_longer()`
+
+Los datos de la intervención en comprensión lectora tienen una columna para cada momento de medida.
+Es el formato **ancho**, habitual al introducir datos:
+
+```{r}
+intervencion <- read_csv("datos/intervencion_prepost.csv") |>
+  mutate(grupo = factor(grupo, levels = c("Control", "Intervención")))
+intervencion
+```
+
+Para muchos análisis y gráficos necesitamos el formato **largo**: una fila por participante y momento.
+La función `pivot_longer()` "apila" las columnas indicadas:
+
+- `cols`: las columnas que queremos apilar.
+- `names_to`: el nombre de la nueva columna que dirá de qué columna venía cada valor.
+- `values_to`: el nombre de la nueva columna con los valores.
+- `names_prefix` (opcional): texto que se quita del principio de los nombres.
+
+```{r}
+intervencion_larga <- intervencion |>
+  pivot_longer(
+    cols = starts_with("comprension_"),
+    names_to = "momento",
+    names_prefix = "comprension_",
+    values_to = "comprension"
+  ) |>
+  mutate(momento = factor(momento, levels = c("pre", "post", "seguimiento")))
+
+intervencion_larga
+```
+
+Ahora es inmediato resumir por grupo y momento:
+
+```{r}
+intervencion_larga |>
+  group_by(grupo, momento) |>
+  summarise(media = mean(comprension, na.rm = TRUE), .groups = "drop")
+```
+
+La operación contraria, de largo a ancho, se hace con `pivot_wider()`.
+
+## Combinar tablas: `left_join()`
+
+La información de los centros (titularidad, zona) está en otra tabla. Para añadirla a cada estudiante, unimos
+las tablas por la columna que tienen en común, `centro`:
+
+```{r}
+centros <- read_csv2("datos/centros.csv")
+
+encuesta_centros <- encuesta |>
+  left_join(centros, by = "centro")
+
+encuesta_centros |>
+  select(id, centro, titularidad, zona, nota)
+```
+
+`left_join()` mantiene todas las filas de la primera tabla y añade las columnas de la segunda donde hay coincidencia
+(donde no la hay, pone `NA`). Existen también `inner_join()` (solo filas con coincidencia en ambas),
+`right_join()` y `full_join()`.
+
+::: {.callout-important}
+Especifica siempre la columna de unión con `by`, y comprueba después que el número de filas es el esperado:
+si la columna de unión tiene valores repetidos en la segunda tabla, las filas se multiplican.
+:::
+
+```{r}
+nrow(encuesta)
+nrow(encuesta_centros)
+```
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 2.3
+```{r}
+# Básico
+encuesta_centros |>
+  group_by(titularidad) |>
+  summarise(media_nota = mean(nota, na.rm = TRUE), n = n())
+# Intermedio
+intervencion |>
+  left_join(select(encuesta, id, curso, sexo), by = "id") |>
+  count(grupo, curso)
+# Reto
+intervencion_larga |>
+  pivot_wider(names_from = momento, values_from = comprension)
+```
+:::
+:::
+
+# 2.4. Gráficos con `ggplot2` {#bloque-2-4}
+
+::: {.callout-tip}
+## Objetivo
+Construir los gráficos más habituales en un artículo: histograma, diagrama de caja, dispersión y medias por grupo.
+
+**Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_escalas.rds")`
+:::
+
+<!-- Fuente: contenido_R/05_visualization_R.qmd § Histograma, Gráfico de dispersión, Box Plot, Gráfico de barras -->
+
+## La gramática de los gráficos
+
+`ggplot2` construye los gráficos por **capas**, que se suman con `+`:
+
+1. `ggplot(datos, aes(...))`: los **datos** y la **estética** (`aes`), es decir, qué variable va en cada eje, color, etc.
+2. `geom_*()`: la **geometría**, o cómo se representan los datos (puntos, barras, cajas…).
+3. Opcionalmente: etiquetas (`labs`), paneles (`facet_wrap`), tema (`theme_*`)...
+
+## Histograma: distribución de una variable
+
+```{r}
+ggplot(encuesta, aes(x = nota)) +
+  geom_histogram(binwidth = 0.5, fill = "steelblue", color = "white") +
+  labs(title = "Distribución de la nota media", x = "Nota", y = "Número de estudiantes") +
+  theme_minimal()
+```
+
+## Diagrama de caja: comparar grupos
+
+```{r}
+encuesta |>
+  filter(sexo != "Prefiero no decirlo") |>
+  ggplot(aes(x = sexo, y = ansiedad, fill = sexo)) +
+  geom_boxplot(show.legend = FALSE) +
+  labs(x = NULL, y = "Ansiedad ante los exámenes (1-5)") +
+  theme_minimal()
+```
+
+Observa que podemos empezar con una cadena de `dplyr` y pasar el resultado a `ggplot()` con `|>`. A partir de ahí, las capas se suman con `+`.
+
+## Diagrama de dispersión: relación entre dos variables
+
+```{r}
+ggplot(encuesta, aes(x = autoeficacia, y = nota)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm") +
+  labs(x = "Autoeficacia académica (1-5)", y = "Nota media") +
+  theme_minimal()
+```
+
+`geom_smooth(method = "lm")` añade la recta de regresión con su intervalo de confianza.
+
+Podemos añadir una tercera variable con el color, o dividir el gráfico en paneles con `facet_wrap()`:
+
+```{r}
+ggplot(encuesta, aes(x = autoeficacia, y = nota)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ curso) +
+  labs(x = "Autoeficacia académica (1-5)", y = "Nota media") +
+  theme_minimal()
+```
+
+## Barras: frecuencias
+
+```{r}
+ggplot(encuesta, aes(x = curso, fill = calificacion)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = NULL, y = "Porcentaje", fill = "Calificación") +
+  theme_minimal()
+```
+
+`position = "fill"` muestra proporciones (cada barra suma 100 %). Sin ese argumento, muestra recuentos.
+
+## Medias por grupo y momento: el gráfico de una intervención
+
+Con los datos en formato largo del bloque anterior:
+
+```{r}
+medias_intervencion <- intervencion_larga |>
+  group_by(grupo, momento) |>
+  summarise(media = mean(comprension, na.rm = TRUE), .groups = "drop")
+
+ggplot(medias_intervencion, aes(x = momento, y = media, color = grupo, group = grupo)) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  labs(x = "Momento de medida", y = "Comprensión lectora (media)", color = "Grupo") +
+  theme_minimal()
+```
+
+## Guardar un gráfico
+
+`ggsave()` guarda el último gráfico en el formato que indique la extensión (`.png`, `.pdf`, `.svg`…):
+
+```{r}
+#| eval: false
+ggsave("figura_intervencion.png", width = 16, height = 10, units = "cm", dpi = 300)
+```
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 2.4
+```{r}
+# Básico
+ggplot(encuesta, aes(x = motivacion)) +
+  geom_histogram(binwidth = 0.25, fill = "darkorange", color = "white") +
+  labs(x = "Motivación (1-5)", y = "Número de estudiantes") +
+  theme_minimal()
+# Intermedio
+ggplot(encuesta, aes(x = curso, y = motivacion)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(x = NULL, y = "Motivación (1-5)") +
+  theme_minimal()
+# Reto
+encuesta |>
+  left_join(centros, by = "centro") |>
+  ggplot(aes(x = ansiedad, y = nota, color = zona)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Ansiedad ante los exámenes (1-5)", y = "Nota media", color = "Zona") +
+  theme_minimal()
+```
+:::
+:::
+
+# 2.5. Primeros análisis {#bloque-2-5}
+
+::: {.callout-tip}
+## Objetivo
+Ejecutar e interpretar tres análisis básicos: correlación, prueba _t_ y regresión lineal.
+
+**Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_escalas.rds")`
+:::
+
+## Correlación
+
+La matriz de correlaciones entre varias variables:
+
+```{r}
+encuesta |>
+  select(motivacion, ansiedad, autoeficacia, nota) |>
+  cor(use = "pairwise.complete.obs") |>
+  round(2)
+```
+
+Para contrastar una correlación concreta, con su intervalo de confianza y valor _p_:
+
+```{r}
+cor.test(encuesta$autoeficacia, encuesta$nota)
+```
+
+Cómo leer la salida:
+
+- `t`, `df`, `p-value`: el estadístico de contraste, los grados de libertad y el valor _p_ (hipótesis nula: correlación = 0).
+- `95 percent confidence interval`: el intervalo de confianza de la correlación.
+- `cor`: el coeficiente de correlación de Pearson, _r_.
+
+::: {.callout-tip}
+`psych::corr.test()` calcula la matriz de correlaciones con los valores _p_ de todas ellas a la vez.
+:::
+
+## Prueba _t_ para dos grupos independientes
+
+¿Difiere la ansiedad ante los exámenes entre chicas y chicos? La sintaxis `variable ~ grupo` se lee
+"variable **en función de** grupo", y es la misma que usan casi todos los modelos en R:
+
+```{r}
+encuesta_2sexos <- encuesta |>
+  filter(sexo %in% c("Chica", "Chico"))
+
+t.test(ansiedad ~ sexo, data = encuesta_2sexos)
+```
+
+- Por defecto, R aplica la corrección de **Welch** (no asume varianzas iguales). Para la prueba _t_ clásica: `var.equal = TRUE`.
+- `mean in group ...`: las medias de cada grupo.
+- `95 percent confidence interval`: el intervalo de confianza de la **diferencia** de medias.
+
+## Prueba _t_ para muestras relacionadas
+
+¿Mejora la comprensión lectora del grupo de intervención entre el pre y el post?
+
+```{r}
+grupo_intervencion <- intervencion |>
+  filter(grupo == "Intervención")
+
+t.test(grupo_intervencion$comprension_post, grupo_intervencion$comprension_pre, paired = TRUE)
+```
+
+## Regresión lineal
+
+¿Qué variables predicen la nota? La función `lm()` (_linear model_) usa la misma sintaxis de fórmula:
+`respuesta ~ predictor1 + predictor2 + ...`
+
+```{r}
+modelo <- lm(nota ~ autoeficacia + motivacion + ansiedad, data = encuesta)
+summary(modelo)
+```
+
+Cómo leer la salida de `summary()`:
+
+- **Coefficients**: para cada predictor, el coeficiente (`Estimate`), su error típico, el estadístico _t_ y el valor _p_ (`Pr(>|t|)`).
+  Por ejemplo, el coeficiente de `autoeficacia` es el cambio esperado en la nota por cada punto más de autoeficacia, manteniendo constantes los demás predictores.
+- **Multiple R-squared**: la proporción de varianza de la nota explicada por el modelo.
+- **F-statistic**: el contraste global del modelo.
+
+Los predictores categóricos (factores) se incluyen igual: R crea automáticamente las variables _dummy_, tomando el primer nivel como referencia.
+
+```{r}
+modelo_curso <- lm(nota ~ autoeficacia + curso, data = encuesta)
+summary(modelo_curso)
+```
+
+::: {.callout-note}
+Esta misma lógica de fórmulas es la base de los modelos más avanzados que veréis más adelante: modelos mixtos, SEM
+(con el paquete `lavaan`) o metaanálisis (con `metafor`).
+:::
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 2.5
+```{r}
+# Básico
+cor.test(encuesta$motivacion, encuesta$nota)
+# Intermedio
+intervencion_mejora <- intervencion |> mutate(mejora = comprension_post - comprension_pre)
+t.test(mejora ~ grupo, data = intervencion_mejora)
+# Reto
+modelo_sexo <- lm(ansiedad ~ sexo + curso, data = encuesta_2sexos)
+summary(modelo_sexo)
+```
+:::
+:::
+
+# 2.6. Ejercicio integrador y tu propio proyecto con `renv` {#bloque-2-6}
+
+::: {.callout-tip}
+## Objetivo
+Responder a una pregunta de investigación de principio a fin con todo lo aprendido, y dejar preparado un proyecto
+propio y reproducible para tus análisis.
+:::
+
+## Una pregunta de principio a fin (25')
+
+Elige una de estas preguntas y respóndela en un _script_ nuevo, con la estructura de la sesión 1
+(paquetes, importar, preparar, describir, graficar, analizar):
+
+1. ¿Tienen los estudiantes de centros rurales una motivación distinta a los de centros urbanos?
+2. ¿Es la ansiedad ante los exámenes mayor en el segundo ciclo de la ESO que en el primero?
+3. En el estudio de intervención, ¿se mantiene en el seguimiento la mejora del grupo de intervención?
+
+Para cada pregunta necesitarás: una tabla de descriptivos por grupo, un gráfico y una prueba estadística.
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Solución 2.6 (pregunta 1)
+```{r}
+encuesta_zona <- encuesta |>
+  left_join(centros, by = "centro")
+
+encuesta_zona |>
+  group_by(zona) |>
+  summarise(n = n(), media = mean(motivacion, na.rm = TRUE), dt = sd(motivacion, na.rm = TRUE))
+
+ggplot(encuesta_zona, aes(x = zona, y = motivacion, fill = zona)) +
+  geom_boxplot(show.legend = FALSE) +
+  labs(x = NULL, y = "Motivación (1-5)") +
+  theme_minimal()
+
+t.test(motivacion ~ zona, data = encuesta_zona)
+```
+:::
+:::
+
+## Tu propio proyecto con `renv` (10')
+
+Para cada análisis nuevo, crea un proyecto con `renv`. Así, dentro de un año podrás volver a ejecutarlo
+con las mismas versiones de los paquetes, y cualquier colaborador podrá reproducirlo con `renv::restore()`.
+
+1. _File > New Project > New Directory > New Project_. Elige un nombre y una carpeta, y marca la casilla _Use renv with this project_.
+   (Si el proyecto ya existe, puedes activar `renv` en cualquier momento ejecutando `renv::init()`).
+2. Instala los paquetes que vayas a usar. Se instalan solo en este proyecto:
+
+   ```r
+   install.packages(c("tidyverse", "readxl", "psych"))
+   ```
+
+3. Anota las versiones en `renv.lock`:
+
+   ```r
+   renv::snapshot()
+   ```
+
+4. Cada vez que instales o actualices un paquete, repite `renv::snapshot()`. Si tienes dudas de si está al día: `renv::status()`.
+
+::: {.callout-tip}
+## Consejos
+- `renv` guarda una copia de cada versión de cada paquete en una caché compartida, así que instalar el mismo paquete en otro proyecto es casi instantáneo.
+- Para compartir el proyecto (con un compañero, en un repositorio, como material suplementario de un artículo), incluye `renv.lock`, `.Rprofile` y `renv/activate.R`. **No** hace falta incluir la carpeta `renv/library`.
+:::
+
+::: {.callout-note}
+## Resumen de la sesión
+
+| Quiero… | Función |
+|---|---|
+| Filtrar filas | `filter()` |
+| Ordenar | `arrange()`, `desc()` |
+| Seleccionar columnas | `select()`, `starts_with()` |
+| Crear o recodificar variables | `mutate()`, `if_else()`, `case_when()` |
+| Contar | `count()` |
+| Resumir (por grupos) | `group_by()` + `summarise()` |
+| Invertir un ítem (1-5) | `6 - item` |
+| Puntuación de una escala | `rowMeans(pick(...), na.rm = TRUE)` |
+| Fiabilidad | `psych::alpha()` |
+| De ancho a largo | `pivot_longer()` |
+| Unir tablas | `left_join(by = ...)` |
+| Gráficos | `ggplot() + geom_*()`, `labs()`, `facet_wrap()`, `ggsave()` |
+| Correlación | `cor()`, `cor.test()` |
+| Prueba _t_ | `t.test(y ~ grupo)`, `t.test(x, y, paired = TRUE)` |
+| Regresión | `lm(y ~ x1 + x2)`, `summary()` |
+| Proyecto reproducible | `renv::init()`, `renv::snapshot()`, `renv::restore()` |
+:::
+
+## Para seguir aprendiendo
+
+- _R para Ciencia de Datos_ (2ª ed., en español): <https://es.r4ds.hadley.nz>
+- Chuletas (_cheatsheets_) de `dplyr`, `ggplot2` y otros paquetes: menú _Help > Cheat Sheets_ de RStudio, o <https://posit.co/resources/cheatsheets/>
+- Documentación de `renv`: <https://rstudio.github.io/renv/>

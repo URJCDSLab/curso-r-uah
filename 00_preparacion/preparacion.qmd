@@ -1,0 +1,132 @@
+---
+title: "Antes del curso: preparación"
+subtitle: "Curso de iniciación a R. Universidad de Alcalá"
+execute:
+  eval: false
+---
+
+::: {.callout-important}
+## Haz la parte A antes de la primera sesión
+Instalar el software durante la clase nos quitaría la primera hora. La parte A lleva unos 20-30 minutos.
+Si algo falla, escríbenos antes del curso con una captura de pantalla del error.
+:::
+
+# Parte A. Instalación (obligatoria)
+
+## 1. Instala R
+
+Descarga e instala la última versión de R desde <https://cran.r-project.org>:
+
+- **Windows**: _Download R for Windows_ > _base_ > _Download R-4.x.x for Windows_.
+- **Mac**: _Download R for macOS_ y elige el instalador según tu procesador (Apple Silicon o Intel; lo puedes consultar en el menú Apple > _Acerca de este Mac_).
+
+Acepta las opciones por defecto del instalador.
+
+## 2. Instala RStudio
+
+Descarga e instala RStudio Desktop (gratuito) desde <https://posit.co/download/rstudio-desktop/>.
+RStudio es el programa desde el que usaremos R. Se instala **después** de R.
+
+## 3. Descarga los materiales del curso
+
+Descomprime el fichero `curso_R_UAH.zip` en una carpeta de tu ordenador que **no** esté sincronizada
+con OneDrive, Dropbox o Google Drive (por ejemplo, `Documentos/curso_R_UAH`). La sincronización puede
+interferir con la instalación de paquetes.
+
+## 4. Abre el proyecto e instala los paquetes
+
+1. Haz doble clic en el fichero `curso_R_UAH.Rproj`. Se abrirá RStudio.
+2. La primera vez, en la **consola** (panel inferior izquierdo) verás que se instala automáticamente el paquete `renv`. Espera a que termine.
+3. Escribe en la consola la siguiente instrucción y pulsa {{< kbd Enter >}}:
+
+   ```{r}
+   renv::restore()
+   ```
+
+4. Cuando pregunte `Do you want to proceed? [Y/n]`, escribe `Y` y pulsa {{< kbd Enter >}}.
+   Se instalarán todos los paquetes del curso. Puede tardar varios minutos.
+
+::: {.callout-note}
+## ¿Qué es `renv`?
+`renv` instala los paquetes **solo para este proyecto** y en las versiones exactas con las que se han preparado
+los materiales (anotadas en el fichero `renv.lock`). Así, todos tendremos el mismo entorno y no interferirá con
+otros paquetes que ya tengas instalados. Lo veremos en la primera sesión.
+:::
+
+## 5. Comprueba que todo funciona
+
+Copia y ejecuta en la consola:
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(psych)
+encuesta <- read_excel("datos/encuesta_bruta.xlsx")
+nrow(encuesta)
+```
+
+Si el resultado es `[1] 320`, la instalación es correcta.
+
+::: {.callout-tip collapse="true"}
+## Si algo falla
+
+- **Aviso de que la versión de R no coincide con la de `renv.lock`**: es normal si tienes una versión más reciente de R. Continúa.
+- **Error al instalar un paquete concreto**: vuelve a ejecutar `renv::restore()`. Si sigue fallando, instálalo con `install.packages("nombre_del_paquete")`.
+- **En Windows, error de permisos**: comprueba que la carpeta del curso no está en OneDrive ni en una carpeta de red.
+- **Cualquier otro problema**: envíanos una captura de pantalla de la consola.
+:::
+
+# Parte B. Primeros pasos (opcional, 30-45 minutos)
+
+Si nunca has usado R, esta parte te permitirá llegar a la primera sesión con los conceptos más básicos.
+Si ya has usado R alguna vez, puedes saltártela.
+
+## La consola: R como calculadora
+
+Escribe en la consola cada una de estas líneas y pulsa {{< kbd Enter >}}:
+
+```{r}
+2 + 3
+(6.5 + 8 + 7.2) / 3
+sqrt(81)
+round(7.4666, 1)
+```
+
+`sqrt()` y `round()` son **funciones**: reciben unos datos entre paréntesis (**argumentos**) y devuelven un resultado.
+
+## Guardar valores en objetos
+
+Con `<-` guardamos un valor con un nombre, para usarlo después. Mira cómo aparece en el panel **Environment** (arriba a la derecha):
+
+```{r}
+nota_ana <- 7.5
+nota_luis <- 6
+(nota_ana + nota_luis) / 2
+```
+
+## Un conjunto de valores: vectores
+
+Con `c()` combinamos varios valores. Las funciones como `mean()` resumen todos los valores a la vez:
+
+```{r}
+notas <- c(6.5, 8, 4.5, 9.2, 5)
+mean(notas)
+max(notas)
+notas >= 5
+sum(notas >= 5)
+```
+
+La última línea cuenta cuántas notas son mayores o iguales que 5: R cuenta cada `TRUE` como un 1.
+
+## Escribir en un script
+
+La consola está bien para probar, pero lo que escribimos en ella no se guarda.
+
+1. Crea un _script_ nuevo: _File > New File > R Script_ ({{< kbd Ctrl+Shift+N >}}).
+2. Escribe en él las líneas anteriores.
+3. Sitúa el cursor en una línea y pulsa {{< kbd Ctrl+Enter >}} ({{< kbd Cmd+Enter >}} en Mac) para ejecutarla.
+4. Guarda el _script_ ({{< kbd Ctrl+S >}}) con el nombre `prueba.R`.
+
+## Para practicar un poco más
+
+- Capítulo _Flujo de trabajo: conceptos básicos_ de _R para Ciencia de Datos_: <https://es.r4ds.hadley.nz/02-workflow-basics.html>

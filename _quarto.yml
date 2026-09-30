@@ -1,0 +1,26 @@
+project:
+  type: default
+  output-dir: _output/alumnado
+  execute-dir: project
+  render:
+    - 00_preparacion/preparacion.qmd
+    - sesion1.qmd
+    - sesion1_ejercicios.qmd
+    - sesion2.qmd
+    - sesion2_ejercicios.qmd
+
+lang: es
+
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+    fig-width: 7
+    fig-height: 4
+
+execute:
+  echo: true
+  message: false
+  warning: false
+  error: true

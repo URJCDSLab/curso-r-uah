@@ -1,0 +1,817 @@
+---
+title: "Sesión 1. Primeros pasos con R"
+subtitle: "Curso de iniciación a R. Departamento de Ciencias de la Educación, Universidad de Alcalá"
+---
+
+<!-- Versión del profesorado (con soluciones): quarto render --profile profesor -->
+
+::: {.callout-note}
+## Cómo usar este material
+
+Cada bloque sigue la misma estructura:
+
+1. Demostración (unos 10 minutos): el profesor ejecuta el código en directo y tú lo sigues.
+2. Ejercicio (unos 20 minutos) en tres niveles. Haz el que te corresponda y, si terminas, pasa al siguiente:
+   - Básico: completa los huecos `___`.
+   - Intermedio: la misma tarea con menos ayuda.
+   - Reto: para quien ya tiene algo de experiencia con R.
+
+   En el fichero de ejercicios, cada uno empieza con la marca `[EJERCICIO]` seguida del nivel.
+3. Puesta en común (unos 5 minutos).
+
+Los ejercicios están en el fichero `sesion1_ejercicios.qmd`. Si en algún momento te pierdes,
+cada bloque indica un **punto de control** (_checkpoint_) desde el que puedes continuar.
+:::
+
+| Bloque | Contenido | Tiempo |
+|---|---|---|
+| 1.1 | RStudio, proyectos y `renv`. Tu primera línea de código | 35' |
+| 1.2 | Objetos, tipos y vectores. Valores perdidos | 45' |
+| 1.3 | Factores y tablas de datos | 25' |
+| | _Descanso_ | 15' |
+| 1.4 | Importar y limpiar los datos de una encuesta | 45' |
+| 1.5 | Explorar los datos | 45' |
+| 1.6 | Ejercicio integrador | 30' |
+
+# 1.1. RStudio, proyectos y `renv` {#bloque-1-1}
+
+::: {.callout-tip}
+## Objetivo
+Orientarte en RStudio, entender por qué trabajamos siempre dentro de un **proyecto** y ejecutar tus primeras instrucciones.
+:::
+
+## Las cuatro zonas de RStudio
+
+| Zona | Para qué sirve |
+|---|---|
+| **Editor** (arriba a la izquierda) | Donde escribimos el código que queremos guardar: _scripts_ (`.R`) y documentos Quarto (`.qmd`). |
+| **Consola** (abajo a la izquierda) | Donde R ejecuta las instrucciones. Lo que escribes aquí directamente no se guarda. |
+| **Entorno** (arriba a la derecha) | Los objetos que has creado en la sesión: datos, variables… |
+| **Archivos / Gráficos / Ayuda** (abajo a la derecha) | Explorador de ficheros, gráficos y ayuda de las funciones. |
+
+Escribe el código en el editor y ejecútalo desde ahí con {{< kbd Ctrl+Enter >}}
+(en Mac, {{< kbd Cmd+Enter >}}). Así queda guardado y puedes repetir el análisis cuando quieras.
+
+## Proyectos: una carpeta para cada análisis
+
+Un **proyecto de RStudio** (fichero `.Rproj`) es una carpeta que contiene todo lo relacionado con un análisis:
+datos, _scripts_, resultados. Al abrir el proyecto, R "se sitúa" en esa carpeta, de modo que podemos
+escribir rutas cortas y que funcionan en cualquier ordenador:
+
+```r
+"datos/encuesta_bruta.xlsx"                                   # ruta relativa: funciona en cualquier ordenador
+"C:/Users/ana/Escritorio/curso/datos/encuesta_bruta.xlsx"     # ruta absoluta: solo funciona en el ordenador de Ana
+```
+
+Este curso es, en sí mismo, un proyecto: ábrelo siempre con doble clic en `curso_R_UAH.Rproj`.
+
+## `renv`: cada proyecto con sus propios paquetes
+
+R se amplía con **paquetes** (hay más de 20.000). Un problema muy habitual es que un análisis que
+funcionaba hace un año deja de funcionar porque se ha actualizado un paquete. O que a un compañero
+no le funciona tu código porque tiene otras versiones instaladas.
+
+El paquete `renv` resuelve esto dando a **cada proyecto su propia biblioteca de paquetes**, y
+anotando las versiones exactas en un fichero llamado `renv.lock`:
+
+```{mermaid}
+%%| echo: false
+flowchart LR
+  A["renv.lock<br/>(lista de paquetes<br/>y versiones)"] -- "renv::restore()" --> B["Biblioteca<br/>del proyecto"]
+  B -- "renv::snapshot()" --> A
+```
+
+| Instrucción | Cuándo se usa |
+|---|---|
+| `renv::init()` | Una vez, al crear un proyecto nuevo. |
+| `renv::restore()` | Al abrir por primera vez un proyecto que ya tiene `renv.lock` (como este curso): instala exactamente lo que dice el fichero. |
+| `install.packages("paquete")` | Para añadir un paquete nuevo al proyecto. |
+| `renv::snapshot()` | Después de instalar algo nuevo: actualiza `renv.lock`. |
+| `renv::status()` | Para comprobar si la biblioteca y `renv.lock` coinciden. |
+
+En la preparación del curso ya ejecutaste `renv::restore()`. En la sesión 2 crearás tu propio proyecto con `renv`.
+
+::: {.callout-important}
+## Instalar ≠ cargar
+Un paquete se **instala** una sola vez (con `renv::restore()` o `install.packages()`), pero se **carga**
+con `library()` cada vez que abrimos R. Por eso los _scripts_ empiezan con las llamadas a `library()`.
+:::
+
+## Tu primera línea de código
+
+Antes de más teoría, ejecutemos algo:
+
+```{r}
+cat("¡Hola, mundo!")
+```
+
+**¿Qué acaba de pasar?**
+
+- `cat()` es una **función**: una instrucción que hace algo (en este caso, mostrar un texto).
+- Lo que va entre paréntesis son los **argumentos**: la información que necesita la función.
+- R ejecutó la instrucción y mostró el resultado.
+
+R es, para empezar, una calculadora:
+
+```{r}
+(6.5 + 8 + 7.2) / 3
+sqrt(16)
+round(7.4666, 1)
+```
+
+La función `round()` tiene dos argumentos: el número y los decimales. Podemos escribir sus nombres para que el código sea más claro:
+
+```{r}
+round(x = 7.4666, digits = 1)
+```
+
+Todo lo que va detrás de `#` es un **comentario**: R lo ignora. Úsalos para explicar el porqué de tu código.
+
+```{r}
+# Media de las tres evaluaciones
+(6.5 + 8 + 7.2) / 3
+```
+
+Para consultar la ayuda de cualquier función: `?round` o {{< kbd F1 >}} con el cursor sobre ella.
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 1.1
+```{r}
+# Básico
+(5.5 + 7 + 8.5 + 6) / 4
+# Intermedio
+round((5.5 + 7 + 8.5 + 6) / 4, digits = 2)
+# Reto. En ?round, digits vale 0 por defecto; en ?mean, los argumentos son na.rm y trim
+mean(c(5.5, 7, 8.5, 6))
+```
+:::
+:::
+
+# 1.2. Objetos, tipos y vectores {#bloque-1-2}
+
+::: {.callout-tip}
+## Objetivo
+Guardar información en objetos, distinguir los tipos de datos básicos y trabajar con vectores (una columna de datos).
+:::
+
+<!-- Fuente: contenido_R/01_elementos_basicos_r.qmd § Variables, Tipos de datos; 02_estructuras_datos_r.qmd § Tipos y clases, Operaciones con vectores -->
+
+## Objetos: los contenedores de información
+
+En R guardamos la información en **objetos** con el operador de asignación `<-`
+(atajo de teclado: {{< kbd Alt+- >}}). La analogía con una hoja de cálculo es directa:
+
+```{r}
+# En Excel sería: A1 = 7.5
+nota_ana <- 7.5
+
+# En Excel sería: B1 = A1 + 1
+nota_con_trabajo <- nota_ana + 1
+
+nota_con_trabajo
+```
+
+Se llaman **variables** porque su contenido puede cambiar:
+
+```{r}
+alumnos_matriculados <- 24
+alumnos_matriculados <- alumnos_matriculados + 1   # llega una alumna nueva
+alumnos_matriculados
+```
+
+Reglas para los nombres:
+
+- Pueden contener letras, números, `.` y `_`, pero no pueden empezar por número.
+- R distingue mayúsculas de minúsculas: `nota` y `Nota` son objetos distintos.
+- Mejor sin tildes, eñes ni espacios: `puntuacion_ansiedad`, no `puntuación ansiedad`.
+
+## Tipos de datos: no todo es igual
+
+En nuestros estudios manejamos información de distinta naturaleza, y R necesita saber de qué tipo es cada una:
+
+| Tipo en R | Qué guarda | Ejemplos |
+|---|---|---|
+| `numeric` (_double_ / _integer_) | Números | edad, nota, puntuación en una escala |
+| `character` | Texto (entre comillas) | nombre del centro, respuesta abierta |
+| `logical` | Verdadero/falso: `TRUE` / `FALSE` | ¿ha aprobado?, ¿tiene NEE? |
+
+```{r}
+edad <- 14
+centro <- "IES Cervantes"
+tiene_nee <- FALSE
+
+class(edad)
+class(centro)
+class(tiene_nee)
+```
+
+### El problema de mezclar tipos
+
+Uno de los errores más frecuentes al empezar: un número guardado como texto.
+
+```{r}
+edad_texto <- "14"     # entre comillas, así que es texto
+edad_texto + 1
+```
+
+La solución es **convertir** el tipo con las funciones `as.*()`:
+
+```{r}
+as.numeric(edad_texto) + 1
+```
+
+Si la conversión no es posible, R devuelve `NA` y nos avisa:
+
+```{r}
+as.numeric(c("14", "15", "catorce"))
+```
+
+## Vectores: una columna de datos
+
+Un **vector** es un conjunto de valores del mismo tipo. Es como una columna de una hoja de cálculo.
+Se crean con la función `c()` (de **c**ombinar):
+
+```{r}
+notas <- c(6.5, 8.0, 4.5, 9.2, 5.0, 3.8, 7.1)
+alumnos <- c("Ana", "Luis", "Marta", "Jorge", "Sara", "Iván", "Lucía")
+
+length(notas)
+```
+
+### Acceder a los elementos
+
+Los elementos se seleccionan con corchetes `[]`. En R, **el primer elemento es el 1**:
+
+```{r}
+notas[1]            # la primera
+notas[c(1, 3)]      # la primera y la tercera
+notas[-1]           # todas menos la primera
+alumnos[length(alumnos)]   # la última
+```
+
+### Operaciones con vectores
+
+Las operaciones se aplican **a todos los elementos a la vez**, sin necesidad de ir uno a uno:
+
+```{r}
+notas + 0.5            # medio punto más a todos
+notas * 10             # en escala 0-100
+```
+
+Y hay funciones que **resumen** el vector en un único valor:
+
+```{r}
+mean(notas)
+sd(notas)
+max(notas)
+summary(notas)
+```
+
+### Comparaciones: preguntas de sí o no
+
+Las comparaciones devuelven valores lógicos (`TRUE`/`FALSE`):
+
+| Operador | Significado |
+|---|---|
+| `==` | igual a (con dos signos `=`) |
+| `!=` | distinto de |
+| `>`, `>=` | mayor, mayor o igual |
+| `<`, `<=` | menor, menor o igual |
+| `&` | Y (se cumplen ambas) |
+| `|` | O (se cumple al menos una) |
+
+```{r}
+notas >= 5
+```
+
+Esto es muy útil, porque R cuenta cada `TRUE` como 1 y cada `FALSE` como 0:
+
+```{r}
+sum(notas >= 5)        # ¿cuántos aprueban?
+mean(notas >= 5)       # ¿qué proporción aprueba?
+```
+
+Y podemos usar la comparación para **filtrar**:
+
+```{r}
+alumnos[notas < 5]              # ¿quién ha suspendido?
+notas[notas >= 5 & notas < 7]   # aprobados sin notable
+```
+
+Para etiquetar cada valor según una condición, usamos `ifelse(condición, si_se_cumple, si_no)`:
+
+```{r}
+ifelse(notas >= 5, "Aprobado", "Suspenso")
+```
+
+## Valores perdidos: `NA`
+
+En cualquier estudio real hay datos que faltan. En R se representan con `NA` (_not available_).
+Cualquier operación con un `NA` da `NA`, porque R no puede saber el resultado:
+
+```{r}
+notas_con_na <- c(6.5, NA, 4.5, 9.2, NA, 3.8)
+mean(notas_con_na)
+```
+
+Hay que indicar explícitamente que queremos ignorarlos con `na.rm = TRUE`:
+
+```{r}
+mean(notas_con_na, na.rm = TRUE)
+```
+
+Para saber dónde están, **no** se usa `== NA`, sino la función `is.na()`:
+
+```{r}
+is.na(notas_con_na)
+sum(is.na(notas_con_na))   # ¿cuántos faltan?
+```
+
+## Leer los mensajes de error
+
+Estos son los tres mensajes de error más frecuentes al empezar:
+
+| Mensaje | Qué significa | Solución habitual |
+|---|---|---|
+| `object 'notas_totla' not found` | No existe un objeto con ese nombre | Revisa si está bien escrito, o si has ejecutado antes la línea que lo crea |
+| `could not find function "Mean"` | No existe esa función | Revisa mayúsculas/minúsculas, o carga el paquete con `library()` |
+| `non-numeric argument to binary operator` | Estás operando con texto como si fuera número | Convierte con `as.numeric()` |
+
+Además, si la consola muestra un `+` en lugar de `>`, R está esperando a que termines la instrucción:
+normalmente falta cerrar un paréntesis o unas comillas. Pulsa {{< kbd Esc >}} y revisa la línea.
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 1.2
+```{r}
+puntuaciones <- c(7.5, 4.0, 6.2, 8.8, 3.5, 5.0, 9.1, 6.7, 4.8, 7.0, 5.5, 2.9, 8.0, 6.4, 5.9)
+# Básico
+total <- sum(puntuaciones)
+media <- mean(puntuaciones)
+maximo <- max(puntuaciones)
+suspensos <- sum(puntuaciones < 5)
+ultimas_5 <- puntuaciones[11:15]
+calificacion <- ifelse(puntuaciones >= 5, "Aprobado", "Suspenso")
+# Intermedio
+puntuaciones_na <- c(puntuaciones, NA, NA)
+mean(puntuaciones_na, na.rm = TRUE)
+sum(is.na(puntuaciones_na))
+mean(puntuaciones >= 7)
+# Reto
+cut(puntuaciones, breaks = c(0, 5, 7, 9, 10), right = FALSE, include.lowest = TRUE,
+    labels = c("Suspenso", "Aprobado", "Notable", "Sobresaliente"))
+```
+:::
+:::
+
+# 1.3. Factores y tablas de datos {#bloque-1-3}
+
+::: {.callout-tip}
+## Objetivo
+Representar variables categóricas con factores y conocer la estructura con la que trabajaremos siempre: la tabla de datos (_data frame_).
+:::
+
+<!-- Fuente: contenido_R/02_estructuras_datos_r.qmd § Factores, Data frames, Selección de elementos -->
+
+## Factores: variables categóricas
+
+Los **factores** almacenan variables categóricas: sexo, curso, grupo experimental…
+Tienen un conjunto de valores posibles llamados **niveles** (_levels_).
+
+```{r}
+grupo <- factor(c("Control", "Intervención", "Control", "Control", "Intervención"))
+grupo
+levels(grupo)
+table(grupo)
+```
+
+Por defecto, los niveles se ordenan alfabéticamente. Cuando el orden importa (cursos, opciones de una escala Likert),
+lo indicamos explícitamente, incluidos los niveles que no aparezcan en los datos:
+
+```{r}
+curso <- factor(c("2º ESO", "1º ESO", "4º ESO", "1º ESO"),
+                levels = c("1º ESO", "2º ESO", "3º ESO", "4º ESO"))
+table(curso)
+```
+
+::: {.callout-note}
+Convertir las variables categóricas en factores es importante: las tablas, los gráficos y los modelos
+estadísticos las tratarán correctamente (por ejemplo, respetando el orden de los cursos o eligiendo el grupo de referencia).
+:::
+
+## Tablas de datos (_data frames_)
+
+Una **tabla de datos** es un conjunto de vectores de la misma longitud: cada columna es una **variable**
+y cada fila una **observación** (un participante). Es exactamente la estructura de una hoja de cálculo bien organizada.
+
+Usaremos la versión moderna, el `tibble`, que se crea con la función `tibble()` del paquete del mismo nombre
+(incluido en el _tidyverse_):
+
+```{r}
+library(tidyverse)
+
+clase <- tibble(
+  alumno = c("Ana", "Luis", "Marta", "Jorge", "Sara"),
+  curso  = factor(c("1º ESO", "1º ESO", "2º ESO", "2º ESO", "2º ESO")),
+  nota   = c(6.5, 8.0, 4.5, 9.2, 5.0),
+  nee    = c(FALSE, FALSE, TRUE, FALSE, FALSE)
+)
+clase
+```
+
+Para conocer su estructura:
+
+```{r}
+nrow(clase)     # número de filas (participantes)
+ncol(clase)     # número de columnas (variables)
+names(clase)    # nombres de las variables
+glimpse(clase)  # resumen: variables, tipo y primeros valores
+```
+
+### Seleccionar columnas y filas
+
+Con `$` extraemos una columna como vector, y le podemos aplicar todo lo visto en el bloque anterior:
+
+```{r}
+clase$nota
+mean(clase$nota)
+table(clase$curso)
+```
+
+Con corchetes `[filas, columnas]` seleccionamos partes de la tabla. Si dejamos una dimensión vacía, se seleccionan todas:
+
+```{r}
+clase[1, ]                      # primera fila
+clase[, c("alumno", "nota")]    # dos columnas
+clase[clase$nota >= 5, ]        # filas que cumplen una condición
+```
+
+En la sesión 2 veremos una forma más cómoda y legible de hacer todo esto con el paquete `dplyr`.
+
+Para ver la tabla completa en una pestaña tipo hoja de cálculo: `View(clase)`, o clic sobre ella en el panel **Entorno**.
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 1.3
+```{r}
+# Básico
+grupo_lectura <- tibble(
+  alumno = c("Pablo", "Irene", "Hugo", "Nerea", "Adrián", "Carla"),
+  grupo = factor(c("Control", "Intervención", "Control", "Intervención", "Control", "Intervención")),
+  comprension = c(48, 61, 52, 57, 45, 66)
+)
+glimpse(grupo_lectura)
+mean(grupo_lectura$comprension)
+table(grupo_lectura$grupo)
+# Intermedio
+grupo_lectura[grupo_lectura$grupo == "Intervención", ]
+mean(grupo_lectura$comprension[grupo_lectura$grupo == "Intervención"])
+# Reto
+tapply(grupo_lectura$comprension, grupo_lectura$grupo, mean)
+```
+:::
+:::
+
+# 1.4. Importar y limpiar los datos de una encuesta {#bloque-1-4}
+
+::: {.callout-tip}
+## Objetivo
+Leer en R los datos de una encuesta exportada de un formulario y dejarlos listos para analizar.
+
+**Datos:** `datos/encuesta_bruta.xlsx`
+
+**Punto de control al final del bloque:** `checkpoints/encuesta_limpia.rds`
+:::
+
+<!-- Fuente: contenido_R/03_ficheros_r.qmd § Importación desde Excel, desde texto, Exportación y archivos de datos de R -->
+
+## Nuestros datos
+
+Durante el curso vamos a trabajar con una encuesta (**simulada**) a 320 estudiantes de ESO de 10 centros.
+Se ha exportado de un formulario en línea, como Google Forms o Microsoft Forms, y contiene:
+
+- Datos del estudiante: centro, curso, sexo y edad.
+- 12 ítems tipo Likert (1 = _Muy en desacuerdo_, 5 = _Muy de acuerdo_) de tres escalas:
+  **motivación**, **ansiedad ante los exámenes** y **autoeficacia académica**.
+- La nota media de la primera evaluación.
+
+## Antes de importar: hojas de cálculo bien organizadas
+
+Buena parte de los problemas al importar datos vienen de cómo está organizada la hoja de cálculo.
+Las recomendaciones más importantes (Broman y Woo, 2018, [_Data Organization in Spreadsheets_](https://doi.org/10.1080/00031305.2017.1375989)):
+
+- Una fila por participante y una columna por variable. Una sola tabla por hoja.
+- No combinar celdas ni dejar filas en blanco o con subtotales.
+- No usar colores o negritas para codificar información: mejor una columna indicadora.
+- No mezclar tipos en una columna: si es numérica, todas las celdas deben ser números o estar vacías.
+- Nombres de columna cortos, sin espacios ni caracteres extraños.
+- La información adicional sobre las variables (enunciado completo, escala, unidades…) en un
+  **diccionario de datos**, en otra hoja.
+
+Los formularios en línea incumplen algunas de ellas, así que veremos cómo arreglarlo en R.
+
+## Importar un fichero Excel
+
+Usamos la función `read_excel()` del paquete `readxl`:
+
+```{r}
+library(readxl)
+
+encuesta <- read_excel("datos/encuesta_bruta.xlsx")
+glimpse(encuesta)
+```
+
+Observa los problemas típicos de una exportación de un formulario:
+
+1. Los **nombres de las columnas** son el enunciado completo de cada pregunta: muy incómodos de escribir.
+2. Las respuestas Likert se han importado como **texto** (`<chr>`), porque los extremos llevan etiqueta: `"5 - Muy de acuerdo"`.
+3. La **edad** también es texto: algunas personas escribieron `"14 años"`.
+4. Hay respuestas `"NS/NC"` y celdas vacías.
+
+## Paso 1: nombres cortos con el diccionario de datos
+
+El fichero tiene una segunda hoja con el diccionario. Podemos leer una hoja concreta con el argumento `sheet`:
+
+```{r}
+diccionario <- read_excel("datos/encuesta_bruta.xlsx", sheet = "diccionario")
+diccionario
+```
+
+La columna `codigo` tiene nombres cortos en el mismo orden que las columnas de la encuesta, así que basta con asignarlos:
+
+```{r}
+names(encuesta) <- diccionario$codigo
+names(encuesta)
+```
+
+## Paso 2: convertir texto en números
+
+La función `parse_number()` (paquete `readr`, incluido en el _tidyverse_) extrae el número de un texto:
+
+```{r}
+parse_number(c("5 - Muy de acuerdo", "3", "14 años"))
+```
+
+Con el argumento `na` le indicamos qué valores deben considerarse perdidos:
+
+```{r}
+parse_number(c("4", "NS/NC", "1 - Muy en desacuerdo"), na = "NS/NC")
+```
+
+Para aplicarlo a los 12 ítems a la vez usamos `mutate()` y `across()`. Lo veremos con detalle en la sesión 2;
+de momento, basta con leerlo así: _"modifica (`mutate`) las columnas desde `m1` hasta `ae4` (`across`) aplicando `parse_number`"_.
+
+```{r}
+encuesta <- encuesta |>
+  mutate(
+    across(m1:ae4, \(x) parse_number(x, na = "NS/NC")),
+    edad = parse_number(edad)
+  )
+```
+
+## Paso 3: variables categóricas como factores
+
+```{r}
+encuesta <- encuesta |>
+  mutate(
+    centro = factor(centro),
+    curso = factor(curso, levels = c("1º ESO", "2º ESO", "3º ESO", "4º ESO")),
+    sexo = factor(sexo)
+  )
+
+glimpse(encuesta)
+```
+
+Ahora cada variable tiene el tipo adecuado.
+
+## Importar ficheros de texto (CSV)
+
+Los ficheros `.csv` son ficheros de texto con los valores separados por un carácter. A menudo se abren
+con Excel, pero no son ficheros de Excel. Hay dos variantes principales:
+
+- `read_csv()`: columnas separadas por comas (`,`) y el punto (`.`) como separador decimal. Es el formato "inglés".
+- `read_csv2()`: columnas separadas por punto y coma (`;`) y la coma (`,`) como separador decimal. Es el que genera Excel con la configuración española.
+
+Si no sabes cuál es, abre el fichero con un editor de texto (o haz clic sobre él en el panel **Archivos** y _View File_) y mira las primeras líneas.
+
+```{r}
+intervencion <- read_csv("datos/intervencion_prepost.csv")
+intervencion
+```
+
+## Guardar los datos limpios
+
+Una vez limpios los datos, conviene guardarlos para no repetir la limpieza en cada análisis.
+El formato `.rds` es el formato propio de R: conserva los tipos de las variables y los niveles de los factores.
+
+```{r}
+saveRDS(encuesta, "checkpoints/encuesta_limpia.rds")
+```
+
+Para recuperarlos en otro momento, se asigna el resultado a un nombre:
+
+```{r}
+encuesta <- readRDS("checkpoints/encuesta_limpia.rds")
+```
+
+Si necesitas compartir los datos con alguien que no use R: `write_csv2(encuesta, "encuesta_limpia.csv")`
+o `writexl::write_xlsx(encuesta, "encuesta_limpia.xlsx")`.
+
+::: {.callout-note}
+## ¿Y si me envían un fichero de SPSS?
+El paquete `haven` lee ficheros de SPSS (`.sav`), Stata y SAS: `haven::read_sav("fichero.sav")`.
+:::
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 1.4
+```{r}
+# Básico
+centros <- read_csv2("datos/centros.csv")
+glimpse(centros)
+# Intermedio
+centros <- centros |>
+  mutate(titularidad = factor(titularidad), zona = factor(zona))
+table(centros$titularidad, centros$zona)
+# Reto
+library(janitor)
+encuesta_janitor <- read_excel("datos/encuesta_bruta.xlsx") |> clean_names()
+names(encuesta_janitor)[1:8]
+```
+:::
+:::
+
+# 1.5. Explorar los datos {#bloque-1-5}
+
+::: {.callout-tip}
+## Objetivo
+Obtener una primera descripción de los datos: frecuencias, estadísticos descriptivos y valores perdidos.
+
+**Si te has perdido:** `encuesta <- readRDS("checkpoints/encuesta_limpia.rds")`
+:::
+
+## Un vistazo general
+
+```{r}
+summary(encuesta)
+```
+
+`summary()` se adapta al tipo de cada variable: recuentos para los factores, y mínimo, cuartiles, media, máximo y número de `NA` para las numéricas.
+
+## Variables categóricas: frecuencias
+
+```{r}
+table(encuesta$curso)
+table(encuesta$curso, encuesta$sexo)
+```
+
+Para obtener proporciones, aplicamos `prop.table()` a la tabla de frecuencias:
+
+```{r}
+prop.table(table(encuesta$sexo))
+round(prop.table(table(encuesta$sexo)) * 100, 1)   # porcentajes
+```
+
+## Variables numéricas: descriptivos
+
+```{r}
+mean(encuesta$nota, na.rm = TRUE)
+sd(encuesta$nota, na.rm = TRUE)
+median(encuesta$nota, na.rm = TRUE)
+range(encuesta$edad)
+```
+
+El paquete `psych`, muy usado en psicología, tiene la función `describe()`, que da en una sola tabla los descriptivos
+más habituales, incluidas asimetría (_skew_) y curtosis:
+
+```{r}
+library(psych)
+describe(encuesta[, c("edad", "nota")])
+```
+
+Y `describeBy()` los calcula por grupos:
+
+```{r}
+describeBy(encuesta$nota, group = encuesta$curso, mat = TRUE, digits = 2)
+```
+
+## Valores perdidos
+
+```{r}
+colSums(is.na(encuesta))
+```
+
+`is.na(encuesta)` da una tabla de `TRUE`/`FALSE`, y `colSums()` suma cada columna: el número de valores perdidos por variable.
+
+¿Cuántos participantes tienen todas las respuestas completas?
+
+```{r}
+sum(complete.cases(encuesta))
+```
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Soluciones 1.5
+```{r}
+# Básico
+table(encuesta$centro)
+round(prop.table(table(encuesta$curso)) * 100, 1)
+mean(encuesta$edad)
+# Intermedio
+describe(encuesta[, c("m1", "m2", "m3", "m4")])
+sum(is.na(encuesta$nota))
+table(encuesta$a1, useNA = "ifany")
+# Reto
+describeBy(encuesta$nota, group = encuesta$sexo, mat = TRUE, digits = 2)
+round(prop.table(table(encuesta$curso, encuesta$sexo), margin = 1) * 100, 1)
+```
+:::
+:::
+
+# 1.6. Ejercicio integrador {#bloque-1-6}
+
+::: {.callout-tip}
+## Objetivo
+Repetir, de principio a fin y en un _script_ propio, todo el proceso de la sesión: de un fichero en bruto a unos datos limpios y descritos.
+:::
+
+En este bloque vas a escribir tu primer _script_ completo. Crea uno nuevo ({{< kbd Ctrl+Shift+N >}}),
+guárdalo como `mi_primer_script.R` y sigue las instrucciones de `sesion1_ejercicios.qmd`.
+
+Un buen _script_ de análisis tiene siempre esta estructura:
+
+```{r}
+#| eval: false
+# 1. Paquetes ---------------------------------------------------------------
+library(tidyverse)
+library(readxl)
+
+# 2. Importar ---------------------------------------------------------------
+datos <- read_excel("datos/...")
+
+# 3. Limpiar ----------------------------------------------------------------
+datos <- datos |> mutate(...)
+
+# 4. Explorar ---------------------------------------------------------------
+summary(datos)
+
+# 5. Guardar ----------------------------------------------------------------
+saveRDS(datos, "...")
+```
+
+::: {.callout-tip}
+Los comentarios que terminan en `----` crean secciones que aparecen en el índice del _script_
+(botón de la esquina superior derecha del editor), lo que facilita moverse por él.
+:::
+
+Antes de terminar, comprueba que el _script_ funciona de principio a fin: reinicia R
+(_Session > Restart R_, {{< kbd Ctrl+Shift+F10 >}}) y ejecútalo entero ({{< kbd Ctrl+Shift+Enter >}}).
+Si funciona tras reiniciar, cualquier persona podrá reproducir tu análisis.
+
+::: {.content-visible when-meta="solucion"}
+::: {.callout-tip collapse="true"}
+## Solución 1.6
+```{r}
+# 1. Paquetes
+library(tidyverse)
+library(readxl)
+library(psych)
+
+# 2. Importar
+centros <- read_csv2("datos/centros.csv")
+intervencion <- read_csv("datos/intervencion_prepost.csv")
+
+# 3. Limpiar
+centros <- centros |> mutate(titularidad = factor(titularidad), zona = factor(zona))
+intervencion <- intervencion |> mutate(grupo = factor(grupo, levels = c("Control", "Intervención")))
+
+# 4. Explorar
+table(intervencion$grupo)
+describeBy(intervencion$comprension_pre, group = intervencion$grupo, mat = TRUE, digits = 2)
+colSums(is.na(intervencion))
+
+# 5. Guardar
+saveRDS(intervencion, "checkpoints/intervencion.rds")
+saveRDS(centros, "checkpoints/centros.rds")
+```
+:::
+:::
+
+::: {.callout-note}
+## Resumen de la sesión
+
+| Quiero… | Función |
+|---|---|
+| Guardar un valor | `nombre <- valor` |
+| Crear un vector | `c()` |
+| Resumir un vector | `mean()`, `sd()`, `median()`, `summary()` (con `na.rm = TRUE` si hay `NA`) |
+| Contar condiciones | `sum(x >= 5)`, `mean(x >= 5)` |
+| Variables categóricas | `factor()`, `table()`, `prop.table()` |
+| Crear una tabla | `tibble()` |
+| Ver la estructura | `glimpse()`, `summary()`, `View()` |
+| Importar | `read_excel()`, `read_csv()`, `read_csv2()` |
+| Convertir texto en número | `parse_number()`, `as.numeric()` |
+| Descriptivos | `psych::describe()`, `psych::describeBy()` |
+| Guardar y leer datos de R | `saveRDS()`, `readRDS()` |
+:::
