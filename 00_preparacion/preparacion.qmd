@@ -6,12 +6,10 @@ execute:
 ---
 
 ::: {.callout-important}
-## Haz la parte A antes de la primera sesión
+## Antes de la primera sesión
 Instalar el software durante la clase nos quitaría la primera hora. La parte A lleva unos 20-30 minutos.
 Si algo falla, escríbenos antes del curso con una captura de pantalla del error.
 :::
-
-# Parte A. Instalación (obligatoria)
 
 ## 1. Instala R
 
@@ -75,58 +73,3 @@ Si el resultado es `[1] 320`, la instalación es correcta.
 - **En Windows, error de permisos**: comprueba que la carpeta del curso no está en OneDrive ni en una carpeta de red.
 - **Cualquier otro problema**: envíanos una captura de pantalla de la consola.
 :::
-
-# Parte B. Primeros pasos (opcional, 30-45 minutos)
-
-Si nunca has usado R, esta parte te permitirá llegar a la primera sesión con los conceptos más básicos.
-Si ya has usado R alguna vez, puedes saltártela.
-
-## La consola: R como calculadora
-
-Escribe en la consola cada una de estas líneas y pulsa {{< kbd Enter >}}:
-
-```{r}
-2 + 3
-(6.5 + 8 + 7.2) / 3
-sqrt(81)
-round(7.4666, 1)
-```
-
-`sqrt()` y `round()` son **funciones**: reciben unos datos entre paréntesis (**argumentos**) y devuelven un resultado.
-
-## Guardar valores en objetos
-
-Con `<-` guardamos un valor con un nombre, para usarlo después. Mira cómo aparece en el panel **Environment** (arriba a la derecha):
-
-```{r}
-nota_ana <- 7.5
-nota_luis <- 6
-(nota_ana + nota_luis) / 2
-```
-
-## Un conjunto de valores: vectores
-
-Con `c()` combinamos varios valores. Las funciones como `mean()` resumen todos los valores a la vez:
-
-```{r}
-notas <- c(6.5, 8, 4.5, 9.2, 5)
-mean(notas)
-max(notas)
-notas >= 5
-sum(notas >= 5)
-```
-
-La última línea cuenta cuántas notas son mayores o iguales que 5: R cuenta cada `TRUE` como un 1.
-
-## Escribir en un script
-
-La consola está bien para probar, pero lo que escribimos en ella no se guarda.
-
-1. Crea un _script_ nuevo: _File > New File > R Script_ ({{< kbd Ctrl+Shift+N >}}).
-2. Escribe en él las líneas anteriores.
-3. Sitúa el cursor en una línea y pulsa {{< kbd Ctrl+Enter >}} ({{< kbd Cmd+Enter >}} en Mac) para ejecutarla.
-4. Guarda el _script_ ({{< kbd Ctrl+S >}}) con el nombre `prueba.R`.
-
-## Para practicar un poco más
-
-- Capítulo _Flujo de trabajo: conceptos básicos_ de _R para Ciencia de Datos_: <https://es.r4ds.hadley.nz/02-workflow-basics.html>
