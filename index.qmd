@@ -4,12 +4,7 @@ subtitle: "Departamento de Ciencias de la Educación, Universidad de Alcalá"
 toc: false
 ---
 
-Curso práctico de introducción a R para el profesorado del área de Psicología Evolutiva y de la Educación.
-El objetivo es adquirir una base sólida para importar, preparar, describir, representar y analizar datos
-con R, que sirva de punto de partida para formaciones más específicas (modelos de ecuaciones estructurales,
-metaanálisis, etc.).
-
-El curso consta de dos sesiones. No se requiere experiencia previa con R ni con otros programas de análisis de datos.
+Curso práctico de introducción a R para el profesorado del área de Psicología Evolutiva y de la Educación. El curso consta de dos sesiones. No se requiere experiencia previa con R ni con otros programas de análisis de datos.
 
 ## Profesorado
 
