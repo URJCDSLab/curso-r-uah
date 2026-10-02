@@ -8,215 +8,85 @@ execute:
 ::: {.callout-note}
 ## Instrucciones
 
-- Ejecuta cada línea con {{< kbd Ctrl+Enter >}} ({{< kbd Cmd+Enter >}} en Mac) o el bloque entero con el botón ▶ verde.
-- Sustituye cada `___` por el código adecuado.
-- Empieza por el nivel básico. Si terminas, pasa al intermedio y después al reto.
-- Si te pierdes, ejecuta la línea **Punto de control** del inicio del bloque y continúa desde ahí.
+- Cada ejercicio dura unos **15 minutos**. Sigue los pasos en orden; las pistas indican qué funciones necesitas.
+- Si terminas antes, haz la **ampliación**.
+- Escribe tu código en los bloques vacíos y ejecútalo con {{< kbd Ctrl+Enter >}} ({{< kbd Cmd+Enter >}} en Mac),
+  o el bloque entero con el botón ▶ verde.
+- Después del ejercicio haremos una puesta en común.
 :::
 
-# Ejercicio 1.1. R como calculadora
+# Ejercicio 1. Las notas de una tutoría
 
-**[EJERCICIO] Básico**: calcula la nota media de una estudiante con estas cuatro notas: 5.5, 7, 8.5 y 6.
-
-```{r}
-(___ + ___ + ___ + ___) / ___
-```
-
-**[EJERCICIO] Intermedio**: repite el cálculo redondeando el resultado a dos decimales con `round()`.
-
-```{r}
-
-```
-
-**[EJERCICIO] Reto**: consulta la ayuda de `round()` y de `mean()`. ¿Qué valor tiene `digits` por defecto?
-Calcula la misma media con `mean()` (pista: necesitarás `c()`).
-
-```{r}
-
-```
-
-# Ejercicio 1.2. Puntuaciones de un grupo
-
-Estas son las puntuaciones (0-10) de 15 estudiantes en una prueba de comprensión lectora:
-
-```{r}
-puntuaciones <- c(7.5, 4.0, 6.2, 8.8, 3.5, 5.0, 9.1, 6.7, 4.8, 7.0, 5.5, 2.9, 8.0, 6.4, 5.9)
-```
-
-**[EJERCICIO] Básico**: completa el código.
-
-```{r}
-# 1. Suma total de las puntuaciones
-total <- ___(puntuaciones)
-
-# 2. Media del grupo
-media <- ___(puntuaciones)
-
-# 3. Puntuación máxima
-maximo <- ___(puntuaciones)
-
-# 4. ¿Cuántos estudiantes tienen menos de 5?
-suspensos <- sum(puntuaciones ___ 5)
-
-# 5. Las puntuaciones de los 5 últimos estudiantes (posiciones 11 a 15)
-ultimas_5 <- puntuaciones[___:___]
-
-# 6. "Aprobado" si la puntuación es 5 o más, "Suspenso" si no
-calificacion <- ifelse(puntuaciones ___ 5, "___", "___")
-
-total
-media
-maximo
-suspensos
-ultimas_5
-calificacion
-```
-
-**[EJERCICIO] Intermedio**: dos estudiantes no hicieron la prueba.
-
-```{r}
-puntuaciones_na <- c(puntuaciones, NA, NA)
-```
-
-1. Calcula la media de `puntuaciones_na`. ¿Qué ocurre? Corrígelo.
-2. Cuenta cuántos valores perdidos hay.
-3. ¿Qué proporción de estudiantes (de `puntuaciones`) tiene un 7 o más?
-
-```{r}
-
-```
-
-**[EJERCICIO] Reto**: clasifica cada puntuación como _Suspenso_ (< 5), _Aprobado_ (5 a < 7), _Notable_ (7 a < 9)
-o _Sobresaliente_ (9 o más). Pista: consulta la ayuda de `cut()` y sus argumentos `breaks`, `labels` y `right`.
-
-```{r}
-
-```
-
-# Ejercicio 1.3. Tu primera tabla de datos
-
-**[EJERCICIO] Básico**: crea una tabla con los datos de seis estudiantes de un programa de lectura y descríbela.
+Eres tutor o tutora de un grupo de 12 estudiantes y tienes sus notas de las dos primeras evaluaciones y su porcentaje de asistencia.
+Ejecuta este bloque para crear los datos:
 
 ```{r}
 library(tidyverse)
 
-grupo_lectura <- tibble(
-  alumno = c("Pablo", "Irene", "Hugo", "Nerea", "Adrián", "Carla"),
-  grupo = factor(c("Control", "Intervención", "Control", "Intervención", "Control", "Intervención")),
-  comprension = c(48, 61, 52, 57, 45, 66)
-)
-
-___(grupo_lectura)                 # estructura de la tabla
-mean(grupo_lectura$___)            # media de comprensión
-table(grupo_lectura$___)           # estudiantes por grupo
+alumno <- c("Ana", "Luis", "Marta", "Jorge", "Sara", "Iván", "Lucía", "Pablo", "Irene", "Hugo", "Nerea", "Adrián")
+sexo <- c("Chica", "Chico", "Chica", "Chico", "Chica", "Chico", "Chica", "Chico", "Chica", "Chico", "Chica", "Chico")
+eval1 <- c(6.5, 4.0, 7.8, 5.2, 8.9, 3.5, 6.0, 4.8, 9.1, 5.5, 7.2, 2.9)
+eval2 <- c(7.0, 4.5, 8.2, 4.6, 9.0, 4.1, 5.5, NA, 8.7, 6.0, 7.8, 3.8)
+asistencia <- c(95, 70, 100, 85, 98, 60, 90, 75, 100, 88, 92, 55)   # porcentaje de asistencia
 ```
 
-**[EJERCICIO] Intermedio**:
+**[EJERCICIO]**
 
-1. Muestra solo las filas del grupo _Intervención_ (pista: `tabla[condición, ]`).
-2. Calcula la media de comprensión solo del grupo _Intervención_.
+1. Reúne los cinco vectores en una tabla llamada `tutoria`, con `sexo` como factor. Comprueba su estructura.
+   _Pista:_ `tibble()`, `factor()`, `glimpse()`.
+2. Añade a la tabla una columna `media` con la media de las dos evaluaciones de cada estudiante.
+   ¿Por qué la de Pablo sale `NA`?
+   _Pista:_ las operaciones entre columnas se hacen elemento a elemento: `tutoria$nueva <- ...`.
+3. Responde con código:
+   - ¿Cuál es la media del grupo (sin contar a Pablo)?
+   - ¿Cuántos estudiantes aprueban (media de 5 o más) y qué proporción representan?
+   - ¿Quiénes suspenden? (Muestra sus nombres).
+
+   _Pista:_ `na.rm = TRUE`, `sum()` y `mean()` de una comparación, `tutoria$alumno[condición]`.
+4. El departamento sube medio punto a quien tiene una asistencia del 90 % o más, sin pasar de 10.
+   Escribe una función `nota_final(media, asistencia)` que lo calcule y úsala para crear la columna `final`.
+   _Pista:_ dentro de la función, `ifelse()` dos veces: una para sumar el medio punto y otra para que no pase de 10.
+5. Compara la nota final media de chicas y chicos.
 
 ```{r}
 
 ```
 
-**[EJERCICIO] Reto**: calcula la media de comprensión de cada grupo en una sola instrucción. Pista: `?tapply`.
+**Ampliación**
+
+- Escribe un bucle `for` que recorra los niveles de `sexo` y muestre con `cat()` una frase como _"Chica: nota final media = X.XX"_.
+- Clasifica la nota final en _Suspenso_ (< 5), _Aprobado_ (5 a < 7), _Notable_ (7 a < 9) y _Sobresaliente_ (9 o más),
+  y cuenta cuántos hay de cada. _Pista:_ consulta la ayuda de `cut()` y sus argumentos `breaks`, `labels` y `right`.
 
 ```{r}
 
 ```
 
-# Ejercicio 1.4. Importar datos
+# Ejercicio 2. Tu primer informe
 
-**[EJERCICIO] Básico**: el fichero `datos/centros.csv` tiene información de los 10 centros de la encuesta.
-Ábrelo en el panel **Archivos** (clic sobre él y _View File_) para ver su formato y complétalo:
+El equipo del programa de comprensión lectora te pide un primer informe con los datos del estudio. Los datos están en
+`datos/intervencion_prepost.csv` (comprensión lectora antes, después y en el seguimiento de la intervención) y la información
+de los centros en `datos/centros.csv`.
 
-```{r}
-library(tidyverse)
+**[EJERCICIO]** Crea un documento Quarto nuevo (_File > New File > Quarto Document..._), bórrale el contenido de ejemplo
+(deja el encabezado YAML) y guárdalo en la carpeta del curso como `informe_intervencion.qmd`.
 
-# ¿Separado por comas o por punto y coma? Elige read_csv o read_csv2
-centros <- ___("datos/centros.csv")
-glimpse(___)
-```
+1. **Encabezado**: pon un título, tu nombre, `date: today` y `format: html`.
+2. **Preparación**: un primer bloque con `#| include: false` que cargue `tidyverse`, `psych` y `knitr` e importe los dos ficheros.
+   - Abre antes los dos ficheros en la pestaña _Files_ (_View File_): ¿cuál necesita `read_csv()` y cuál `read_csv2()`?
+     También puedes usar _Import Dataset_ y copiar el código.
+   - Convierte `grupo` en un factor con _Control_ como primer nivel.
+3. **Sección "Participantes"**: una frase que diga cuántos estudiantes hay, calculado con código dentro del texto
+   (`` `r ` ``), y una tabla con el número de estudiantes de cada grupo (`kable(table(...))`).
+4. **Sección "Antes de la intervención"**: una tabla con la media y la desviación típica de `comprension_pre` en cada grupo
+   (`describeBy(..., mat = TRUE)` y `kable()`). Escribe una frase: ¿parten los dos grupos de un nivel similar?
+5. **Sección "Datos perdidos"**: ¿cuántos valores perdidos hay en cada variable?
+6. Pulsa **Render**. Si da error, lee el mensaje: indica el bloque que falla. ¿Has cargado los paquetes y los datos dentro del documento?
 
-**[EJERCICIO] Intermedio**: convierte `titularidad` y `zona` en factores y haz una tabla cruzada de ambas variables.
+**Ampliación**
 
-```{r}
-centros <- centros |>
-  mutate(
-    titularidad = ___(titularidad),
-    zona = ___
-  )
-
-table(___, ___)
-```
-
-**[EJERCICIO] Reto**: en lugar de usar el diccionario, importa de nuevo `datos/encuesta_bruta.xlsx` y limpia los nombres de columna
-automáticamente con la función `clean_names()` del paquete `janitor`. Compara el resultado con los nombres del diccionario.
-¿Qué ventajas e inconvenientes tiene cada enfoque?
-
-```{r}
-
-```
-
-# Ejercicio 1.5. Explorar la encuesta
-
-::: {.callout-tip}
-**Punto de control**
-```{r}
-library(tidyverse)
-library(psych)
-encuesta <- readRDS("checkpoints/encuesta_limpia.rds")
-```
-:::
-
-**[EJERCICIO] Básico**:
-
-```{r}
-# 1. ¿Cuántos estudiantes hay en cada centro?
-table(encuesta$___)
-
-# 2. ¿Qué porcentaje de estudiantes hay en cada curso?
-round(prop.table(table(encuesta$___)) * 100, 1)
-
-# 3. ¿Cuál es la edad media?
-___(encuesta$edad)
-```
-
-**[EJERCICIO] Intermedio**:
-
-1. Obtén los descriptivos de los cuatro ítems de motivación (`m1` a `m4`) con `describe()`.
-   ¿Ves algo raro en la media de `m4`? (Pista: mira su enunciado en el diccionario).
-2. ¿Cuántos estudiantes no tienen nota?
-3. Haz una tabla de frecuencias de las respuestas al ítem `a1`, incluyendo los `NA` (pista: argumento `useNA` de `table()`).
-
-```{r}
-
-```
-
-**[EJERCICIO] Reto**:
-
-1. Obtén los descriptivos de la nota por sexo.
-2. Calcula el porcentaje de chicas y chicos dentro de cada curso (cada fila debe sumar 100). Pista: argumento `margin` de `prop.table()`.
-
-```{r}
-
-```
-
-# Ejercicio 1.6. Tu primer script
-
-**[EJERCICIO]** Crea un _script_ nuevo ({{< kbd Ctrl+Shift+N >}}), guárdalo como `mi_primer_script.R` y escribe, con la estructura vista en clase
-(paquetes, importar, limpiar, explorar, guardar), un análisis de los datos de la intervención en comprensión lectora:
-
-1. **Paquetes**: carga `tidyverse` y `psych`.
-2. **Importar**: lee `datos/intervencion_prepost.csv` (¿`read_csv` o `read_csv2`?) y `datos/centros.csv`.
-3. **Limpiar**: convierte `grupo` en factor, con _Control_ como primer nivel. En `centros`, convierte `titularidad` y `zona` en factores.
-4. **Explorar**:
-   - ¿Cuántos estudiantes hay en cada grupo?
-   - Descriptivos de la comprensión **pre** por grupo. ¿Parten los dos grupos de un nivel similar?
-   - ¿Cuántos valores perdidos hay en cada variable?
-5. **Guardar**: guarda las dos tablas como `checkpoints/intervencion.rds` y `checkpoints/centros.rds`.
-
-**[EJERCICIO] Reto**: calcula para cada estudiante la mejora (`comprension_post - comprension_pre`) y compara la mejora media de ambos grupos.
-
-Cuando termines: _Session > Restart R_ y ejecuta el _script_ entero. ¿Funciona sin errores?
+- Añade `#| echo: false` a los bloques (o `execute: echo: false` en el YAML) y vuelve a generar el informe. ¿Qué cambia?
+- Añade la columna `mejora` (`comprension_post - comprension_pre`), un diagrama de caja de la mejora por grupo
+  (`boxplot(mejora ~ grupo, data = intervencion)`) con un pie de figura (`#| fig-cap:`), y una frase con la mejora media de cada grupo calculada en el texto.
+- Genera el informe también en Word: añade `docx: default` al formato.
+- Añade una tabla cruzada de titularidad y zona de los centros.

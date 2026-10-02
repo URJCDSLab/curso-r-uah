@@ -7,6 +7,7 @@ project:
     - 00_preparacion/preparacion.qmd
     - sesion1.qmd
     - sesion1_ejercicios.qmd
+    - informe_ejemplo.qmd
     - sesion2.qmd
     - sesion2_ejercicios.qmd
 
@@ -24,6 +25,8 @@ website:
             text: Apuntes
           - href: sesion1_ejercicios.qmd
             text: Ejercicios
+          - href: informe_ejemplo.qmd
+            text: Ejemplo de informe
       - text: Sesión 2
         menu:
           - href: sesion2.qmd

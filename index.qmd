@@ -21,17 +21,17 @@ la segunda parte de ese documento es una breve introducción opcional.
 
 | Sesión | Contenidos | Materiales |
 |---|---|---|
-| 1. Primeros pasos con R | RStudio, proyectos y `renv`. Objetos, tipos y vectores. Factores y tablas de datos. Importación y limpieza de los datos de una encuesta. Exploración de los datos. | [Apuntes](sesion1.qmd), [Ejercicios](sesion1_ejercicios.qmd) |
-| 2. De los datos a los resultados | Transformación de datos con `dplyr`. Escalas Likert: ítems invertidos, puntuaciones y fiabilidad. Reorganización y combinación de tablas. Gráficos con `ggplot2`. Correlación, prueba _t_ y regresión lineal. Proyectos propios con `renv`. | [Apuntes](sesion2.qmd), [Ejercicios](sesion2_ejercicios.qmd) |
+| 1. Primeros pasos con R | RStudio, proyectos y `renv`. Objetos, tipos y vectores. Factores, tablas de datos y listas. Funciones, condiciones y bucles. Importación y limpieza de los datos de una encuesta. Descripción de los datos. Informes reproducibles con Quarto. | [Apuntes](sesion1.qmd), [Ejercicios](sesion1_ejercicios.qmd), [Ejemplo de informe](informe_ejemplo.qmd) |
+| 2. Transformar y visualizar datos | Transformación de datos con `dplyr`. Recodificación y puntuaciones de escalas. Reorganización y combinación de tablas. Gráficos con `ggplot2`. Primeros análisis: correlación, prueba _t_ y regresión. Resultados en Quarto. Proyectos propios con `renv`. | [Apuntes](sesion2.qmd), [Ejercicios](sesion2_ejercicios.qmd) |
 
 ## Cómo se trabaja
 
-Cada sesión se divide en bloques. En cada bloque, el profesor presenta los contenidos ejecutando el código en directo,
-a continuación se resuelve un ejercicio y, por último, se ponen en común las soluciones.
+Cada sesión dura unas 4 horas y se divide en bloques. En cada bloque, el profesor presenta los contenidos ejecutando el código en directo,
+y cada participante lo ejecuta a la vez en su ordenador. En cada sesión hay dos ejercicios de unos 15 minutos, seguidos de una puesta en común.
 
 Los ejercicios están en los ficheros `sesion1_ejercicios.qmd` y `sesion2_ejercicios.qmd`, que se abren y completan
-en RStudio desde el proyecto del curso (`curso_R_UAH.Rproj`). Cada ejercicio tiene tres niveles (básico, intermedio y reto),
-para que cada participante avance a su ritmo. Si en algún momento te pierdes, cada bloque indica un punto de control
+en RStudio desde el proyecto del curso (`curso_R_UAH.Rproj`). Cada ejercicio tiene unos pasos guiados y una ampliación
+para quien termine antes. Si en algún momento te pierdes, los bloques indican un punto de control
 desde el que continuar con los datos preparados.
 
 ## Datos
