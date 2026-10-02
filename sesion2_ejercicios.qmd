@@ -8,99 +8,53 @@ execute:
 ::: {.callout-note}
 ## Instrucciones
 
-- Sustituye cada `___` por el código adecuado. Empieza por el nivel básico; si terminas, pasa al intermedio y al reto.
-- Si te pierdes, ejecuta el **punto de control** del inicio del bloque y continúa desde ahí.
-- Recuerda: `|>` se lee "y después" ({{< kbd Ctrl+Shift+M >}}).
+- Cada ejercicio dura unos **15 minutos**. Sigue los pasos en orden; las pistas indican qué funciones necesitas.
+- Si terminas antes, haz la **ampliación**.
+- Empieza ejecutando el **punto de control** de cada ejercicio.
+- Recuerda: `|>` se lee "y después" ({{< kbd Ctrl+Shift+M >}}). Construye las cadenas paso a paso: ejecuta, comprueba el resultado y añade el siguiente verbo.
 :::
 
-# Ejercicio 2.1. Transformar datos con `dplyr`
+# Ejercicio 1. Un informe por centro
 
 ::: {.callout-tip}
 **Punto de control**
 ```{r}
 library(tidyverse)
-library(psych)
-encuesta <- readRDS("checkpoints/encuesta_limpia.rds") |>
-  mutate(calificacion = case_when(
-    nota < 5 ~ "Suspenso", nota < 7 ~ "Aprobado",
-    nota < 9 ~ "Notable", nota >= 9 ~ "Sobresaliente"
-  ))
-```
-:::
-
-**[EJERCICIO] Básico**:
-
-```{r}
-# 1. Estudiantes de 2º ESO con un 7 o más. Muestra solo id, sexo y nota
-encuesta |>
-  ___(curso == "2º ESO" & nota >= 7) |>
-  ___(id, sexo, nota)
-
-# 2. ¿Cuántos estudiantes hay con cada calificación?
-encuesta |>
-  ___(calificacion)
-
-# 3. Nota media de cada centro
-encuesta |>
-  group_by(___) |>
-  summarise(media_nota = mean(___, na.rm = TRUE))
-```
-
-**[EJERCICIO] Intermedio**: construye una tabla con una fila por centro que contenga el número de estudiantes con nota,
-la nota media y el **porcentaje de aprobados**, ordenada de mayor a menor porcentaje de aprobados.
-Pista: recuerda qué hacía `mean(nota >= 5)` en la sesión 1.
-
-```{r}
-
-```
-
-**[EJERCICIO] Reto**: la encuesta se hizo en octubre, así que en 1º ESO lo habitual es tener 12 o 13 años, en 2º ESO 13 o 14, etc.
-Crea una variable `repetidor` (`TRUE` si la edad es mayor que 12 + el número del curso) y compara la nota media de repetidores
-y no repetidores. Pista: `as.integer(curso)` convierte el factor en 1, 2, 3, 4.
-
-```{r}
-
-```
-
-# Ejercicio 2.2. Escalas Likert
-
-::: {.callout-tip}
-**Punto de control**
-```{r}
-library(tidyverse)
-library(psych)
 encuesta <- readRDS("checkpoints/encuesta_escalas.rds")
 ```
 :::
 
-**[EJERCICIO] Básico**: calcula el alfa de Cronbach de la escala de ansiedad (`a1` a `a4`) y de la de autoeficacia.
-¿Qué ítem de autoeficacia debes usar, `ae3` o `ae3_inv`?
+La inspección educativa pide un resumen de la encuesta por centro y algunos datos adicionales.
 
-```{r}
-encuesta |>
-  select(___) |>
-  alpha()
+**[EJERCICIO]**
 
-encuesta |>
-  select(ae1, ae2, ___, ae4) |>
-  ___()
-```
-
-**[EJERCICIO] Intermedio**: calcula la media de las tres escalas (`motivacion`, `ansiedad`, `autoeficacia`) en cada curso, en una sola tabla.
-Pista: puedes escribir tres medias dentro de `summarise()`, o usar `across()`.
-
-```{r}
-
-```
-
-**[EJERCICIO] Reto**: crea una variable con el número de ítems de autoeficacia sin responder de cada estudiante (pista: `rowSums(is.na(pick(...)))`).
-Crea después una puntuación `autoeficacia_estricta` que sea `NA` si falta más de un ítem. ¿A cuántos estudiantes afecta?
+1. Construye una tabla `por_centro` con una fila por centro y estas columnas: número de estudiantes, número de estudiantes con nota,
+   nota media, **porcentaje de aprobados** y motivación media. Ordénala de mayor a menor porcentaje de aprobados.
+   _Pista:_ `group_by()` + `summarise()`; `n()`; `sum(!is.na(nota))`; recuerda qué hacía `mean(nota >= 5)` en la sesión 1.
+2. A partir de `por_centro`, quédate solo con los centros que tienen al menos 30 estudiantes y, de ellos, con los 3 de mayor porcentaje de aprobados.
+   _Pista:_ `filter()`, `slice_max()`.
+3. Calcula la media de las tres escalas (`motivacion`, `ansiedad`, `autoeficacia`) para cada combinación de `ciclo` y `sexo`,
+   sin incluir a quienes prefirieron no decir su sexo, con dos decimales. ¿Dónde es mayor la ansiedad?
+   _Pista:_ `summarise(across(..., \(x) ...))`.
+4. ¿Cuántos estudiantes tienen una nota al menos 1 punto por encima de la media **de su centro**? Cuéntalos por curso.
+   _Pista:_ `group_by()` + `mutate()`, después `ungroup()`, `filter()` y `count()`.
 
 ```{r}
 
 ```
 
-# Ejercicio 2.3. Reorganizar y combinar tablas
+**Ampliación**
+
+El departamento de orientación quiere identificar perfiles. Crea una variable `perfil` con `case_when()`:
+_"En riesgo"_ si la ansiedad es 4 o más **y** la autoeficacia 2.5 o menos; _"Ansiedad alta"_ si solo la ansiedad es 4 o más;
+_"Sin indicadores"_ en el resto. Cuenta los estudiantes de cada perfil en cada curso y presenta el resultado como tabla de doble entrada
+(cursos en filas, perfiles en columnas). _Pista:_ `count()` y `pivot_wider()`, que verás después del descanso, o `table()`.
+
+```{r}
+
+```
+
+# Ejercicio 2. Una pregunta de principio a fin
 
 ::: {.callout-tip}
 **Punto de control**
@@ -108,129 +62,34 @@ Crea después una puntuación `autoeficacia_estricta` que sea `NA` si falta más
 library(tidyverse)
 encuesta <- readRDS("checkpoints/encuesta_escalas.rds")
 centros <- read_csv2("datos/centros.csv")
-intervencion <- read_csv("datos/intervencion_prepost.csv")
-intervencion_larga <- intervencion |>
-  pivot_longer(cols = starts_with("comprension_"), names_to = "momento",
-               names_prefix = "comprension_", values_to = "comprension") |>
-  mutate(momento = factor(momento, levels = c("pre", "post", "seguimiento")))
-```
-:::
-
-**[EJERCICIO] Básico**: añade a la encuesta la información de los centros y compara la nota media de centros públicos y concertados.
-
-```{r}
-encuesta_centros <- encuesta |>
-  ___(centros, by = "___")
-
-encuesta_centros |>
-  group_by(___) |>
-  summarise(media_nota = mean(nota, na.rm = TRUE), n = n())
-```
-
-**[EJERCICIO] Intermedio**: la tabla `intervencion` no tiene el curso ni el sexo de los estudiantes, pero la encuesta sí.
-Añádelos (solo esas dos columnas, más `id`) y cuenta cuántos estudiantes de cada curso hay en cada grupo.
-
-```{r}
-
-```
-
-**[EJERCICIO] Reto**: vuelve a convertir `intervencion_larga` a formato ancho con `pivot_wider()`. ¿Obtienes la tabla original?
-
-```{r}
-
-```
-
-# Ejercicio 2.4. Gráficos
-
-::: {.callout-tip}
-**Punto de control**
-```{r}
-library(tidyverse)
-encuesta <- readRDS("checkpoints/encuesta_escalas.rds")
-centros <- read_csv2("datos/centros.csv")
-```
-:::
-
-**[EJERCICIO] Básico**: histograma de la motivación.
-
-```{r}
-ggplot(encuesta, aes(x = ___)) +
-  ___(binwidth = 0.25, fill = "darkorange", color = "white") +   # ¿qué geom_ dibuja un histograma?
-  labs(x = "Motivación (1-5)", y = "Número de estudiantes") +
-  theme_minimal()
-```
-
-**[EJERCICIO] Intermedio**: diagrama de caja de la motivación por curso. ¿Qué tendencia observas?
-
-```{r}
-
-```
-
-**[EJERCICIO] Reto**: diagrama de dispersión de la ansiedad (eje x) y la nota (eje y), con un color para cada zona (urbana/rural)
-y una recta de regresión para cada una. Guárdalo como `ansiedad_nota.png` de 16 × 10 cm.
-
-```{r}
-
-```
-
-# Ejercicio 2.5. Primeros análisis
-
-::: {.callout-tip}
-**Punto de control**
-```{r}
-library(tidyverse)
-encuesta <- readRDS("checkpoints/encuesta_escalas.rds")
 intervencion <- read_csv("datos/intervencion_prepost.csv") |>
   mutate(grupo = factor(grupo, levels = c("Control", "Intervención")))
-encuesta_2sexos <- encuesta |> filter(sexo %in% c("Chica", "Chico"))
 ```
 :::
 
-**[EJERCICIO] Básico**: ¿se relaciona la motivación con la nota? Contrasta la correlación e interpreta el resultado.
-
-```{r}
-cor.test(encuesta$___, encuesta$___)
-```
-
-**[EJERCICIO] Intermedio**: calcula la mejora de cada estudiante (`comprension_post - comprension_pre`) y compara con una prueba _t_
-la mejora media del grupo de intervención y del grupo control.
-
-```{r}
-intervencion_mejora <- intervencion |>
-  mutate(mejora = ___)
-
-t.test(___ ~ ___, data = intervencion_mejora)
-```
-
-**[EJERCICIO] Reto**: ajusta un modelo de regresión que explique la ansiedad a partir del sexo y el curso (usa `encuesta_2sexos`).
-¿Cuál es la categoría de referencia de cada factor? ¿Cómo interpretas los coeficientes?
-
-```{r}
-
-```
-
-# Ejercicio 2.6. Una pregunta de principio a fin
-
-**[EJERCICIO]** Crea un _script_ nuevo y responde a una de estas preguntas con una tabla de descriptivos por grupo, un gráfico y una prueba estadística:
+**[EJERCICIO]** Elige **una** de estas preguntas y respóndela en un documento Quarto nuevo (`pregunta.qmd`):
 
 1. ¿Tienen los estudiantes de centros rurales una motivación distinta a los de centros urbanos?
 2. ¿Es la ansiedad ante los exámenes mayor en el segundo ciclo de la ESO (3º y 4º) que en el primero (1º y 2º)?
 3. En el estudio de intervención, ¿se mantiene en el seguimiento la mejora del grupo de intervención? (Compara _pre_ y _seguimiento_).
 
-Estructura sugerida:
+El informe debe tener:
 
-```{r}
-# 1. Paquetes ---------------------------------------------------------------
+1. Un bloque inicial con `#| include: false` que cargue los paquetes y los datos (el punto de control de arriba) y prepare lo necesario:
+   - Pregunta 1: unir la encuesta con `centros` (`left_join()`).
+   - Pregunta 2: la variable `ciclo` ya está en los datos.
+   - Pregunta 3: pasar `intervencion` a formato largo (`pivot_longer()`) para el gráfico.
+2. **Descriptivos**: una tabla con el número de casos, la media y la desviación típica de cada grupo (`group_by()` + `summarise()` + `knitr::kable()`).
+3. **Gráfico**: el que mejor responda a la pregunta (diagrama de caja con puntos, o medias por momento), con etiquetas en castellano y un pie de figura (`#| fig-cap:`).
+4. **Prueba estadística**: la prueba _t_ adecuada (independiente o relacionada), guardada en un objeto.
+5. **Conclusión**: una o dos frases que respondan a la pregunta, con las medias y el valor _p_ calculados dentro del texto
+   (`` `r ` `` y `prueba$estimate`, `prueba$p.value`).
+6. Ponle `execute: echo: false` en el YAML y pulsa **Render**.
 
-# 2. Importar ---------------------------------------------------------------
+**Ampliación**
 
-# 3. Preparar ---------------------------------------------------------------
-
-# 4. Describir --------------------------------------------------------------
-
-# 5. Graficar ---------------------------------------------------------------
-
-# 6. Analizar ---------------------------------------------------------------
-```
+- Genera también una versión en Word (`docx`).
+- Guarda el gráfico como imagen de 16 × 10 cm con `ggsave()`.
+- Responde a una segunda pregunta en el mismo informe.
 
 Cuando termines, sigue los pasos del apartado **Tu propio proyecto con `renv`** de los apuntes para crear el proyecto de tu próximo análisis.

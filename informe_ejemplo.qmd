@@ -1,0 +1,125 @@
+---
+title: "Informe descriptivo de la encuesta"
+subtitle: "Ejemplo de informe reproducible con Quarto (sesión 1)"
+author: "Curso de iniciación a R"
+date: today
+format:
+  html:
+    toc: true
+  docx: default
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+<!-- Fuente: laboratorio_descriptiva.qmd (estructura del informe), adaptado a los datos del curso y a R base -->
+
+::: {.callout-note}
+## Cómo usar este ejemplo
+Abre este fichero (`informe_ejemplo.qmd`) en RStudio y pulsa **Render**. Compara el fichero con el informe generado:
+cada parte del informe sale de una parte del fichero. Para un informe dirigido a otras personas, cambia `echo: true`
+por `echo: false` en el encabezado: el código desaparece y quedan solo el texto y los resultados.
+:::
+
+```{r}
+#| label: preparacion
+#| include: false
+library(tidyverse)
+library(readxl)
+library(psych)
+library(knitr)
+```
+
+## Datos
+
+Los datos proceden de una encuesta en línea (simulada) a estudiantes de ESO. Se importan directamente del fichero exportado
+del formulario y se limpian en el propio informe, de modo que cualquier cambio en los datos se refleja al volver a generarlo.
+
+```{r}
+#| label: importar
+encuesta <- read_excel("datos/encuesta_bruta.xlsx", na = c("", "NS/NC"))
+diccionario <- read_excel("datos/encuesta_bruta.xlsx", sheet = "diccionario")
+
+names(encuesta) <- diccionario$codigo
+encuesta$edad <- parse_number(encuesta$edad)
+items <- diccionario$codigo[!is.na(diccionario$escala)]
+for (item in items) {
+  encuesta[[item]] <- parse_number(encuesta[[item]])
+}
+encuesta$centro <- factor(encuesta$centro)
+encuesta$curso <- factor(encuesta$curso, levels = c("1º ESO", "2º ESO", "3º ESO", "4º ESO"))
+encuesta$sexo <- factor(encuesta$sexo)
+```
+
+La encuesta incluye `r nrow(encuesta)` estudiantes de `r nlevels(encuesta$centro)` centros,
+con edades entre `r min(encuesta$edad)` y `r max(encuesta$edad)` años.
+`r sum(complete.cases(encuesta))` estudiantes (`r round(mean(complete.cases(encuesta)) * 100, 1)` %) respondieron a todas las preguntas.
+
+## Participantes
+
+```{r}
+#| label: tbl-curso
+#| tbl-cap: "Distribución de los estudiantes por curso"
+frecuencias <- as.data.frame(table(encuesta$curso))
+names(frecuencias) <- c("Curso", "n")
+frecuencias$porcentaje <- round(frecuencias$n / sum(frecuencias$n) * 100, 1)
+frecuencias$acumulado <- cumsum(frecuencias$porcentaje)
+kable(frecuencias, col.names = c("Curso", "n", "%", "% acumulado"))
+```
+
+La @tbl-curso muestra que el curso con más estudiantes es `r names(which.max(table(encuesta$curso)))`.
+
+```{r}
+#| label: tbl-curso-sexo
+#| tbl-cap: "Porcentaje de chicas y chicos en cada curso"
+tabla <- table(encuesta$curso, encuesta$sexo)
+kable(round(prop.table(tabla, margin = 1) * 100, 1))
+```
+
+## Rendimiento académico
+
+```{r}
+#| label: fig-nota
+#| fig-cap: "Distribución de la nota media de la 1ª evaluación"
+hist(encuesta$nota, breaks = 15, main = NULL, xlab = "Nota media", ylab = "Número de estudiantes",
+     col = "steelblue", border = "white")
+```
+
+La nota media fue de `r round(mean(encuesta$nota, na.rm = TRUE), 2)`
+(DT = `r round(sd(encuesta$nota, na.rm = TRUE), 2)`), y aprobó la evaluación el
+`r round(mean(encuesta$nota >= 5, na.rm = TRUE) * 100, 1)` % de los estudiantes (@fig-nota).
+
+```{r}
+#| label: tbl-nota-curso
+#| tbl-cap: "Descriptivos de la nota media por curso"
+descriptivos <- describeBy(encuesta$nota, group = encuesta$curso, mat = TRUE, digits = 2)
+kable(descriptivos[, c("group1", "n", "mean", "sd", "median", "min", "max", "skew")],
+      col.names = c("Curso", "n", "Media", "DT", "Mediana", "Mín.", "Máx.", "Asimetría"),
+      row.names = FALSE)
+```
+
+```{r}
+#| label: fig-nota-curso
+#| fig-cap: "Nota media por curso"
+boxplot(nota ~ curso, data = encuesta, xlab = NULL, ylab = "Nota media", col = "lightblue")
+```
+
+## Respuestas a los ítems
+
+```{r}
+#| label: tbl-items
+#| tbl-cap: "Descriptivos de los ítems (escala 1-5)"
+descriptivos_items <- describe(encuesta[, items])
+descriptivos_items$enunciado <- diccionario$pregunta[!is.na(diccionario$escala)]
+kable(descriptivos_items[, c("enunciado", "n", "mean", "sd")],
+      col.names = c("Ítem", "n", "Media", "DT"), digits = 2)
+```
+
+## Valores perdidos
+
+```{r}
+#| label: perdidos
+perdidos <- colSums(is.na(encuesta))
+perdidos[perdidos > 0]
+```

@@ -8,54 +8,85 @@ subtitle: "Curso de iniciación a R. Departamento de Ciencias de la Educación, 
 ::: {.callout-note}
 ## Cómo usar este material
 
-Cada bloque sigue la misma estructura:
+El profesor presenta cada bloque ejecutando el código en directo: escríbelo o cópialo en tu ordenador y ejecútalo a la vez.
+En la sesión hay dos ejercicios de unos 15 minutos, en el fichero `sesion1_ejercicios.qmd`, seguidos de una puesta en común.
+Cada ejercicio tiene unos pasos guiados y una ampliación para quien termine antes.
 
-1. Demostración: el profesor ejecuta el código en directo y tú lo sigues.
-2. Ejercicio en tres niveles. Haz el que te corresponda y, si terminas, pasa al siguiente:
-   - Básico: completa los huecos `___`.
-   - Intermedio: la misma tarea con menos ayuda.
-   - Reto: para quien ya tiene algo de experiencia con R.
-
-   En el fichero de ejercicios, cada uno empieza con la marca `[EJERCICIO]` seguida del nivel.
-3. Puesta en común.
-
-Los ejercicios están en el fichero `sesion1_ejercicios.qmd`. Si en algún momento te pierdes,
-cada bloque indica un **punto de control** (_checkpoint_) desde el que puedes continuar.
+Si en algún momento te pierdes, los bloques indican un **punto de control** (_checkpoint_) desde el que continuar.
 :::
 
-| Bloque | Contenido |
-|---|---|
-| 1.1 | RStudio, proyectos y `renv`. Tu primera línea de código |
-| 1.2 | Objetos, tipos y vectores. Valores perdidos |
-| 1.3 | Factores y tablas de datos |
-| 1.4 | Importar y limpiar los datos de una encuesta |
-| 1.5 | Explorar los datos |
-| 1.6 | Ejercicio integrador |
+| Bloque | Contenido | Tiempo aprox. |
+|---|---|---|
+| 1.1 | RStudio, proyectos y `renv` | 25 min |
+| 1.2 | Objetos, tipos y vectores | 35 min |
+| 1.3 | Factores, tablas de datos y listas | 20 min |
+| 1.4 | Un poco de programación: funciones, condiciones y bucles | 15 min |
+| | **Ejercicio 1** y puesta en común | 25 min |
+| | _Descanso_ | 15 min |
+| 1.5 | Importar datos | 20 min |
+| 1.6 | Limpiar los datos de una encuesta | 15 min |
+| 1.7 | Describir los datos | 15 min |
+| 1.8 | Informes reproducibles con Quarto | 30 min |
+| | **Ejercicio 2** y puesta en común | 25 min |
 
 # 1.1. RStudio, proyectos y `renv` {#bloque-1-1}
 
 ::: {.callout-tip}
 ## Objetivo
-Orientarte en RStudio, entender por qué trabajamos siempre dentro de un **proyecto** y ejecutar tus primeras instrucciones.
+Orientarte en RStudio, configurarlo para trabajar de forma reproducible, entender por qué trabajamos siempre dentro de un **proyecto** y ejecutar tus primeras instrucciones.
 :::
+
+<!-- Fuente: laboratorio_introR.qmd § Configuración de RStudio, Proyectos de RStudio, Trabajar en RStudio; contenido_R/01_elementos_basicos_r.qmd § Tu primera línea de código -->
+
+## R y RStudio
+
+**R** es a la vez un programa de análisis de datos y un lenguaje de programación. Es libre y gratuito, y lo usan
+millones de investigadores. **RStudio** es el programa desde el que usamos R: un entorno de desarrollo (IDE)
+que organiza en una sola ventana el código, los resultados, los datos y la ayuda.
+
+R se puede usar de dos formas, y en este curso usaremos las dos:
+
+- Escribiendo **código**: queda guardado, se puede repetir y compartir. Es la forma reproducible.
+- Usando los **menús y paneles de RStudio**: cómodos para explorar y para tareas puntuales.
+  Muchos de ellos, además, escriben por nosotros el código equivalente.
+
+A lo largo del curso, los recuadros **"También con RStudio"** indican cómo hacer con el ratón lo que estamos haciendo con código.
 
 ## Las cuatro zonas de RStudio
 
 | Zona | Para qué sirve |
 |---|---|
-| **Editor** (arriba a la izquierda) | Donde escribimos el código que queremos guardar: _scripts_ (`.R`) y documentos Quarto (`.qmd`). |
+| **Editor** (arriba a la izquierda) | Donde escribimos el código que queremos guardar: _scripts_ (`.R`) y documentos Quarto (`.qmd`). También muestra las tablas de datos con `View()`. |
 | **Consola** (abajo a la izquierda) | Donde R ejecuta las instrucciones. Lo que escribes aquí directamente no se guarda. |
-| **Entorno** (arriba a la derecha) | Los objetos que has creado en la sesión: datos, variables… |
-| **Archivos / Gráficos / Ayuda** (abajo a la derecha) | Explorador de ficheros, gráficos y ayuda de las funciones. |
+| **Entorno** (arriba a la derecha) | Pestaña _Environment_: los objetos que has creado (datos, variables…). Pestaña _History_: las instrucciones ejecutadas. |
+| **Archivos / Gráficos / Paquetes / Ayuda** (abajo a la derecha) | Explorador de ficheros, gráficos, paquetes instalados y ayuda de las funciones. |
 
-Escribe el código en el editor y ejecútalo desde ahí con {{< kbd Ctrl+Enter >}}
-(en Mac, {{< kbd Cmd+Enter >}}). Así queda guardado y puedes repetir el análisis cuando quieras.
+Escribe el código en el editor y ejecútalo desde ahí con {{< kbd Ctrl+Enter >}} (en Mac, {{< kbd Cmd+Enter >}}):
+se ejecuta la línea en la que está el cursor, o lo que tengas seleccionado. Así queda guardado y puedes repetir el análisis cuando quieras.
+
+Tres ayudas que conviene conocer desde el principio:
+
+- {{< kbd Tab >}} **autocompleta** nombres de funciones, de objetos, de argumentos y de ficheros (también dentro de unas comillas).
+- En la consola, la **flecha arriba** recupera las instrucciones anteriores. Todas están en la pestaña _History_.
+- Si la consola muestra un `+` en lugar de `>`, R está esperando a que termines la instrucción: normalmente falta cerrar un paréntesis o unas comillas.
+  Pulsa {{< kbd Esc >}} y revisa la línea.
+
+## Configurar RStudio para trabajar de forma reproducible
+
+Por defecto, RStudio guarda al cerrar todos los objetos de la sesión en un fichero `.RData` y los vuelve a cargar al abrir.
+Parece cómodo, pero es una fuente de errores: acabas dependiendo de objetos que no sabes cómo se crearon. Es mejor que
+**todo lo que necesites salga de tu código**. Cámbialo una sola vez:
+
+_Tools > Global Options > General_:
+
+- Desmarca _Restore .RData into workspace at startup_.
+- En _Save workspace to .RData on exit_, elige _Never_.
 
 ## Proyectos: una carpeta para cada análisis
 
 Un **proyecto de RStudio** (fichero `.Rproj`) es una carpeta que contiene todo lo relacionado con un análisis:
-datos, _scripts_, resultados. Al abrir el proyecto, R "se sitúa" en esa carpeta, de modo que podemos
-escribir rutas cortas y que funcionan en cualquier ordenador:
+datos, _scripts_, informes, resultados. Al abrir el proyecto, R "se sitúa" en esa carpeta (el **directorio de trabajo**,
+que aparece en la barra de título de la consola), de modo que podemos escribir rutas cortas que funcionan en cualquier ordenador:
 
 ```r
 "datos/encuesta_bruta.xlsx"                                   # ruta relativa: funciona en cualquier ordenador
@@ -63,14 +94,38 @@ escribir rutas cortas y que funcionan en cualquier ordenador:
 ```
 
 Este curso es, en sí mismo, un proyecto: ábrelo siempre con doble clic en `curso_R_UAH.Rproj`.
+El nombre del proyecto abierto aparece arriba a la derecha de RStudio; desde ese menú se cambia de un proyecto a otro.
+
+::: {.callout-note}
+## También con RStudio
+Para crear un proyecto nuevo: _File > New Project > New Directory > New Project_. Lo haremos al final de la sesión 2.
+:::
+
+## Paquetes
+
+R se amplía con **paquetes** (hay más de 20.000). Un paquete se **instala** una sola vez y se **carga** cada vez que abrimos R:
+
+```{r}
+#| eval: false
+install.packages("janitor")   # instalar: una vez (en la consola, no en el script)
+library(janitor)              # cargar: en cada sesión (al principio del script)
+```
+
+Si intentas usar una función de un paquete que no has cargado, R responde `could not find function`. También puedes usar
+una función sin cargar el paquete escribiendo `paquete::función()`, por ejemplo `janitor::clean_names()`.
+
+::: {.callout-note}
+## También con RStudio
+En la pestaña _Packages_ (panel inferior derecho), el botón _Install_ abre un cuadro en el que basta escribir el nombre del paquete.
+La misma pestaña muestra los paquetes instalados; los que tienen la casilla marcada están cargados.
+:::
 
 ## `renv`: cada proyecto con sus propios paquetes
 
-R se amplía con **paquetes** (hay más de 20.000). Un problema muy habitual es que un análisis que
-funcionaba hace un año deja de funcionar porque se ha actualizado un paquete. O que a un compañero
-no le funciona tu código porque tiene otras versiones instaladas.
+Un problema muy habitual es que un análisis que funcionaba hace un año deja de funcionar porque se ha actualizado un paquete.
+O que a un compañero no le funciona tu código porque tiene otras versiones instaladas.
 
-El paquete `renv` resuelve esto dando a **cada proyecto su propia biblioteca de paquetes**, y
+El paquete `renv` resuelve esto dando a **cada proyecto su propia biblioteca de paquetes** y
 anotando las versiones exactas en un fichero llamado `renv.lock`:
 
 ```{mermaid}
@@ -84,21 +139,13 @@ flowchart LR
 |---|---|
 | `renv::init()` | Una vez, al crear un proyecto nuevo. |
 | `renv::restore()` | Al abrir por primera vez un proyecto que ya tiene `renv.lock` (como este curso): instala exactamente lo que dice el fichero. |
-| `install.packages("paquete")` | Para añadir un paquete nuevo al proyecto. |
+| `install.packages("paquete")` | Para añadir un paquete nuevo al proyecto (o el botón _Install_). |
 | `renv::snapshot()` | Después de instalar algo nuevo: actualiza `renv.lock`. |
 | `renv::status()` | Para comprobar si la biblioteca y `renv.lock` coinciden. |
 
 En la preparación del curso ya ejecutaste `renv::restore()`. En la sesión 2 crearás tu propio proyecto con `renv`.
 
-::: {.callout-important}
-## Instalar ≠ cargar
-Un paquete se **instala** una sola vez (con `renv::restore()` o `install.packages()`), pero se **carga**
-con `library()` cada vez que abrimos R. Por eso los _scripts_ empiezan con las llamadas a `library()`.
-:::
-
 ## Tu primera línea de código
-
-Antes de más teoría, ejecutemos algo:
 
 ```{r}
 cat("¡Hola, mundo!")
@@ -115,13 +162,16 @@ R es, para empezar, una calculadora:
 ```{r}
 (6.5 + 8 + 7.2) / 3
 sqrt(16)
+2^3
 round(7.4666, 1)
 ```
 
-La función `round()` tiene dos argumentos: el número y los decimales. Podemos escribir sus nombres para que el código sea más claro:
+La función `round()` tiene dos argumentos: el número y los decimales. Podemos escribir sus nombres para que el código sea más claro;
+si los escribimos, el orden da igual:
 
 ```{r}
 round(x = 7.4666, digits = 1)
+round(digits = 1, x = 7.4666)
 ```
 
 Todo lo que va detrás de `#` es un **comentario**: R lo ignora. Úsalos para explicar el porqué de tu código.
@@ -131,21 +181,30 @@ Todo lo que va detrás de `#` es un **comentario**: R lo ignora. Úsalos para ex
 (6.5 + 8 + 7.2) / 3
 ```
 
-Para consultar la ayuda de cualquier función: `?round` o {{< kbd F1 >}} con el cursor sobre ella.
+## La ayuda
 
-::: {.content-visible when-meta="solucion"}
-::: {.callout-tip collapse="true"}
-## Soluciones 1.1
+Cada función tiene una página de ayuda con sus argumentos, sus valores por defecto y ejemplos al final:
+
 ```{r}
-# Básico
-(5.5 + 7 + 8.5 + 6) / 4
-# Intermedio
-round((5.5 + 7 + 8.5 + 6) / 4, digits = 2)
-# Reto. En ?round, digits vale 0 por defecto; en ?mean, los argumentos son na.rm y trim
-mean(c(5.5, 7, 8.5, 6))
+#| eval: false
+?round
 ```
+
+::: {.callout-note}
+## También con RStudio
+Sitúa el cursor sobre el nombre de una función y pulsa {{< kbd F1 >}}, o busca en la pestaña _Help_.
+Dentro de los paréntesis de una función, {{< kbd Tab >}} muestra la lista de sus argumentos.
 :::
-:::
+
+## Mensajes, avisos y errores
+
+R responde en rojo con tres tipos de mensajes, y solo uno de ellos significa que algo ha fallado:
+
+| Tipo | Ejemplo | Qué hacer |
+|---|---|---|
+| **Mensaje** (_message_) | `Attaching core tidyverse packages` | Nada: es informativo. |
+| **Aviso** (_warning_) | `Warning: NAs introduced by coercion` | La instrucción se ha ejecutado, pero conviene entender el aviso: puede que el resultado no sea el que esperas. |
+| **Error** (_error_) | `Error: object 'notas' not found` | La instrucción no se ha ejecutado. Lee el mensaje: casi siempre dice qué pasa. |
 
 # 1.2. Objetos, tipos y vectores {#bloque-1-2}
 
@@ -154,7 +213,7 @@ mean(c(5.5, 7, 8.5, 6))
 Guardar información en objetos, distinguir los tipos de datos básicos y trabajar con vectores (una columna de datos).
 :::
 
-<!-- Fuente: contenido_R/01_elementos_basicos_r.qmd § Variables, Tipos de datos; 02_estructuras_datos_r.qmd § Tipos y clases, Operaciones con vectores -->
+<!-- Fuente: contenido_R/01_elementos_basicos_r.qmd § Variables, Tipos de datos, Operaciones con variables; 02_estructuras_datos_r.qmd § Tipos y clases, Selección de elementos, Operaciones con vectores -->
 
 ## Objetos: los contenedores de información
 
@@ -171,6 +230,8 @@ nota_con_trabajo <- nota_ana + 1
 nota_con_trabajo
 ```
 
+Al crear un objeto, R no muestra nada; para verlo, escribimos su nombre. Los objetos aparecen en la pestaña _Environment_.
+
 Se llaman **variables** porque su contenido puede cambiar:
 
 ```{r}
@@ -185,7 +246,7 @@ Reglas para los nombres:
 - R distingue mayúsculas de minúsculas: `nota` y `Nota` son objetos distintos.
 - Mejor sin tildes, eñes ni espacios: `puntuacion_ansiedad`, no `puntuación ansiedad`.
 
-## Tipos de datos: no todo es igual
+## Tipos de datos
 
 En nuestros estudios manejamos información de distinta naturaleza, y R necesita saber de qué tipo es cada una:
 
@@ -203,6 +264,14 @@ tiene_nee <- FALSE
 class(edad)
 class(centro)
 class(tiene_nee)
+```
+
+Con el texto también se puede operar. Por ejemplo, `paste()` une textos:
+
+```{r}
+paste("Centro:", centro)
+paste0("E", 1:3)          # paste0 no deja espacio entre las partes
+toupper(centro)           # en mayúsculas
 ```
 
 ### El problema de mezclar tipos
@@ -238,6 +307,20 @@ alumnos <- c("Ana", "Luis", "Marta", "Jorge", "Sara", "Iván", "Lucía")
 length(notas)
 ```
 
+Hay atajos para crear vectores habituales:
+
+```{r}
+1:10                          # del 1 al 10
+seq(0, 100, by = 25)          # de 0 a 100, de 25 en 25
+rep(c("pre", "post"), times = 3)
+```
+
+Si mezclamos tipos en `c()`, R convierte todo al tipo más general (normalmente, texto):
+
+```{r}
+c(1, "dos", 3)
+```
+
 ### Acceder a los elementos
 
 Los elementos se seleccionan con corchetes `[]`. En R, **el primer elemento es el 1**:
@@ -245,8 +328,17 @@ Los elementos se seleccionan con corchetes `[]`. En R, **el primer elemento es e
 ```{r}
 notas[1]            # la primera
 notas[c(1, 3)]      # la primera y la tercera
+notas[2:4]          # de la segunda a la cuarta
 notas[-1]           # todas menos la primera
 alumnos[length(alumnos)]   # la última
+```
+
+También se pueden modificar elementos concretos:
+
+```{r}
+notas_corregidas <- notas
+notas_corregidas[3] <- 5.0     # tras la revisión del examen
+notas_corregidas
 ```
 
 ### Operaciones con vectores
@@ -258,6 +350,14 @@ notas + 0.5            # medio punto más a todos
 notas * 10             # en escala 0-100
 ```
 
+Entre dos vectores de la misma longitud, la operación se hace elemento a elemento:
+
+```{r}
+examen <- c(6, 8, 4, 9, 5, 3, 7)
+trabajo <- c(8, 9, 6, 9, 6, 5, 8)
+0.7 * examen + 0.3 * trabajo     # nota ponderada de cada estudiante
+```
+
 Y hay funciones que **resumen** el vector en un único valor:
 
 ```{r}
@@ -265,6 +365,13 @@ mean(notas)
 sd(notas)
 max(notas)
 summary(notas)
+```
+
+Otras devuelven un vector de la misma longitud:
+
+```{r}
+round(notas)
+sort(notas, decreasing = TRUE)
 ```
 
 ### Comparaciones: preguntas de sí o no
@@ -279,9 +386,12 @@ Las comparaciones devuelven valores lógicos (`TRUE`/`FALSE`):
 | `<`, `<=` | menor, menor o igual |
 | `&` | Y (se cumplen ambas) |
 | `|` | O (se cumple al menos una) |
+| `!` | NO (lo contrario) |
+| `%in%` | está en un conjunto de valores |
 
 ```{r}
 notas >= 5
+alumnos %in% c("Ana", "Sara")
 ```
 
 Esto es muy útil, porque R cuenta cada `TRUE` como 1 y cada `FALSE` como 0:
@@ -325,53 +435,30 @@ Para saber dónde están, **no** se usa `== NA`, sino la función `is.na()`:
 ```{r}
 is.na(notas_con_na)
 sum(is.na(notas_con_na))   # ¿cuántos faltan?
+notas_con_na[!is.na(notas_con_na)]   # solo los que no faltan
 ```
 
 ## Leer los mensajes de error
 
-Estos son los tres mensajes de error más frecuentes al empezar:
+Estos son los errores más frecuentes al empezar (según la configuración de tu ordenador, R puede mostrarlos en español:
+`objeto 'notas_totla' no encontrado`, `no se pudo encontrar la función "Mean"`...):
 
 | Mensaje | Qué significa | Solución habitual |
 |---|---|---|
 | `object 'notas_totla' not found` | No existe un objeto con ese nombre | Revisa si está bien escrito, o si has ejecutado antes la línea que lo crea |
 | `could not find function "Mean"` | No existe esa función | Revisa mayúsculas/minúsculas, o carga el paquete con `library()` |
 | `non-numeric argument to binary operator` | Estás operando con texto como si fuera número | Convierte con `as.numeric()` |
+| `unexpected symbol` | Hay algo mal escrito en la instrucción | Suele faltar una coma, un paréntesis o unas comillas |
 
-Además, si la consola muestra un `+` en lugar de `>`, R está esperando a que termines la instrucción:
-normalmente falta cerrar un paréntesis o unas comillas. Pulsa {{< kbd Esc >}} y revisa la línea.
-
-::: {.content-visible when-meta="solucion"}
-::: {.callout-tip collapse="true"}
-## Soluciones 1.2
-```{r}
-puntuaciones <- c(7.5, 4.0, 6.2, 8.8, 3.5, 5.0, 9.1, 6.7, 4.8, 7.0, 5.5, 2.9, 8.0, 6.4, 5.9)
-# Básico
-total <- sum(puntuaciones)
-media <- mean(puntuaciones)
-maximo <- max(puntuaciones)
-suspensos <- sum(puntuaciones < 5)
-ultimas_5 <- puntuaciones[11:15]
-calificacion <- ifelse(puntuaciones >= 5, "Aprobado", "Suspenso")
-# Intermedio
-puntuaciones_na <- c(puntuaciones, NA, NA)
-mean(puntuaciones_na, na.rm = TRUE)
-sum(is.na(puntuaciones_na))
-mean(puntuaciones >= 7)
-# Reto
-cut(puntuaciones, breaks = c(0, 5, 7, 9, 10), right = FALSE, include.lowest = TRUE,
-    labels = c("Suspenso", "Aprobado", "Notable", "Sobresaliente"))
-```
-:::
-:::
-
-# 1.3. Factores y tablas de datos {#bloque-1-3}
+# 1.3. Factores, tablas de datos y listas {#bloque-1-3}
 
 ::: {.callout-tip}
 ## Objetivo
-Representar variables categóricas con factores y conocer la estructura con la que trabajaremos siempre: la tabla de datos (_data frame_).
+Representar variables categóricas con factores, conocer la estructura con la que trabajaremos siempre (la tabla de datos)
+y saber qué es una lista.
 :::
 
-<!-- Fuente: contenido_R/02_estructuras_datos_r.qmd § Factores, Data frames, Selección de elementos -->
+<!-- Fuente: contenido_R/02_estructuras_datos_r.qmd § Factores, Listas, Data frames, Selección de elementos; laboratorio_introR.qmd § Estructuras de datos -->
 
 ## Factores: variables categóricas
 
@@ -385,13 +472,21 @@ levels(grupo)
 table(grupo)
 ```
 
-Por defecto, los niveles se ordenan alfabéticamente. Cuando el orden importa (cursos, opciones de una escala Likert),
-lo indicamos explícitamente, incluidos los niveles que no aparezcan en los datos:
+Por defecto, los niveles se ordenan alfabéticamente. Cuando el orden importa (cursos, opciones de una escala),
+lo indicamos con `levels`, incluidos los niveles que no aparezcan en los datos:
 
 ```{r}
 curso <- factor(c("2º ESO", "1º ESO", "4º ESO", "1º ESO"),
                 levels = c("1º ESO", "2º ESO", "3º ESO", "4º ESO"))
 table(curso)
+```
+
+Con `labels` podemos poner etiquetas a valores codificados con números, algo muy habitual en ficheros de SPSS o de formularios:
+
+```{r}
+nivel_estudios_madre <- c(1, 3, 2, 3, 1)
+factor(nivel_estudios_madre, levels = 1:3,
+       labels = c("Obligatorios", "Secundarios", "Universitarios"))
 ```
 
 ::: {.callout-note}
@@ -404,8 +499,8 @@ estadísticos las tratarán correctamente (por ejemplo, respetando el orden de l
 Una **tabla de datos** es un conjunto de vectores de la misma longitud: cada columna es una **variable**
 y cada fila una **observación** (un participante). Es exactamente la estructura de una hoja de cálculo bien organizada.
 
-Usaremos la versión moderna, el `tibble`, que se crea con la función `tibble()` del paquete del mismo nombre
-(incluido en el _tidyverse_):
+Usaremos la versión moderna, el `tibble`. Para crearla cargamos el _tidyverse_, un conjunto de paquetes para el análisis
+de datos que estudiaremos en la sesión 2. Hoy usaremos solo algunas de sus funciones:
 
 ```{r}
 library(tidyverse)
@@ -438,52 +533,191 @@ mean(clase$nota)
 table(clase$curso)
 ```
 
+Con `$` también se crean o modifican columnas:
+
+```{r}
+clase$aprobado <- clase$nota >= 5
+clase$nota_100 <- clase$nota * 10
+clase
+```
+
 Con corchetes `[filas, columnas]` seleccionamos partes de la tabla. Si dejamos una dimensión vacía, se seleccionan todas:
 
 ```{r}
 clase[1, ]                      # primera fila
 clase[, c("alumno", "nota")]    # dos columnas
 clase[clase$nota >= 5, ]        # filas que cumplen una condición
+clase[clase$curso == "2º ESO", c("alumno", "nota")]
+```
+
+Con dos corchetes, `[["nombre"]]`, extraemos una columna como vector, igual que con `$`. Es útil cuando el nombre de la
+columna está guardado en un objeto:
+
+```{r}
+variable <- "nota"
+clase[[variable]]
 ```
 
 En la sesión 2 veremos una forma más cómoda y legible de hacer todo esto con el paquete `dplyr`.
 
-Para ver la tabla completa en una pestaña tipo hoja de cálculo: `View(clase)`, o clic sobre ella en el panel **Entorno**.
+::: {.callout-note}
+## También con RStudio
+`View(clase)`, o clic sobre `clase` en la pestaña _Environment_, abre la tabla en una pestaña tipo hoja de cálculo
+en la que se puede ordenar y filtrar (solo para mirar: no modifica los datos).
+:::
+
+## Listas
+
+Una **lista** es un contenedor que puede guardar objetos de cualquier tipo y tamaño: vectores, tablas, otras listas...
+
+```{r}
+estudio <- list(
+  titulo = "Programa de lectura",
+  centros = c("C01", "C04", "C07"),
+  datos = clase
+)
+estudio$titulo
+estudio$centros
+estudio[["datos"]]
+```
+
+No crearemos listas a menudo, pero es importante reconocerlas: el resultado de muchas funciones (una prueba estadística, un modelo)
+es una lista, y de ella extraemos lo que necesitamos con `$`. Lo veremos en la sesión 2.
+
+# 1.4. Un poco de programación: funciones, condiciones y bucles {#bloque-1-4}
+
+::: {.callout-tip}
+## Objetivo
+Escribir tus propias funciones y conocer las dos estructuras básicas de la programación: las condiciones y los bucles.
+:::
+
+<!-- Fuente: contenido_R/01_elementos_basicos_r.qmd § Estructuras de Control, Bucles, Funciones; laboratorio_introR.qmd § Elementos básicos del lenguaje -->
+
+## Tus propias funciones
+
+Cuando repites el mismo cálculo varias veces, conviene convertirlo en una función. Se crea con `function()`:
+entre paréntesis, los argumentos; entre llaves, lo que hace. La función devuelve el resultado de la última línea.
+
+```{r}
+a_escala_100 <- function(x) {
+  x * 10
+}
+
+a_escala_100(7.5)
+a_escala_100(notas)       # funciona también con vectores
+```
+
+Los argumentos pueden tener un valor por defecto, que se usa si no indicamos otro:
+
+```{r}
+nota_ponderada <- function(examen, trabajo, peso_examen = 0.7) {
+  peso_examen * examen + (1 - peso_examen) * trabajo
+}
+
+nota_ponderada(examen = 6, trabajo = 9)
+nota_ponderada(examen = 6, trabajo = 9, peso_examen = 0.5)
+```
+
+## Condiciones: `if` y `else`
+
+`if` ejecuta un código solo si se cumple una condición; `else`, si no se cumple:
+
+```{r}
+media_grupo <- mean(notas)
+
+if (media_grupo >= 6) {
+  cat("El grupo va bien: media de", round(media_grupo, 2))
+} else {
+  cat("Conviene revisar el grupo: media de", round(media_grupo, 2))
+}
+```
+
+::: {.callout-important}
+## `if` o `ifelse()`
+`if` evalúa **una sola** condición y decide qué código ejecutar. Para etiquetar **cada elemento** de un vector
+se usa `ifelse()`, que vimos en el bloque 1.2.
+:::
+
+## Bucles: `for`
+
+Un bucle `for` repite un código para cada elemento de un vector:
+
+```{r}
+for (alumno in c("Ana", "Luis", "Marta")) {
+  cat("Informe de", alumno, "\n")      # "\n" es un salto de línea
+}
+```
+
+Combinado con `[[ ]]`, un bucle nos permite hacer lo mismo con varias columnas de una tabla. Lo usaremos para limpiar la encuesta:
+
+```{r}
+for (variable in c("nota", "nota_100")) {
+  cat(variable, ": media =", mean(clase[[variable]]), "\n")
+}
+```
+
+::: {.callout-note}
+En R casi nunca hacen falta bucles para operar con los elementos de un vector, porque las operaciones ya se aplican a todos a la vez.
+Los bucles son útiles para repetir una tarea con varias columnas, varios ficheros o varios grupos.
+:::
+
+# Ejercicio 1 {#ejercicio-1}
+
+Ve a `sesion1_ejercicios.qmd`, **Ejercicio 1. Las notas de una tutoría** (15 minutos).
 
 ::: {.content-visible when-meta="solucion"}
 ::: {.callout-tip collapse="true"}
-## Soluciones 1.3
+## Solución del ejercicio 1
 ```{r}
-# Básico
-grupo_lectura <- tibble(
-  alumno = c("Pablo", "Irene", "Hugo", "Nerea", "Adrián", "Carla"),
-  grupo = factor(c("Control", "Intervención", "Control", "Intervención", "Control", "Intervención")),
-  comprension = c(48, 61, 52, 57, 45, 66)
-)
-glimpse(grupo_lectura)
-mean(grupo_lectura$comprension)
-table(grupo_lectura$grupo)
-# Intermedio
-grupo_lectura[grupo_lectura$grupo == "Intervención", ]
-mean(grupo_lectura$comprension[grupo_lectura$grupo == "Intervención"])
-# Reto
-tapply(grupo_lectura$comprension, grupo_lectura$grupo, mean)
+alumno <- c("Ana", "Luis", "Marta", "Jorge", "Sara", "Iván", "Lucía", "Pablo", "Irene", "Hugo", "Nerea", "Adrián")
+sexo <- c("Chica", "Chico", "Chica", "Chico", "Chica", "Chico", "Chica", "Chico", "Chica", "Chico", "Chica", "Chico")
+eval1 <- c(6.5, 4.0, 7.8, 5.2, 8.9, 3.5, 6.0, 4.8, 9.1, 5.5, 7.2, 2.9)
+eval2 <- c(7.0, 4.5, 8.2, 4.6, 9.0, 4.1, 5.5, NA, 8.7, 6.0, 7.8, 3.8)
+asistencia <- c(95, 70, 100, 85, 98, 60, 90, 75, 100, 88, 92, 55)
+
+# 1
+tutoria <- tibble(alumno, sexo = factor(sexo), eval1, eval2, asistencia)
+glimpse(tutoria)
+# 2. Pablo no hizo la 2ª evaluación: cualquier operación con NA da NA
+tutoria$media <- (tutoria$eval1 + tutoria$eval2) / 2
+# 3
+mean(tutoria$media, na.rm = TRUE)
+sum(tutoria$media >= 5, na.rm = TRUE)
+mean(tutoria$media >= 5, na.rm = TRUE)
+tutoria$alumno[tutoria$media < 5 & !is.na(tutoria$media)]
+# 4
+nota_final <- function(media, asistencia) {
+  final <- ifelse(asistencia >= 90, media + 0.5, media)
+  ifelse(final > 10, 10, final)
+}
+tutoria$final <- nota_final(tutoria$media, tutoria$asistencia)
+tutoria
+# 5
+mean(tutoria$final[tutoria$sexo == "Chica"], na.rm = TRUE)
+mean(tutoria$final[tutoria$sexo == "Chico"], na.rm = TRUE)
+
+# Ampliación
+for (s in levels(tutoria$sexo)) {
+  media_s <- mean(tutoria$final[tutoria$sexo == s], na.rm = TRUE)
+  cat(s, ": nota final media =", round(media_s, 2), "\n")
+}
+tutoria$calificacion <- cut(tutoria$final, breaks = c(0, 5, 7, 9, 10), right = FALSE, include.lowest = TRUE,
+                            labels = c("Suspenso", "Aprobado", "Notable", "Sobresaliente"))
+table(tutoria$calificacion)
 ```
 :::
 :::
 
-# 1.4. Importar y limpiar los datos de una encuesta {#bloque-1-4}
+# 1.5. Importar datos {#bloque-1-5}
 
 ::: {.callout-tip}
 ## Objetivo
-Leer en R los datos de una encuesta exportada de un formulario y dejarlos listos para analizar.
+Leer en R los datos de una encuesta exportada de un formulario, y ficheros de texto (CSV) con distintos formatos.
 
-**Datos:** `datos/encuesta_bruta.xlsx`
-
-**Punto de control al final del bloque:** `checkpoints/encuesta_limpia.rds`
+**Datos:** `datos/encuesta_bruta.xlsx`, `datos/centros.csv`, `datos/intervencion_prepost.csv`
 :::
 
-<!-- Fuente: contenido_R/03_ficheros_r.qmd § Importación desde Excel, desde texto, Exportación y archivos de datos de R -->
+<!-- Fuente: contenido_R/03_ficheros_r.qmd § Importación desde Excel, desde texto, Otros formatos; laboratorio_introR.qmd § Tablas de datos -->
 
 ## Nuestros datos
 
@@ -528,16 +762,89 @@ Observa los problemas típicos de una exportación de un formulario:
 3. La **edad** también es texto: algunas personas escribieron `"14 años"`.
 4. Hay respuestas `"NS/NC"` y celdas vacías.
 
-## Paso 1: nombres cortos con el diccionario de datos
+Algunos argumentos útiles de `read_excel()`:
 
-El fichero tiene una segunda hoja con el diccionario. Podemos leer una hoja concreta con el argumento `sheet`:
+| Argumento | Para qué sirve | Ejemplo |
+|---|---|---|
+| `sheet` | Leer una hoja concreta (por nombre o número) | `sheet = "diccionario"` |
+| `na` | Qué valores deben considerarse perdidos | `na = c("", "NS/NC")` |
+| `skip` | Saltar filas del principio (títulos, notas) | `skip = 2` |
+| `range` | Leer solo un rango de celdas | `range = "A1:F50"` |
+
+El problema 4 lo podemos resolver ya al importar, indicando que `"NS/NC"` es un valor perdido:
+
+```{r}
+encuesta <- read_excel("datos/encuesta_bruta.xlsx", na = c("", "NS/NC"))
+```
+
+El fichero tiene una segunda hoja con el diccionario de datos:
 
 ```{r}
 diccionario <- read_excel("datos/encuesta_bruta.xlsx", sheet = "diccionario")
 diccionario
 ```
 
-La columna `codigo` tiene nombres cortos en el mismo orden que las columnas de la encuesta, así que basta con asignarlos:
+::: {.callout-note}
+## También con RStudio
+En la pestaña _Environment_, _Import Dataset > From Excel..._ (o _File > Import Dataset_) abre un asistente:
+eliges el fichero, ves una vista previa y marcas las opciones (hoja, filas que saltar, valores perdidos...).
+Abajo a la derecha, el asistente muestra el **código equivalente**. Cópialo en tu _script_ antes de pulsar _Import_:
+así la importación quedará registrada y podrás repetirla.
+:::
+
+## Importar ficheros de texto (CSV)
+
+Los ficheros `.csv` son ficheros de texto con los valores separados por un carácter. A menudo se abren
+con Excel, pero no son ficheros de Excel. Hay dos variantes principales:
+
+- `read_csv()`: columnas separadas por comas (`,`) y el punto (`.`) como separador decimal. Es el formato "inglés".
+- `read_csv2()`: columnas separadas por punto y coma (`;`) y la coma (`,`) como separador decimal. Es el que genera Excel con la configuración española.
+
+Si no sabes cuál es, mira las primeras líneas del fichero: haz clic sobre él en la pestaña _Files_ y elige _View File_, o:
+
+```{r}
+read_lines("datos/intervencion_prepost.csv", n_max = 3)
+```
+
+```{r}
+intervencion <- read_csv("datos/intervencion_prepost.csv")
+intervencion
+```
+
+`read_csv()` nos informa de qué tipo ha asignado a cada columna. Si una columna numérica aparece como `chr`, algo hay en ella que no es un número.
+
+::: {.callout-note}
+## También con RStudio
+_Import Dataset > From Text (readr)..._ hace lo mismo con ficheros de texto. En _Delimiter_ eliges coma o punto y coma,
+y en _Locale_ el separador decimal y la codificación de caracteres (si ves las tildes mal, prueba con `UTF-8` o `latin1`).
+:::
+
+## Ficheros de SPSS
+
+El paquete `haven` lee ficheros de SPSS (`.sav`), Stata y SAS. Las variables con etiquetas de valor de SPSS
+se convierten en factores con `as_factor()`:
+
+```{r}
+#| eval: false
+library(haven)
+datos_spss <- read_sav("datos/mi_estudio.sav")
+datos_spss$sexo <- as_factor(datos_spss$sexo)   # 1/2 -> "Chica"/"Chico", según las etiquetas de SPSS
+```
+
+# 1.6. Limpiar los datos de una encuesta {#bloque-1-6}
+
+::: {.callout-tip}
+## Objetivo
+Dejar los datos de la encuesta listos para analizar: nombres cortos, números donde debe haber números y factores donde debe haber categorías.
+
+**Punto de control al final del bloque:** `checkpoints/encuesta_limpia.rds`
+:::
+
+<!-- Fuente: contenido_R/03_ficheros_r.qmd § Exportación y archivos de datos de R -->
+
+## Paso 1: nombres cortos con el diccionario de datos
+
+La columna `codigo` del diccionario tiene nombres cortos en el mismo orden que las columnas de la encuesta, así que basta con asignarlos:
 
 ```{r}
 names(encuesta) <- diccionario$codigo
@@ -552,52 +859,49 @@ La función `parse_number()` (paquete `readr`, incluido en el _tidyverse_) extra
 parse_number(c("5 - Muy de acuerdo", "3", "14 años"))
 ```
 
-Con el argumento `na` le indicamos qué valores deben considerarse perdidos:
+Para la edad, basta con una instrucción:
 
 ```{r}
-parse_number(c("4", "NS/NC", "1 - Muy en desacuerdo"), na = "NS/NC")
+encuesta$edad <- parse_number(encuesta$edad)
 ```
 
-Para aplicarlo a los 12 ítems a la vez usamos `mutate()` y `across()`. Lo veremos con detalle en la sesión 2;
-de momento, basta con leerlo así: _"modifica (`mutate`) las columnas desde `m1` hasta `ae4` (`across`) aplicando `parse_number`"_.
+Hay que hacer lo mismo con los 12 ítems. En lugar de escribir 12 líneas casi iguales, usamos un **bucle** que recorre los nombres
+de los ítems. Los nombres los sacamos del diccionario: son los códigos que tienen una escala asignada.
 
 ```{r}
-encuesta <- encuesta |>
-  mutate(
-    across(m1:ae4, \(x) parse_number(x, na = "NS/NC")),
-    edad = parse_number(edad)
-  )
+items <- diccionario$codigo[!is.na(diccionario$escala)]
+items
+
+for (item in items) {
+  encuesta[[item]] <- parse_number(encuesta[[item]])
+}
 ```
 
 ## Paso 3: variables categóricas como factores
 
 ```{r}
-encuesta <- encuesta |>
-  mutate(
-    centro = factor(centro),
-    curso = factor(curso, levels = c("1º ESO", "2º ESO", "3º ESO", "4º ESO")),
-    sexo = factor(sexo)
-  )
+encuesta$centro <- factor(encuesta$centro)
+encuesta$curso <- factor(encuesta$curso, levels = c("1º ESO", "2º ESO", "3º ESO", "4º ESO"))
+encuesta$sexo <- factor(encuesta$sexo)
 
 glimpse(encuesta)
 ```
 
 Ahora cada variable tiene el tipo adecuado.
 
-## Importar ficheros de texto (CSV)
+## Paso 4: comprobar que los valores tienen sentido
 
-Los ficheros `.csv` son ficheros de texto con los valores separados por un carácter. A menudo se abren
-con Excel, pero no son ficheros de Excel. Hay dos variantes principales:
-
-- `read_csv()`: columnas separadas por comas (`,`) y el punto (`.`) como separador decimal. Es el formato "inglés".
-- `read_csv2()`: columnas separadas por punto y coma (`;`) y la coma (`,`) como separador decimal. Es el que genera Excel con la configuración española.
-
-Si no sabes cuál es, abre el fichero con un editor de texto (o haz clic sobre él en el panel **Archivos** y _View File_) y mira las primeras líneas.
+Antes de analizar, conviene comprobar que no hay valores imposibles (una edad de 41 años en la ESO, una nota de 75...)
+ni categorías mal escritas:
 
 ```{r}
-intervencion <- read_csv("datos/intervencion_prepost.csv")
-intervencion
+range(encuesta$edad)
+range(encuesta$nota, na.rm = TRUE)
+table(encuesta$sexo, useNA = "ifany")
+table(encuesta$m1, useNA = "ifany")
 ```
+
+`useNA = "ifany"` añade a la tabla el número de valores perdidos, si los hay.
 
 ## Guardar los datos limpios
 
@@ -614,41 +918,25 @@ Para recuperarlos en otro momento, se asigna el resultado a un nombre:
 encuesta <- readRDS("checkpoints/encuesta_limpia.rds")
 ```
 
-Si necesitas compartir los datos con alguien que no use R: `write_csv2(encuesta, "encuesta_limpia.csv")`
-o `writexl::write_xlsx(encuesta, "encuesta_limpia.xlsx")`.
+Si necesitas compartir los datos con alguien que no use R:
 
-::: {.callout-note}
-## ¿Y si me envían un fichero de SPSS?
-El paquete `haven` lee ficheros de SPSS (`.sav`), Stata y SAS: `haven::read_sav("fichero.sav")`.
-:::
-
-::: {.content-visible when-meta="solucion"}
-::: {.callout-tip collapse="true"}
-## Soluciones 1.4
 ```{r}
-# Básico
-centros <- read_csv2("datos/centros.csv")
-glimpse(centros)
-# Intermedio
-centros <- centros |>
-  mutate(titularidad = factor(titularidad), zona = factor(zona))
-table(centros$titularidad, centros$zona)
-# Reto
-library(janitor)
-encuesta_janitor <- read_excel("datos/encuesta_bruta.xlsx") |> clean_names()
-names(encuesta_janitor)[1:8]
+#| eval: false
+write_csv2(encuesta, "encuesta_limpia.csv")           # CSV con formato español
+writexl::write_xlsx(encuesta, "encuesta_limpia.xlsx") # Excel
+haven::write_sav(encuesta, "encuesta_limpia.sav")     # SPSS
 ```
-:::
-:::
 
-# 1.5. Explorar los datos {#bloque-1-5}
+# 1.7. Describir los datos {#bloque-1-7}
 
 ::: {.callout-tip}
 ## Objetivo
-Obtener una primera descripción de los datos: frecuencias, estadísticos descriptivos y valores perdidos.
+Obtener una primera descripción de los datos: frecuencias, estadísticos descriptivos, valores perdidos y primeros gráficos.
 
-**Si te has perdido:** `encuesta <- readRDS("checkpoints/encuesta_limpia.rds")`
+**Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_limpia.rds")`
 :::
+
+<!-- Fuente: laboratorio_descriptiva.qmd § Tablas de frecuencias, Análisis numérico, Tablas de contingencia -->
 
 ## Un vistazo general
 
@@ -662,14 +950,22 @@ summary(encuesta)
 
 ```{r}
 table(encuesta$curso)
-table(encuesta$curso, encuesta$sexo)
 ```
 
 Para obtener proporciones, aplicamos `prop.table()` a la tabla de frecuencias:
 
 ```{r}
-prop.table(table(encuesta$sexo))
-round(prop.table(table(encuesta$sexo)) * 100, 1)   # porcentajes
+prop.table(table(encuesta$curso))
+round(prop.table(table(encuesta$curso)) * 100, 1)   # porcentajes
+```
+
+Una **tabla de contingencia** cruza dos variables. Con `addmargins()` se añaden los totales, y con el argumento `margin` de
+`prop.table()` se calculan los porcentajes por filas (`1`) o por columnas (`2`):
+
+```{r}
+tabla_curso_sexo <- table(encuesta$curso, encuesta$sexo)
+addmargins(tabla_curso_sexo)
+round(prop.table(tabla_curso_sexo, margin = 1) * 100, 1)   # cada fila suma 100
 ```
 
 ## Variables numéricas: descriptivos
@@ -678,7 +974,7 @@ round(prop.table(table(encuesta$sexo)) * 100, 1)   # porcentajes
 mean(encuesta$nota, na.rm = TRUE)
 sd(encuesta$nota, na.rm = TRUE)
 median(encuesta$nota, na.rm = TRUE)
-range(encuesta$edad)
+quantile(encuesta$nota, probs = c(0.25, 0.75), na.rm = TRUE)
 ```
 
 El paquete `psych`, muy usado en psicología, tiene la función `describe()`, que da en una sola tabla los descriptivos
@@ -709,91 +1005,265 @@ colSums(is.na(encuesta))
 sum(complete.cases(encuesta))
 ```
 
-::: {.content-visible when-meta="solucion"}
-::: {.callout-tip collapse="true"}
-## Soluciones 1.5
+## Primeros gráficos
+
+R trae funciones para hacer gráficos rápidos, útiles para explorar. En la sesión 2 haremos gráficos de calidad con `ggplot2`.
+
 ```{r}
-# Básico
-table(encuesta$centro)
-round(prop.table(table(encuesta$curso)) * 100, 1)
-mean(encuesta$edad)
-# Intermedio
-describe(encuesta[, c("m1", "m2", "m3", "m4")])
-sum(is.na(encuesta$nota))
-table(encuesta$a1, useNA = "ifany")
-# Reto
-describeBy(encuesta$nota, group = encuesta$sexo, mat = TRUE, digits = 2)
-round(prop.table(table(encuesta$curso, encuesta$sexo), margin = 1) * 100, 1)
+hist(encuesta$nota, main = "Nota media de la 1ª evaluación", xlab = "Nota", col = "steelblue", border = "white")
 ```
-:::
+
+```{r}
+barplot(table(encuesta$curso), main = "Estudiantes por curso", col = "steelblue")
+```
+
+::: {.callout-note}
+## También con RStudio
+Los gráficos aparecen en la pestaña _Plots_. Con las flechas se navega por los anteriores, _Zoom_ los abre en una ventana grande
+y _Export_ los guarda como imagen o PDF.
 :::
 
-# 1.6. Ejercicio integrador {#bloque-1-6}
+# 1.8. Informes reproducibles con Quarto {#bloque-1-8}
 
 ::: {.callout-tip}
 ## Objetivo
-Repetir, de principio a fin y en un _script_ propio, todo el proceso de la sesión: de un fichero en bruto a unos datos limpios y descritos.
+Entender qué es un documento Quarto, crear uno con texto, código y resultados, y generar el informe en HTML o Word.
+
+**Ejemplo completo:** `informe_ejemplo.qmd`
 :::
 
-En este bloque vas a escribir tu primer _script_ completo. Crea uno nuevo ({{< kbd Ctrl+Shift+N >}}),
-guárdalo como `mi_primer_script.R` y sigue las instrucciones de `sesion1_ejercicios.qmd`.
+<!-- Fuente: laboratorio_introR.qmd § Informes reproducibles; laboratorio_descriptiva.qmd (como modelo de informe) -->
 
-Un buen _script_ de análisis tiene siempre esta estructura:
+## Del "corta y pega" al informe reproducible
 
-```{r}
-#| eval: false
-# 1. Paquetes ---------------------------------------------------------------
+La forma habitual de hacer un informe es analizar los datos en un programa y después copiar los resultados (tablas, gráficos, números)
+en un documento de Word. Si cambia algo (se corrige un dato, llegan más participantes, un revisor pide otro análisis),
+hay que repetir todo el proceso a mano, con el riesgo de que algún número quede sin actualizar.
+
+En un **informe reproducible** el texto y el código están en el mismo fichero. Al generar el informe, R ejecuta el código
+e inserta los resultados en su sitio: si cambian los datos, basta con volver a generarlo.
+
+**Quarto** es el sistema que usaremos para ello. Los ficheros Quarto tienen la extensión `.qmd` y generan documentos
+HTML, Word, PDF o presentaciones. Todos los materiales de este curso (las páginas que estás leyendo) son ficheros Quarto.
+
+## Crear un documento Quarto
+
+En RStudio: _File > New File > Quarto Document..._ Escribe un título, elige el formato (HTML) y pulsa _Create_.
+Se abre un documento de ejemplo. Guárdalo en el proyecto con extensión `.qmd`.
+
+Un documento Quarto tiene tres tipos de contenido:
+
+````markdown
+---
+title: "Motivación y rendimiento en la ESO"
+author: "Ana García"
+date: today
+format: html
+---
+
+## Introducción
+
+Este informe describe la encuesta a **320 estudiantes** de ESO.
+
+```{{r}}
 library(tidyverse)
-library(readxl)
+encuesta <- readRDS("checkpoints/encuesta_limpia.rds")
+mean(encuesta$nota, na.rm = TRUE)
+```
+````
 
-# 2. Importar ---------------------------------------------------------------
-datos <- read_excel("datos/...")
+1. **El encabezado YAML**, entre dos líneas `---`: el título, el autor, la fecha y el formato de salida.
+2. **El texto**, escrito en Markdown: un formato de texto con unas pocas marcas sencillas.
+3. **Los bloques de código** (_chunks_), entre ```` ```{r} ```` y ```` ``` ````: el código de R que se ejecutará.
 
-# 3. Limpiar ----------------------------------------------------------------
-datos <- datos |> mutate(...)
+## El texto: Markdown
 
-# 4. Explorar ---------------------------------------------------------------
-summary(datos)
+| Escribes | Obtienes |
+|---|---|
+| `## Resultados` | Un título de sección (`#` para nivel 1, `##` para nivel 2...) |
+| `**negrita**` | **negrita** |
+| `*cursiva*` | *cursiva* |
+| `- elemento` | Una lista con viñetas (`1.` para una lista numerada) |
+| `[texto](https://quarto.org)` | Un enlace |
+| `` `mean()` `` | `mean()` (formato de código) |
 
-# 5. Guardar ----------------------------------------------------------------
-saveRDS(datos, "...")
+Deja una línea en blanco entre párrafos, y antes y después de cada lista o título.
+
+::: {.callout-note}
+## También con RStudio
+El botón _Visual_ de la barra del editor cambia al **editor visual**, que funciona como un procesador de textos:
+negritas, listas, tablas, imágenes o enlaces se insertan con la barra de herramientas o con el menú _Insert_,
+y RStudio escribe el Markdown por ti. El botón _Source_ vuelve a mostrar el texto con las marcas.
+:::
+
+## Los bloques de código
+
+Para insertar un bloque: {{< kbd Ctrl+Alt+I >}} ({{< kbd Cmd+Option+I >}} en Mac), o el botón _+C_ de la barra del editor.
+Mientras escribes el documento, puedes ejecutar el código como en un _script_: línea a línea con {{< kbd Ctrl+Enter >}}
+o el bloque entero con el botón ▶ verde de su esquina. Los resultados aparecen debajo del bloque.
+
+Las **opciones** de cada bloque se escriben al principio, en líneas que empiezan por `#|`:
+
+````markdown
+```{{r}}
+#| echo: false
+#| fig-cap: "Distribución de la nota media"
+hist(encuesta$nota)
+```
+````
+
+| Opción | Qué hace |
+|---|---|
+| `echo: false` | Muestra el resultado, pero no el código (lo habitual en un informe para otras personas). |
+| `eval: false` | Muestra el código, pero no lo ejecuta. |
+| `include: false` | Ejecuta el código, pero no muestra ni el código ni el resultado (para cargar paquetes y datos). |
+| `message: false`, `warning: false` | Oculta los mensajes y los avisos. |
+| `fig-cap: "..."` | Pie de figura. |
+| `label: fig-notas` | Nombre del bloque. Si empieza por `fig-` o `tbl-`, permite citar la figura o tabla en el texto con `@fig-notas`. |
+
+Si una opción se quiere aplicar a todo el documento, se pone en el YAML:
+
+```yaml
+execute:
+  echo: false
+  warning: false
 ```
 
-::: {.callout-tip}
-Los comentarios que terminan en `----` crean secciones que aparecen en el índice del _script_
-(botón de la esquina superior derecha del editor), lo que facilita moverse por él.
+## Resultados dentro del texto
+
+Un número también se puede calcular dentro de una frase, con `` `r ` `` seguido del código. Al generar el informe,
+el código se sustituye por su resultado:
+
+````markdown
+La encuesta incluye `r knitr::inline_expr("nrow(encuesta)")` estudiantes, con una nota media de
+`r knitr::inline_expr("round(mean(encuesta$nota, na.rm = TRUE), 2)")`.
+````
+
+Se convierte en: _La encuesta incluye `r nrow(encuesta)` estudiantes, con una nota media de `r round(mean(encuesta$nota, na.rm = TRUE), 2)`._
+
+Así, si los datos cambian, el texto se actualiza solo.
+
+## Tablas
+
+Una tabla de R se muestra con formato en el informe con la función `kable()` del paquete `knitr`:
+
+```{r}
+library(knitr)
+descriptivos <- describeBy(encuesta$nota, group = encuesta$curso, mat = TRUE, digits = 2)
+kable(descriptivos[, c("group1", "n", "mean", "sd", "min", "max")],
+      col.names = c("Curso", "n", "Media", "DT", "Mín.", "Máx."),
+      caption = "Nota media por curso")
+```
+
+## Generar el informe: _Render_
+
+El botón **Render** de la barra del editor ({{< kbd Ctrl+Shift+K >}}) genera el informe y lo muestra en la pestaña _Viewer_ o en el navegador.
+
+::: {.callout-important}
+## El informe se genera desde cero
+Al pulsar _Render_, Quarto ejecuta el documento en una **sesión de R nueva**, que no ve los objetos que tengas en el _Environment_.
+Por eso el documento debe cargar sus propios paquetes y datos. Si funciona al generar el informe, cualquier persona podrá reproducirlo.
+Si da error, el mensaje indica el bloque (_chunk_) y la línea que fallan.
 :::
 
-Antes de terminar, comprueba que el _script_ funciona de principio a fin: reinicia R
-(_Session > Restart R_, {{< kbd Ctrl+Shift+F10 >}}) y ejecútalo entero ({{< kbd Ctrl+Shift+Enter >}}).
-Si funciona tras reiniciar, cualquier persona podrá reproducir tu análisis.
+Para obtener un documento de Word en lugar de una página web, basta cambiar el formato en el YAML:
+
+```yaml
+format: docx
+```
+
+Con varios formatos a la vez, el botón _Render_ tiene un menú para elegir cuál generar:
+
+```yaml
+format:
+  html:
+    toc: true          # índice
+  docx: default
+```
+
+Para generar PDF hace falta además instalar LaTeX (`quarto install tinytex` en la pestaña _Terminal_).
+
+::: {.callout-note}
+En este curso, los informes generados se guardan en la carpeta `_output/`, porque el propio curso es un proyecto web de Quarto
+(lo indica el fichero `_quarto.yml`). En un proyecto normal, el informe aparece junto al fichero `.qmd`.
+:::
+
+## Un informe completo
+
+Abre `informe_ejemplo.qmd` y genéralo con _Render_. Es un informe descriptivo de la encuesta que reúne todo lo visto en la sesión:
+importa y limpia los datos, describe las variables con tablas y gráficos, e incluye resultados dentro del texto.
+Úsalo como plantilla para tus propios informes.
+
+# Ejercicio 2 {#ejercicio-2}
+
+Ve a `sesion1_ejercicios.qmd`, **Ejercicio 2. Tu primer informe** (15 minutos).
 
 ::: {.content-visible when-meta="solucion"}
 ::: {.callout-tip collapse="true"}
-## Solución 1.6
-```{r}
-# 1. Paquetes
+## Solución del ejercicio 2
+Contenido de `informe_intervencion.qmd`:
+
+````markdown
+---
+title: "Programa de comprensión lectora"
+author: "Tu nombre"
+date: today
+format:
+  html: default
+  docx: default
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{{r}}
+#| include: false
 library(tidyverse)
-library(readxl)
 library(psych)
+library(knitr)
 
-# 2. Importar
-centros <- read_csv2("datos/centros.csv")
 intervencion <- read_csv("datos/intervencion_prepost.csv")
-
-# 3. Limpiar
-centros <- centros |> mutate(titularidad = factor(titularidad), zona = factor(zona))
-intervencion <- intervencion |> mutate(grupo = factor(grupo, levels = c("Control", "Intervención")))
-
-# 4. Explorar
-table(intervencion$grupo)
-describeBy(intervencion$comprension_pre, group = intervencion$grupo, mat = TRUE, digits = 2)
-colSums(is.na(intervencion))
-
-# 5. Guardar
-saveRDS(intervencion, "checkpoints/intervencion.rds")
-saveRDS(centros, "checkpoints/centros.rds")
+intervencion$grupo <- factor(intervencion$grupo, levels = c("Control", "Intervención"))
+centros <- read_csv2("datos/centros.csv")
 ```
+
+## Participantes
+
+En el estudio participaron `r knitr::inline_expr("nrow(intervencion)")` estudiantes.
+
+```{{r}}
+kable(table(intervencion$grupo), col.names = c("Grupo", "n"))
+```
+
+## Comprensión lectora antes de la intervención
+
+```{{r}}
+pre <- describeBy(intervencion$comprension_pre, group = intervencion$grupo, mat = TRUE, digits = 1)
+kable(pre[, c("group1", "n", "mean", "sd")], col.names = c("Grupo", "n", "Media", "DT"))
+```
+
+```{{r}}
+colSums(is.na(intervencion))
+```
+
+## Centros
+
+```{{r}}
+table(centros$titularidad, centros$zona)
+```
+
+## Ampliación: mejora
+
+```{{r}}
+intervencion$mejora <- intervencion$comprension_post - intervencion$comprension_pre
+boxplot(mejora ~ grupo, data = intervencion, ylab = "Mejora (post - pre)")
+```
+
+La mejora media fue de
+`r knitr::inline_expr("round(mean(intervencion$mejora[intervencion$grupo == \"Intervención\"]), 1)")` puntos en el grupo de intervención
+y de `r knitr::inline_expr("round(mean(intervencion$mejora[intervencion$grupo == \"Control\"]), 1)")` en el grupo control.
+````
 :::
 :::
 
@@ -803,14 +1273,20 @@ saveRDS(centros, "checkpoints/centros.rds")
 | Quiero… | Función |
 |---|---|
 | Guardar un valor | `nombre <- valor` |
-| Crear un vector | `c()` |
+| Crear un vector | `c()`, `1:10`, `seq()`, `rep()` |
 | Resumir un vector | `mean()`, `sd()`, `median()`, `summary()` (con `na.rm = TRUE` si hay `NA`) |
 | Contar condiciones | `sum(x >= 5)`, `mean(x >= 5)` |
-| Variables categóricas | `factor()`, `table()`, `prop.table()` |
+| Etiquetar según una condición | `ifelse()` |
+| Variables categóricas | `factor()`, `levels()`, `table()`, `prop.table()` |
 | Crear una tabla | `tibble()` |
+| Columnas y filas | `datos$columna`, `datos[filas, columnas]`, `datos[["columna"]]` |
 | Ver la estructura | `glimpse()`, `summary()`, `View()` |
-| Importar | `read_excel()`, `read_csv()`, `read_csv2()` |
+| Crear una función | `function(x) { ... }` |
+| Repetir una tarea | `for (x in vector) { ... }` |
+| Importar | `read_excel()`, `read_csv()`, `read_csv2()`, `haven::read_sav()` |
 | Convertir texto en número | `parse_number()`, `as.numeric()` |
 | Descriptivos | `psych::describe()`, `psych::describeBy()` |
 | Guardar y leer datos de R | `saveRDS()`, `readRDS()` |
+| Gráficos rápidos | `hist()`, `barplot()`, `boxplot()` |
+| Informe reproducible | documento Quarto (`.qmd`) + _Render_ |
 :::

@@ -9,10 +9,15 @@ en educación y psicología. Prepara el terreno para formaciones más específic
 
 | Sesión | Bloques |
 |---|---|
-| 1. Primeros pasos con R | 1.1 RStudio, proyectos y `renv`; 1.2 Objetos, tipos y vectores; 1.3 Factores y tablas de datos; 1.4 Importar y limpiar una encuesta; 1.5 Explorar los datos; 1.6 Ejercicio integrador |
-| 2. De los datos a los resultados | 2.1 `dplyr`; 2.2 Escalas Likert (ítems invertidos, puntuaciones, alfa); 2.3 `pivot_longer` y _joins_; 2.4 `ggplot2`; 2.5 Correlación, prueba _t_ y regresión; 2.6 Ejercicio integrador y proyecto propio con `renv` |
+| 1. Primeros pasos con R | 1.1 RStudio, proyectos y `renv`; 1.2 Objetos, tipos y vectores; 1.3 Factores, tablas de datos y listas; 1.4 Funciones, condiciones y bucles; **Ejercicio 1**; 1.5 Importar datos; 1.6 Limpiar la encuesta (R base); 1.7 Describir los datos; 1.8 Informes reproducibles con Quarto; **Ejercicio 2** (primer informe) |
+| 2. Transformar y visualizar datos | 2.1 `dplyr`; 2.2 Recodificar, puntuar escalas y resumir; **Ejercicio 1**; 2.3 `pivot_*` y _joins_; 2.4 `ggplot2`; 2.5 Correlación, prueba _t_ y regresión; 2.6 Resultados en Quarto y proyecto propio con `renv`; **Ejercicio 2** (pregunta de principio a fin en Quarto) |
 
-Cada bloque tiene una demostración, un ejercicio en tres niveles (básico, intermedio y reto) y una puesta en común. En los ficheros de ejercicios, cada uno empieza con la marca `[EJERCICIO]`. Cada bloque indica también un punto de control (`checkpoints/*.rds`) desde el que continuar si alguien se ha perdido.
+Cada sesión dura 4 h: unas 3 h de demostración en directo (los apuntes llevan el tiempo aproximado de cada bloque), dos ejercicios de 15 minutos
+con su puesta en común y un descanso. Cada ejercicio tiene unos pasos guiados con pistas y una ampliación; en los ficheros de ejercicios empieza con la marca `[EJERCICIO]`.
+Los bloques indican también un punto de control (`checkpoints/*.rds`) desde el que continuar si alguien se ha perdido.
+
+La sesión 1 no usa `dplyr` ni `|>`: la limpieza se hace con R base y un bucle `for`. La sesión 2 empieza rehaciendo esa limpieza con `mutate()` + `across()`.
+En los recuadros "También con RStudio" se indica la alternativa con menús y paneles (importar, instalar paquetes, exportar gráficos, _Render_...).
 
 ## Estructura
 
@@ -25,7 +30,8 @@ curso_R_UAH/
 ├── 00_preparacion/
 │   └── preparacion.qmd          # instalación (obligatoria) + primeros pasos (opcional)
 ├── sesion1.qmd                  # apuntes de la sesión 1
-├── sesion1_ejercicios.qmd       # fichero de trabajo del alumnado (con huecos ___)
+├── sesion1_ejercicios.qmd       # enunciados de los ejercicios del alumnado
+├── informe_ejemplo.qmd          # informe Quarto de ejemplo (bloque 1.8)
 ├── sesion2.qmd
 ├── sesion2_ejercicios.qmd
 ├── datos/
@@ -47,9 +53,9 @@ con 12 ítems Likert (1-5) de **motivación**, **ansiedad ante los exámenes** y
 enunciados como nombres de columna, extremos de la escala con etiqueta (`"5 - Muy de acuerdo"`), edades como `"14 años"`,
 `NS/NC` y celdas vacías.
 
-Resultados que se trabajan en clase: alfa aprox. .77-.82 (aprox. .18 si no se invierte `m4`); la autoeficacia es el mejor predictor
-de la nota (R² aprox. .47); el grupo de intervención mejora y mantiene la mejora en el seguimiento. En el ejercicio integrador,
-la pregunta 1 (zona rural/urbana) da un resultado significativo y la 2 (ciclo) no, lo que permite discutir ambos casos.
+Resultados que se trabajan en clase: la autoeficacia es el mejor predictor de la nota; el grupo de intervención mejora y mantiene
+la mejora en el seguimiento. En el ejercicio 2 de la sesión 2, la pregunta 1 (zona rural/urbana) da un resultado significativo y la 2 (ciclo) no,
+lo que permite discutir ambos casos.
 
 ## Renderizar
 
@@ -59,7 +65,7 @@ Es un proyecto Quarto de tipo web (`_quarto.yml`). Desde la raíz del proyecto:
 quarto render     # genera la web en _output/
 ```
 
-`sesion1.qmd` genera los puntos de control que usa `sesion2.qmd`, por eso el orden de `render` en `_quarto.yml` importa.
+`sesion1.qmd` genera `checkpoints/encuesta_limpia.rds`, y `sesion2.qmd`, `checkpoints/encuesta_escalas.rds`; son los puntos de control que usan los ejercicios, por eso el orden de `render` en `_quarto.yml` importa.
 `sh profesor/render_todo.sh` lo regenera todo: datos, puntos de control y la web.
 
 Las soluciones de los ejercicios están en los apuntes, ocultas. Para ver las de una sesión:
