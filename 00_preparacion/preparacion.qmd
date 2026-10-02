@@ -37,9 +37,9 @@ interferir con la instalación de paquetes.
 2. La primera vez, en la **consola** (panel inferior izquierdo) verás que se instala automáticamente el paquete `renv`. Espera a que termine.
 3. Escribe en la consola la siguiente instrucción y pulsa {{< kbd Enter >}}:
 
-   ```{r}
-   renv::restore()
-   ```
+```{r}
+renv::restore()
+```
 
 4. Cuando pregunte `Do you want to proceed? [Y/n]`, escribe `Y` y pulsa {{< kbd Enter >}}.
    Se instalarán todos los paquetes del curso. Puede tardar varios minutos.
