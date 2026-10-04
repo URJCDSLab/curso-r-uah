@@ -13,8 +13,6 @@ execute:
   message: false
 ---
 
-<!-- Fuente: laboratorio_descriptiva.qmd (estructura del informe), adaptado a los datos del curso y a R base -->
-
 ::: {.callout-note}
 ## Cómo usar este ejemplo
 Abre este fichero (`informe_ejemplo.qmd`) en RStudio y pulsa **Render**. Compara el fichero con el informe generado:

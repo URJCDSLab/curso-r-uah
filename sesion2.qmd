@@ -38,8 +38,6 @@ Seleccionar, filtrar, ordenar, crear variables y resumir datos por grupos: las o
 **Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_limpia.rds")`
 :::
 
-<!-- Fuente: contenido_R/04_manipulacion_r.qmd § El tidyverse y su flujo de trabajo, Transformación de datos, Agrupación de datos; laboratorio_introR.qmd § Operaciones con datos con el tidyverse -->
-
 ## El _tidyverse_ y la "tubería" `|>`
 
 El _tidyverse_ es un conjunto de paquetes diseñados para el análisis de datos que comparten una misma filosofía
@@ -265,8 +263,6 @@ Recodificar variables, calcular la puntuación de cada escala y obtener resúmen
 **Al final del bloque:** `checkpoints/encuesta_escalas.rds`
 :::
 
-<!-- Fuente: contenido_R/04_manipulacion_r.qmd § Operaciones con columnas, Operaciones de resumen; laboratorio_descriptiva.qmd § Vector de medias -->
-
 ## Recodificar: `if_else()` y `case_when()`
 
 `if_else()` es la versión del _tidyverse_ de `ifelse()`. Para varias categorías, `case_when()` evalúa las condiciones en orden y asigna
@@ -442,8 +438,6 @@ Pasar datos de medidas repetidas de formato ancho a largo (y al revés), y unir 
 **Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_escalas.rds")`
 :::
 
-<!-- Fuente: contenido_R/04_manipulacion_r.qmd § Combinación de datos, Reorganización de datos -->
-
 ## Datos ordenados (_tidy data_)
 
 Las funciones del _tidyverse_ funcionan mejor con datos **ordenados**:
@@ -568,8 +562,6 @@ Construir los gráficos más habituales en un artículo y adaptar su aspecto: et
 
 **Punto de control:** `encuesta <- readRDS("checkpoints/encuesta_escalas.rds")`
 :::
-
-<!-- Fuente: contenido_R/05_visualization_R.qmd § Histograma, Gráfico de dispersión, Box Plot, Gráfico de barras; laboratorio_descriptiva.qmd § Gráficos de barras, Histogramas, Box-plot, Gráficos de dispersión -->
 
 ## La gramática de los gráficos
 
