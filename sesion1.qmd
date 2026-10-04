@@ -317,7 +317,6 @@ texto.
 
 ```{r}
 edad_texto <- "14"     # entre comillas, así que es texto
-edad_texto + 1
 ```
 
 La solución es **convertir** el tipo con las funciones `as.*()`:
@@ -577,7 +576,7 @@ Para conocer su estructura:
 nrow(clase)     # número de filas (participantes)
 ncol(clase)     # número de columnas (variables)
 names(clase)    # nombres de las variables
-glimpse(clase)  # resumen: variables, tipo y primeros valores
+dplyr::glimpse(clase)  # resumen: variables, tipo y primeros valores
 ```
 
 ### Seleccionar columnas y filas
@@ -733,7 +732,9 @@ for (variable in c("nota", "nota_100")) {
 En R casi nunca hacen falta bucles para operar con los elementos de un
 vector, porque las operaciones ya se aplican a todos a la vez. Los
 bucles son útiles para repetir una tarea con varias columnas, varios
-ficheros o varios grupos.
+ficheros o varios grupos. Al final de la sesión tienes un [material
+adicional](#material-adicional) con `sapply()` y `lapply()`, que hacen
+lo mismo en una sola línea.
 :::
 
 # Ejercicio 1 {#ejercicio-1}
@@ -754,7 +755,7 @@ asistencia <- c(95, 70, 100, 85, 98, 60, 90, 75, 100, 88, 92, 55)
 
 # 1
 tutoria <- tibble(alumno, sexo = factor(sexo), eval1, eval2, asistencia)
-glimpse(tutoria)
+dplyr::glimpse(tutoria)
 # 2. Pablo no hizo la 2ª evaluación: cualquier operación con NA da NA
 tutoria$media <- (tutoria$eval1 + tutoria$eval2) / 2
 # 3
@@ -838,7 +839,7 @@ Usamos la función `read_excel()` del paquete `readxl`:
 library(readxl)
 
 encuesta <- read_excel("datos/encuesta_bruta.xlsx")
-glimpse(encuesta)
+dplyr::glimpse(encuesta)
 ```
 
 Observa los problemas típicos de una exportación de un formulario:
@@ -929,10 +930,10 @@ variables con etiquetas de valor de SPSS se convierten en factores con
 `as_factor()`:
 
 ```{r}
-#| eval: false
 library(haven)
 datos_spss <- read_sav("datos/mi_estudio.sav")
 datos_spss$sexo <- as_factor(datos_spss$sexo)   # 1/2 -> "Chica"/"Chico", según las etiquetas de SPSS
+head(datos_spss)
 ```
 
 # 1.6. Limpiar los datos de una encuesta {#bloque-1-6}
@@ -993,7 +994,7 @@ encuesta$centro <- factor(encuesta$centro)
 encuesta$curso <- factor(encuesta$curso, levels = c("1º ESO", "2º ESO", "3º ESO", "4º ESO"))
 encuesta$sexo <- factor(encuesta$sexo)
 
-glimpse(encuesta)
+dplyr::glimpse(encuesta)
 ```
 
 Ahora cada variable tiene el tipo adecuado.
@@ -1445,4 +1446,56 @@ y de `r knitr::inline_expr("round(mean(intervencion$mejora[intervencion$grupo ==
 | Guardar y leer datos de R | `saveRDS()`, `readRDS()` |
 | Gráficos rápidos | `hist()`, `barplot()`, `boxplot()` |
 | Informe reproducible | documento Quarto (`.qmd`) + *Render* |
+:::
+
+# Material adicional: `sapply()` y `lapply()` {#material-adicional}
+
+Este apartado amplía el bloque 1.4. Volvemos a la tabla `clase` del
+bloque 1.3.
+
+Repetir una función con cada columna es tan habitual que R tiene
+funciones que lo hacen en una línea. `sapply()` aplica una función a
+cada elemento (en una tabla, a cada columna) y **simplifica** el
+resultado a un vector:
+
+```{r}
+sapply(clase[, c("nota", "nota_100")], mean)
+sapply(clase, class)                         # tipo de cada variable
+sapply(clase, function(x) sum(is.na(x)))     # perdidos por variable
+```
+
+En el último ejemplo hemos escrito la función en el mismo sitio donde se
+usa, sin darle nombre: es una **función anónima**.
+
+`lapply()` hace lo mismo pero devuelve siempre una **lista**. Es la
+opción natural cuando cada resultado no es un único número, sino algo
+más complejo, como un resumen o una tabla:
+
+```{r}
+lapply(clase[, c("nota", "nota_100")], summary)
+```
+
+Combinada con `split()`, que divide una tabla en una lista de tablas
+(una por grupo), nos permite analizar cada grupo por separado:
+
+```{r}
+por_curso <- split(clase, clase$curso)
+lapply(por_curso, function(d) mean(d$nota))
+sapply(por_curso, function(d) mean(d$nota))
+```
+
+::: callout-note
+## ¿Cuál uso?
+
+-   `sapply()` para resultados sencillos (un número por columna o por
+    grupo): es la más usada en el día a día.
+-   `lapply()` cuando cada resultado es un objeto complejo (un resumen,
+    una tabla, un modelo).
+-   `sapply()` simplifica "si puede", así que el tipo de resultado
+    depende de los datos. En código que vaya a reutilizarse se usa
+    `vapply()`, que obliga a declarar el tipo:
+    `vapply(clase[, c("nota", "nota_100")], mean, numeric(1))`.
+
+Las encontrarás en muchos scripts y en las respuestas de foros. En la
+sesión 2 veremos la alternativa del *tidyverse*, `across()`.
 :::
