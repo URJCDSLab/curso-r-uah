@@ -2,6 +2,8 @@
 
 Departamento de Ciencias de la Educación (Psicología Evolutiva y de la Educación), Universidad de Alcalá.
 
+Web del curso (apuntes, ejercicios e instalación): <https://urjcdslab.github.io/curso-r-uah/>
+
 Curso práctico de 8 horas (2 sesiones de 4 h) para iniciarse en R, orientado a profesorado e investigadores
 en educación y psicología. Prepara el terreno para formaciones más específicas (SEM, metaanálisis, etc.).
 
