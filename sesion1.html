@@ -1446,18 +1446,28 @@ $ nee    &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, FALSE</code></pre>
 <pre><code>[1] 7.5</code></pre>
 </div>
 </div>
+<p>Si la función cabe en una línea, no hacen falta las llaves. Y desde R 4.1 existe una forma abreviada de escribir <code>function(x)</code>: <code>\(x)</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a>media_sin_na <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a>media_sin_na <span class="ot">&lt;-</span> \(x) <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)     <span class="co"># exactamente lo mismo</span></span>
+<span id="cb179-3"><a href="#cb179-3" aria-hidden="true" tabindex="-1"></a><span class="fu">media_sin_na</span>(notas_con_na)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+<p>Una función ni siquiera necesita nombre: cuando solo la usamos una vez, dentro de otra función, se escribe directamente ahí. Son las <strong>funciones anónimas</strong>, y en la sesión 2 las usaremos mucho: <code>across(..., \(x) mean(x, na.rm = TRUE))</code> significa “aplica a cada columna la media sin perdidos”.</p>
 </section>
 <section id="condiciones-if-y-else" class="level2">
 <h2 class="anchored" data-anchor-id="condiciones-if-y-else">Condiciones: <code>if</code> y <code>else</code></h2>
 <p><code>if</code> ejecuta un código solo si se cumple una condición; <code>else</code>, si no se cumple:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a>media_grupo <span class="ot">&lt;-</span> <span class="fu">mean</span>(notas)</span>
-<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb179-3"><a href="#cb179-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (media_grupo <span class="sc">&gt;=</span> <span class="dv">6</span>) {</span>
-<span id="cb179-4"><a href="#cb179-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"El grupo va bien: media de"</span>, <span class="fu">round</span>(media_grupo, <span class="dv">2</span>))</span>
-<span id="cb179-5"><a href="#cb179-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb179-6"><a href="#cb179-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Conviene revisar el grupo: media de"</span>, <span class="fu">round</span>(media_grupo, <span class="dv">2</span>))</span>
-<span id="cb179-7"><a href="#cb179-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a>media_grupo <span class="ot">&lt;-</span> <span class="fu">mean</span>(notas)</span>
+<span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-3"><a href="#cb181-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (media_grupo <span class="sc">&gt;=</span> <span class="dv">6</span>) {</span>
+<span id="cb181-4"><a href="#cb181-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"El grupo va bien: media de"</span>, <span class="fu">round</span>(media_grupo, <span class="dv">2</span>))</span>
+<span id="cb181-5"><a href="#cb181-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb181-6"><a href="#cb181-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Conviene revisar el grupo: media de"</span>, <span class="fu">round</span>(media_grupo, <span class="dv">2</span>))</span>
+<span id="cb181-7"><a href="#cb181-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>El grupo va bien: media de 6.3</code></pre>
 </div>
@@ -1480,9 +1490,9 @@ $ nee    &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, FALSE</code></pre>
 <h2 class="anchored" data-anchor-id="bucles-for">Bucles: <code>for</code></h2>
 <p>Un bucle <code>for</code> repite un código para cada elemento de un vector:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (alumno <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Ana"</span>, <span class="st">"Luis"</span>, <span class="st">"Marta"</span>)) {</span>
-<span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Informe de"</span>, alumno, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)      <span class="co"># "\n" es un salto de línea</span></span>
-<span id="cb181-3"><a href="#cb181-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (alumno <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Ana"</span>, <span class="st">"Luis"</span>, <span class="st">"Marta"</span>)) {</span>
+<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Informe de"</span>, alumno, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)      <span class="co"># "\n" es un salto de línea</span></span>
+<span id="cb183-3"><a href="#cb183-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Informe de Ana 
 Informe de Luis 
@@ -1491,9 +1501,9 @@ Informe de Marta </code></pre>
 </div>
 <p>Combinado con <code>[[ ]]</code>, un bucle nos permite hacer lo mismo con varias columnas de una tabla. Lo usaremos para limpiar la encuesta:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"nota"</span>, <span class="st">"nota_100"</span>)) {</span>
-<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(variable, <span class="st">": media ="</span>, <span class="fu">mean</span>(clase[[variable]]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb183-3"><a href="#cb183-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"nota"</span>, <span class="st">"nota_100"</span>)) {</span>
+<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(variable, <span class="st">": media ="</span>, <span class="fu">mean</span>(clase[[variable]]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>nota : media = 6.64 
 nota_100 : media = 66.4 </code></pre>
@@ -1560,10 +1570,10 @@ Nota
 <h2 class="anchored" data-anchor-id="importar-un-fichero-excel">Importar un fichero Excel</h2>
 <p>Usamos la función <code>read_excel()</code> del paquete <code>readxl</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"datos/encuesta_bruta.xlsx"</span>)</span>
-<span id="cb185-4"><a href="#cb185-4" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb187-2"><a href="#cb187-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-3"><a href="#cb187-3" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"datos/encuesta_bruta.xlsx"</span>)</span>
+<span id="cb187-4"><a href="#cb187-4" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 320
 Columns: 19
@@ -1634,12 +1644,12 @@ $ `Nota media de la 1ª evaluación`                     &lt;dbl&gt; 5.5, 4.1, 7
 </table>
 <p>El problema 4 lo podemos resolver ya al importar, indicando que <code>"NS/NC"</code> es un valor perdido:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"datos/encuesta_bruta.xlsx"</span>, <span class="at">na =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NS/NC"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"datos/encuesta_bruta.xlsx"</span>, <span class="at">na =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NS/NC"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>El fichero tiene una segunda hoja con el diccionario de datos:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb188"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a>diccionario <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"datos/encuesta_bruta.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"diccionario"</span>)</span>
-<span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a>diccionario</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a>diccionario <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"datos/encuesta_bruta.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"diccionario"</span>)</span>
+<span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a>diccionario</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 19 × 4
    codigo         pregunta                                      escala invertido
@@ -1688,7 +1698,7 @@ $ `Nota media de la 1ª evaluación`                     &lt;dbl&gt; 5.5, 4.1, 7
 </ul>
 <p>Si no sabes cuál es, mira las primeras líneas del fichero: haz clic sobre él en la pestaña <em>Files</em> y elige <em>View File</em>, o:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_lines</span>(<span class="st">"datos/intervencion_prepost.csv"</span>, <span class="at">n_max =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_lines</span>(<span class="st">"datos/intervencion_prepost.csv"</span>, <span class="at">n_max =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "\"id\",\"grupo\",\"comprension_pre\",\"comprension_post\",\"comprension_seguimiento\""
 [2] "\"E003\",\"Control\",44,64,45"                                                        
@@ -1696,8 +1706,8 @@ $ `Nota media de la 1ª evaluación`                     &lt;dbl&gt; 5.5, 4.1, 7
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a>intervencion <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datos/intervencion_prepost.csv"</span>)</span>
-<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>intervencion</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a>intervencion <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datos/intervencion_prepost.csv"</span>)</span>
+<span id="cb194-2"><a href="#cb194-2" aria-hidden="true" tabindex="-1"></a>intervencion</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 109 × 5
    id    grupo        comprension_pre comprension_post comprension_seguimiento
@@ -1734,10 +1744,10 @@ $ `Nota media de la 1ª evaluación`                     &lt;dbl&gt; 5.5, 4.1, 7
 <h2 class="anchored" data-anchor-id="ficheros-de-spss">Ficheros de SPSS</h2>
 <p>El paquete <code>haven</code> lee ficheros de SPSS (<code>.sav</code>), Stata y SAS. Las variables con etiquetas de valor de SPSS se convierten en factores con <code>as_factor()</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb194-2"><a href="#cb194-2" aria-hidden="true" tabindex="-1"></a>datos_spss <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"datos/mi_estudio.sav"</span>)</span>
-<span id="cb194-3"><a href="#cb194-3" aria-hidden="true" tabindex="-1"></a>datos_spss<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">as_factor</span>(datos_spss<span class="sc">$</span>sexo)   <span class="co"># 1/2 -&gt; "Chica"/"Chico", según las etiquetas de SPSS</span></span>
-<span id="cb194-4"><a href="#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_spss)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a>datos_spss <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"datos/mi_estudio.sav"</span>)</span>
+<span id="cb196-3"><a href="#cb196-3" aria-hidden="true" tabindex="-1"></a>datos_spss<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">as_factor</span>(datos_spss<span class="sc">$</span>sexo)   <span class="co"># 1/2 -&gt; "Chica"/"Chico", según las etiquetas de SPSS</span></span>
+<span id="cb196-4"><a href="#cb196-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_spss)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
      id sexo   edad satisfaccion
@@ -1772,8 +1782,8 @@ $ `Nota media de la 1ª evaluación`                     &lt;dbl&gt; 5.5, 4.1, 7
 <h2 class="anchored" data-anchor-id="paso-1-nombres-cortos-con-el-diccionario-de-datos">Paso 1: nombres cortos con el diccionario de datos</h2>
 <p>La columna <code>codigo</code> del diccionario tiene nombres cortos en el mismo orden que las columnas de la encuesta, así que basta con asignarlos:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(encuesta) <span class="ot">&lt;-</span> diccionario<span class="sc">$</span>codigo</span>
-<span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(encuesta) <span class="ot">&lt;-</span> diccionario<span class="sc">$</span>codigo</span>
+<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "marca_temporal" "id"             "centro"         "curso"         
  [5] "sexo"           "edad"           "m1"             "m2"            
@@ -1787,35 +1797,35 @@ $ `Nota media de la 1ª evaluación`                     &lt;dbl&gt; 5.5, 4.1, 7
 <h2 class="anchored" data-anchor-id="paso-2-convertir-texto-en-números">Paso 2: convertir texto en números</h2>
 <p>La función <code>parse_number()</code> (paquete <code>readr</code>, incluido en el <em>tidyverse</em>) extrae el número de un texto:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_number</span>(<span class="fu">c</span>(<span class="st">"5 - Muy de acuerdo"</span>, <span class="st">"3"</span>, <span class="st">"14 años"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_number</span>(<span class="fu">c</span>(<span class="st">"5 - Muy de acuerdo"</span>, <span class="st">"3"</span>, <span class="st">"14 años"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  5  3 14</code></pre>
 </div>
 </div>
 <p>Para la edad, basta con una instrucción:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>edad <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(encuesta<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>edad <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(encuesta<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Hay que hacer lo mismo con los 12 ítems. En lugar de escribir 12 líneas casi iguales, usamos un <strong>bucle</strong> que recorre los nombres de los ítems. Los nombres los sacamos del diccionario: son los códigos que tienen una escala asignada.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>items <span class="ot">&lt;-</span> diccionario<span class="sc">$</span>codigo[<span class="sc">!</span><span class="fu">is.na</span>(diccionario<span class="sc">$</span>escala)]</span>
-<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>items</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a>items <span class="ot">&lt;-</span> diccionario<span class="sc">$</span>codigo[<span class="sc">!</span><span class="fu">is.na</span>(diccionario<span class="sc">$</span>escala)]</span>
+<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>items</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "m1"  "m2"  "m3"  "m4"  "a1"  "a2"  "a3"  "a4"  "ae1" "ae2" "ae3" "ae4"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (item <span class="cf">in</span> items) {</span>
-<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>  encuesta[[item]] <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(encuesta[[item]])</span>
-<span id="cb203-3"><a href="#cb203-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (item <span class="cf">in</span> items) {</span>
+<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>  encuesta[[item]] <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(encuesta[[item]])</span>
+<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="paso-3-variables-categóricas-como-factores" class="level2">
 <h2 class="anchored" data-anchor-id="paso-3-variables-categóricas-como-factores">Paso 3: variables categóricas como factores</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb204"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>centro <span class="ot">&lt;-</span> <span class="fu">factor</span>(encuesta<span class="sc">$</span>centro)</span>
-<span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>curso <span class="ot">&lt;-</span> <span class="fu">factor</span>(encuesta<span class="sc">$</span>curso, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1º ESO"</span>, <span class="st">"2º ESO"</span>, <span class="st">"3º ESO"</span>, <span class="st">"4º ESO"</span>))</span>
-<span id="cb204-3"><a href="#cb204-3" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">factor</span>(encuesta<span class="sc">$</span>sexo)</span>
-<span id="cb204-4"><a href="#cb204-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb204-5"><a href="#cb204-5" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>centro <span class="ot">&lt;-</span> <span class="fu">factor</span>(encuesta<span class="sc">$</span>centro)</span>
+<span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>curso <span class="ot">&lt;-</span> <span class="fu">factor</span>(encuesta<span class="sc">$</span>curso, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1º ESO"</span>, <span class="st">"2º ESO"</span>, <span class="st">"3º ESO"</span>, <span class="st">"4º ESO"</span>))</span>
+<span id="cb206-3"><a href="#cb206-3" aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">factor</span>(encuesta<span class="sc">$</span>sexo)</span>
+<span id="cb206-4"><a href="#cb206-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-5"><a href="#cb206-5" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 320
 Columns: 19
@@ -1846,21 +1856,21 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 <h2 class="anchored" data-anchor-id="paso-4-comprobar-que-los-valores-tienen-sentido">Paso 4: comprobar que los valores tienen sentido</h2>
 <p>Antes de analizar, conviene comprobar que no hay valores imposibles (una edad de 41 años en la ESO, una nota de 75…) ni categorías mal escritas:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(encuesta<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(encuesta<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12 17</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  1 10</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(encuesta<span class="sc">$</span>sexo, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(encuesta<span class="sc">$</span>sexo, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
               Chica               Chico Prefiero no decirlo 
                 146                 162                  12 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(encuesta<span class="sc">$</span>m1, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb214"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(encuesta<span class="sc">$</span>m1, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    1    2    3    4    5 &lt;NA&gt; 
@@ -1873,17 +1883,17 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 <h2 class="anchored" data-anchor-id="guardar-los-datos-limpios">Guardar los datos limpios</h2>
 <p>Una vez limpios los datos, conviene guardarlos para no repetir la limpieza en cada análisis. El formato <code>.rds</code> es el formato propio de R: conserva los tipos de las variables y los niveles de los factores.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb214"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(encuesta, <span class="st">"checkpoints/encuesta_limpia.rds"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(encuesta, <span class="st">"checkpoints/encuesta_limpia.rds"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Para recuperarlos en otro momento, se asigna el resultado a un nombre:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_limpia.rds"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_limpia.rds"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Si necesitas compartir los datos con alguien que no use R:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(encuesta, <span class="st">"encuesta_limpia.csv"</span>)           <span class="co"># CSV con formato español</span></span>
-<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>writexl<span class="sc">::</span><span class="fu">write_xlsx</span>(encuesta, <span class="st">"encuesta_limpia.xlsx"</span>) <span class="co"># Excel</span></span>
-<span id="cb216-3"><a href="#cb216-3" aria-hidden="true" tabindex="-1"></a>haven<span class="sc">::</span><span class="fu">write_sav</span>(encuesta, <span class="st">"encuesta_limpia.sav"</span>)     <span class="co"># SPSS</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(encuesta, <span class="st">"encuesta_limpia.csv"</span>)           <span class="co"># CSV con formato español</span></span>
+<span id="cb218-2"><a href="#cb218-2" aria-hidden="true" tabindex="-1"></a>writexl<span class="sc">::</span><span class="fu">write_xlsx</span>(encuesta, <span class="st">"encuesta_limpia.xlsx"</span>) <span class="co"># Excel</span></span>
+<span id="cb218-3"><a href="#cb218-3" aria-hidden="true" tabindex="-1"></a>haven<span class="sc">::</span><span class="fu">write_sav</span>(encuesta, <span class="st">"encuesta_limpia.sav"</span>)     <span class="co"># SPSS</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -1906,7 +1916,7 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 <section id="un-vistazo-general" class="level2">
 <h2 class="anchored" data-anchor-id="un-vistazo-general">Un vistazo general</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb219"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(encuesta)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> marca_temporal          id                centro      curso   
  Length:320         Length:320         C02    :75   1º ESO:78  
@@ -1955,7 +1965,7 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 <section id="variables-categóricas-frecuencias" class="level2">
 <h2 class="anchored" data-anchor-id="variables-categóricas-frecuencias">Variables categóricas: frecuencias</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb219"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(encuesta<span class="sc">$</span>curso)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb221"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(encuesta<span class="sc">$</span>curso)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 1º ESO 2º ESO 3º ESO 4º ESO 
@@ -1964,13 +1974,13 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 </div>
 <p>Para obtener proporciones, aplicamos <code>prop.table()</code> a la tabla de frecuencias:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb221"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(encuesta<span class="sc">$</span>curso))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb223"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(encuesta<span class="sc">$</span>curso))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   1º ESO   2º ESO   3º ESO   4º ESO 
 0.243750 0.296875 0.218750 0.240625 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb223"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(encuesta<span class="sc">$</span>curso)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)   <span class="co"># porcentajes</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb225"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(encuesta<span class="sc">$</span>curso)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)   <span class="co"># porcentajes</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 1º ESO 2º ESO 3º ESO 4º ESO 
@@ -1979,8 +1989,8 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 </div>
 <p>Una <strong>tabla de contingencia</strong> cruza dos variables. Con <code>addmargins()</code> se añaden los totales, y con el argumento <code>margin</code> de <code>prop.table()</code> se calculan los porcentajes por filas (<code>1</code>) o por columnas (<code>2</code>):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb225"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a>tabla_curso_sexo <span class="ot">&lt;-</span> <span class="fu">table</span>(encuesta<span class="sc">$</span>curso, encuesta<span class="sc">$</span>sexo)</span>
-<span id="cb225-2"><a href="#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(tabla_curso_sexo)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb227"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a>tabla_curso_sexo <span class="ot">&lt;-</span> <span class="fu">table</span>(encuesta<span class="sc">$</span>curso, encuesta<span class="sc">$</span>sexo)</span>
+<span id="cb227-2"><a href="#cb227-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(tabla_curso_sexo)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        
          Chica Chico Prefiero no decirlo Sum
@@ -1990,7 +2000,7 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
   4º ESO    37    40                   0  77
   Sum      146   162                  12 320</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb227"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(tabla_curso_sexo, <span class="at">margin =</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)   <span class="co"># cada fila suma 100</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb229"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(tabla_curso_sexo, <span class="at">margin =</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)   <span class="co"># cada fila suma 100</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        
          Chica Chico Prefiero no decirlo
@@ -2004,19 +2014,19 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 <section id="variables-numéricas-descriptivos" class="level2">
 <h2 class="anchored" data-anchor-id="variables-numéricas-descriptivos">Variables numéricas: descriptivos</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb229"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6.147771</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb233"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.656282</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb233"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb235"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb235-1"><a href="#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb235"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb235-1"><a href="#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(encuesta<span class="sc">$</span>nota, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb237"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb237-1"><a href="#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(encuesta<span class="sc">$</span>nota, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  25%   75% 
 4.925 7.200 </code></pre>
@@ -2024,8 +2034,8 @@ $ nota           &lt;dbl&gt; 5.5, 4.1, 7.7, 4.8, 7.5, 8.1, 6.8, 7.8, 6.8, 9.6, 4
 </div>
 <p>El paquete <code>psych</code>, muy usado en psicología, tiene la función <code>describe()</code>, que da en una sola tabla los descriptivos más habituales, incluidas asimetría (<em>skew</em>) y curtosis:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb237"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb237-1"><a href="#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb237-2"><a href="#cb237-2" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(encuesta[, <span class="fu">c</span>(<span class="st">"edad"</span>, <span class="st">"nota"</span>)])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb239"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb239-2"><a href="#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(encuesta[, <span class="fu">c</span>(<span class="st">"edad"</span>, <span class="st">"nota"</span>)])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
 edad    1 320 14.08 1.23     14   14.08 1.48  12  17     5  0.13    -0.74 0.07
@@ -2034,7 +2044,7 @@ nota    2 314  6.15 1.66      6    6.13 1.63   1  10     9 -0.02     0.22 0.09</
 </div>
 <p>Y <code>describeBy()</code> los calcula por grupos:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb239"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describeBy</span>(encuesta<span class="sc">$</span>nota, <span class="at">group =</span> encuesta<span class="sc">$</span>curso, <span class="at">mat =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb241"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb241-1"><a href="#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describeBy</span>(encuesta<span class="sc">$</span>nota, <span class="at">group =</span> encuesta<span class="sc">$</span>curso, <span class="at">mat =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    item group1 vars  n mean   sd median trimmed  mad min  max range  skew
 X11    1 1º ESO    1 77 6.29 1.78   6.20    6.20 2.08 2.4 10.0   7.6  0.35
@@ -2052,7 +2062,7 @@ X14     0.62 0.16</code></pre>
 <section id="valores-perdidos" class="level2">
 <h2 class="anchored" data-anchor-id="valores-perdidos">Valores perdidos</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb241"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb241-1"><a href="#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(encuesta))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb243"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb243-1"><a href="#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(encuesta))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>marca_temporal             id         centro          curso           sexo 
              0              0              0              0              0 
@@ -2067,7 +2077,7 @@ X14     0.62 0.16</code></pre>
 <p><code>is.na(encuesta)</code> da una tabla de <code>TRUE</code>/<code>FALSE</code>, y <code>colSums()</code> suma cada columna: el número de valores perdidos por variable.</p>
 <p>¿Cuántos participantes tienen todas las respuestas completas?</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb243"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb243-1"><a href="#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">complete.cases</span>(encuesta))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb245"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">complete.cases</span>(encuesta))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 218</code></pre>
 </div>
@@ -2077,21 +2087,21 @@ X14     0.62 0.16</code></pre>
 <h2 class="anchored" data-anchor-id="primeros-gráficos">Primeros gráficos</h2>
 <p>R trae funciones para hacer gráficos rápidos, útiles para explorar. En la sesión 2 haremos gráficos de calidad con <code>ggplot2</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb245"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(encuesta<span class="sc">$</span>nota, <span class="at">main =</span> <span class="st">"Nota media de la 1ª evaluación"</span>, <span class="at">xlab =</span> <span class="st">"Nota"</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb247"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb247-1"><a href="#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(encuesta<span class="sc">$</span>nota, <span class="at">main =</span> <span class="st">"Nota media de la 1ª evaluación"</span>, <span class="at">xlab =</span> <span class="st">"Nota"</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="sesion1_files/figure-html/unnamed-chunk-74-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="sesion1_files/figure-html/unnamed-chunk-75-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb246"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb246-1"><a href="#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(encuesta<span class="sc">$</span>curso), <span class="at">main =</span> <span class="st">"Estudiantes por curso"</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb248"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb248-1"><a href="#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(encuesta<span class="sc">$</span>curso), <span class="at">main =</span> <span class="st">"Estudiantes por curso"</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="sesion1_files/figure-html/unnamed-chunk-75-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="sesion1_files/figure-html/unnamed-chunk-76-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2137,22 +2147,22 @@ X14     0.62 0.16</code></pre>
 <h2 class="anchored" data-anchor-id="crear-un-documento-quarto">Crear un documento Quarto</h2>
 <p>En RStudio: <em>File &gt; New File &gt; Quarto Document…</em> Escribe un título, elige el formato (HTML) y pulsa <em>Create</em>. Se abre un documento de ejemplo. Guárdalo en el proyecto con extensión <code>.qmd</code>.</p>
 <p>Un documento Quarto tiene tres tipos de contenido:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb247"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb247-1"><a href="#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb247-2"><a href="#cb247-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Motivación y rendimiento en la ESO"</span></span>
-<span id="cb247-3"><a href="#cb247-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Ana García"</span></span>
-<span id="cb247-4"><a href="#cb247-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
-<span id="cb247-5"><a href="#cb247-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
-<span id="cb247-6"><a href="#cb247-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb247-7"><a href="#cb247-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb247-8"><a href="#cb247-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introducción</span></span>
-<span id="cb247-9"><a href="#cb247-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb247-10"><a href="#cb247-10" aria-hidden="true" tabindex="-1"></a>Este informe describe la encuesta a **320 estudiantes** de ESO.</span>
-<span id="cb247-11"><a href="#cb247-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb247-12"><a href="#cb247-12" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb247-13"><a href="#cb247-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb247-14"><a href="#cb247-14" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_limpia.rds"</span>)</span>
-<span id="cb247-15"><a href="#cb247-15" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb247-16"><a href="#cb247-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb249"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb249-1"><a href="#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb249-2"><a href="#cb249-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Motivación y rendimiento en la ESO"</span></span>
+<span id="cb249-3"><a href="#cb249-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Ana García"</span></span>
+<span id="cb249-4"><a href="#cb249-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb249-5"><a href="#cb249-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb249-6"><a href="#cb249-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb249-7"><a href="#cb249-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb249-8"><a href="#cb249-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introducción</span></span>
+<span id="cb249-9"><a href="#cb249-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb249-10"><a href="#cb249-10" aria-hidden="true" tabindex="-1"></a>Este informe describe la encuesta a **320 estudiantes** de ESO.</span>
+<span id="cb249-11"><a href="#cb249-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb249-12"><a href="#cb249-12" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb249-13"><a href="#cb249-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb249-14"><a href="#cb249-14" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_limpia.rds"</span>)</span>
+<span id="cb249-15"><a href="#cb249-15" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(encuesta<span class="sc">$</span>nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb249-16"><a href="#cb249-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <ol type="1">
 <li><strong>El encabezado YAML</strong>, entre dos líneas <code>---</code>: el título, el autor, la fecha y el formato de salida.</li>
 <li><strong>El texto</strong>, escrito en Markdown: un formato de texto con unas pocas marcas sencillas.</li>
@@ -2218,11 +2228,11 @@ X14     0.62 0.16</code></pre>
 <h2 class="anchored" data-anchor-id="los-bloques-de-código">Los bloques de código</h2>
 <p>Para insertar un bloque: <kbd title="Ctrl+Alt+I" aria-hidden="true">Ctrl+Alt+I</kbd><span class="visually-hidden">Ctrl+Alt+I</span> (<kbd title="Cmd+Option+I" aria-hidden="true">Cmd+Option+I</kbd><span class="visually-hidden">Cmd+Option+I</span> en Mac), o el botón <em>+C</em> de la barra del editor. Mientras escribes el documento, puedes ejecutar el código como en un <em>script</em>: línea a línea con <kbd title="Ctrl+Enter" aria-hidden="true">Ctrl+Enter</kbd><span class="visually-hidden">Ctrl+Enter</span> o el bloque entero con el botón ▶ verde de su esquina. Los resultados aparecen debajo del bloque.</p>
 <p>Las <strong>opciones</strong> de cada bloque se escriben al principio, en líneas que empiezan por <code>#|</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb248"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb248-1"><a href="#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb248-2"><a href="#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb248-3"><a href="#cb248-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribución de la nota media"</span></span>
-<span id="cb248-4"><a href="#cb248-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(encuesta<span class="sc">$</span>nota)</span>
-<span id="cb248-5"><a href="#cb248-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb250"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb250-1"><a href="#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb250-2"><a href="#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb250-3"><a href="#cb250-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribución de la nota media"</span></span>
+<span id="cb250-4"><a href="#cb250-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(encuesta<span class="sc">$</span>nota)</span>
+<span id="cb250-5"><a href="#cb250-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -2262,15 +2272,15 @@ X14     0.62 0.16</code></pre>
 </tbody>
 </table>
 <p>Si una opción se quiere aplicar a todo el documento, se pone en el YAML:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb249"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb249-1"><a href="#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb249-2"><a href="#cb249-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb249-3"><a href="#cb249-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb251"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb251-1"><a href="#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb251-2"><a href="#cb251-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb251-3"><a href="#cb251-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="resultados-dentro-del-texto" class="level2">
 <h2 class="anchored" data-anchor-id="resultados-dentro-del-texto">Resultados dentro del texto</h2>
 <p>Un número también se puede calcular dentro de una frase, con <code>`r `</code> seguido del código. Al generar el informe, el código se sustituye por su resultado:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb250"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb250-1"><a href="#cb250-1" aria-hidden="true" tabindex="-1"></a>La encuesta incluye <span class="in">`r nrow(encuesta)`</span> estudiantes, con una nota media de</span>
-<span id="cb250-2"><a href="#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="in">`r round(mean(encuesta$nota, na.rm = TRUE), 2)`</span>.</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb252"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb252-1"><a href="#cb252-1" aria-hidden="true" tabindex="-1"></a>La encuesta incluye <span class="in">`r nrow(encuesta)`</span> estudiantes, con una nota media de</span>
+<span id="cb252-2"><a href="#cb252-2" aria-hidden="true" tabindex="-1"></a><span class="in">`r round(mean(encuesta$nota, na.rm = TRUE), 2)`</span>.</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Se convierte en: <em>La encuesta incluye 320 estudiantes, con una nota media de 6.15.</em></p>
 <p>Así, si los datos cambian, el texto se actualiza solo.</p>
 </section>
@@ -2278,11 +2288,11 @@ X14     0.62 0.16</code></pre>
 <h2 class="anchored" data-anchor-id="tablas">Tablas</h2>
 <p>Una tabla de R se muestra con formato en el informe con la función <code>kable()</code> del paquete <code>knitr</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb251"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb251-1"><a href="#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb251-2"><a href="#cb251-2" aria-hidden="true" tabindex="-1"></a>descriptivos <span class="ot">&lt;-</span> <span class="fu">describeBy</span>(encuesta<span class="sc">$</span>nota, <span class="at">group =</span> encuesta<span class="sc">$</span>curso, <span class="at">mat =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb251-3"><a href="#cb251-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(descriptivos[, <span class="fu">c</span>(<span class="st">"group1"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>)],</span>
-<span id="cb251-4"><a href="#cb251-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Curso"</span>, <span class="st">"n"</span>, <span class="st">"Media"</span>, <span class="st">"DT"</span>, <span class="st">"Mín."</span>, <span class="st">"Máx."</span>),</span>
-<span id="cb251-5"><a href="#cb251-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Nota media por curso"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb253"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb253-1"><a href="#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb253-2"><a href="#cb253-2" aria-hidden="true" tabindex="-1"></a>descriptivos <span class="ot">&lt;-</span> <span class="fu">describeBy</span>(encuesta<span class="sc">$</span>nota, <span class="at">group =</span> encuesta<span class="sc">$</span>curso, <span class="at">mat =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb253-3"><a href="#cb253-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(descriptivos[, <span class="fu">c</span>(<span class="st">"group1"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>)],</span>
+<span id="cb253-4"><a href="#cb253-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Curso"</span>, <span class="st">"n"</span>, <span class="st">"Media"</span>, <span class="st">"DT"</span>, <span class="st">"Mín."</span>, <span class="st">"Máx."</span>),</span>
+<span id="cb253-5"><a href="#cb253-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Nota media por curso"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Nota media por curso</caption>
@@ -2356,12 +2366,12 @@ X14     0.62 0.16</code></pre>
 </div>
 </div>
 <p>Para obtener un documento de Word en lugar de una página web, basta cambiar el formato en el YAML:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb252"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb252-1"><a href="#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span><span class="at"> docx</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb254"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb254-1"><a href="#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span><span class="at"> docx</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Con varios formatos a la vez, el botón <em>Render</em> tiene un menú para elegir cuál generar:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb253"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb253-1"><a href="#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
-<span id="cb253-2"><a href="#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb253-3"><a href="#cb253-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="co">          # índice</span></span>
-<span id="cb253-4"><a href="#cb253-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">docx</span><span class="kw">:</span><span class="at"> default</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb255"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb255-1"><a href="#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb255-2"><a href="#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb255-3"><a href="#cb255-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="co">          # índice</span></span>
+<span id="cb255-4"><a href="#cb255-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">docx</span><span class="kw">:</span><span class="at"> default</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Para generar PDF hace falta además instalar LaTeX (<code>quarto install tinytex</code> en la pestaña <em>Terminal</em>).</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2485,17 +2495,17 @@ Nota
 <p>Este apartado amplía el bloque 1.4. Volvemos a la tabla <code>clase</code> del bloque 1.3.</p>
 <p>Repetir una función con cada columna es tan habitual que R tiene funciones que lo hacen en una línea. <code>sapply()</code> aplica una función a cada elemento (en una tabla, a cada columna) y <strong>simplifica</strong> el resultado a un vector:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb254"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb254-1"><a href="#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(clase[, <span class="fu">c</span>(<span class="st">"nota"</span>, <span class="st">"nota_100"</span>)], mean)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb256"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb256-1"><a href="#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(clase[, <span class="fu">c</span>(<span class="st">"nota"</span>, <span class="st">"nota_100"</span>)], mean)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    nota nota_100 
     6.64    66.40 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb256"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb256-1"><a href="#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(clase, class)                         <span class="co"># tipo de cada variable</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb258"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb258-1"><a href="#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(clase, class)                         <span class="co"># tipo de cada variable</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     alumno       curso        nota         nee    aprobado    nota_100 
 "character"    "factor"   "numeric"   "logical"   "logical"   "numeric" </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb258"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb258-1"><a href="#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(clase, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))     <span class="co"># perdidos por variable</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb260"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb260-1"><a href="#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(clase, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))     <span class="co"># perdidos por variable</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  alumno    curso     nota      nee aprobado nota_100 
        0        0        0        0        0        0 </code></pre>
@@ -2504,7 +2514,7 @@ Nota
 <p>En el último ejemplo hemos escrito la función en el mismo sitio donde se usa, sin darle nombre: es una <strong>función anónima</strong>.</p>
 <p><code>lapply()</code> hace lo mismo pero devuelve siempre una <strong>lista</strong>. Es la opción natural cuando cada resultado no es un único número, sino algo más complejo, como un resumen o una tabla:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb260"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb260-1"><a href="#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(clase[, <span class="fu">c</span>(<span class="st">"nota"</span>, <span class="st">"nota_100"</span>)], summary)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb262"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb262-1"><a href="#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(clase[, <span class="fu">c</span>(<span class="st">"nota"</span>, <span class="st">"nota_100"</span>)], summary)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$nota
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -2517,8 +2527,8 @@ $nota_100
 </div>
 <p>Combinada con <code>split()</code>, que divide una tabla en una lista de tablas (una por grupo), nos permite analizar cada grupo por separado:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb262"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb262-1"><a href="#cb262-1" aria-hidden="true" tabindex="-1"></a>por_curso <span class="ot">&lt;-</span> <span class="fu">split</span>(clase, clase<span class="sc">$</span>curso)</span>
-<span id="cb262-2"><a href="#cb262-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(por_curso, <span class="cf">function</span>(d) <span class="fu">mean</span>(d<span class="sc">$</span>nota))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb264"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb264-1"><a href="#cb264-1" aria-hidden="true" tabindex="-1"></a>por_curso <span class="ot">&lt;-</span> <span class="fu">split</span>(clase, clase<span class="sc">$</span>curso)</span>
+<span id="cb264-2"><a href="#cb264-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(por_curso, <span class="cf">function</span>(d) <span class="fu">mean</span>(d<span class="sc">$</span>nota))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`1º ESO`
 [1] 7.25
@@ -2526,7 +2536,7 @@ $nota_100
 $`2º ESO`
 [1] 6.233333</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb264"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb264-1"><a href="#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(por_curso, <span class="cf">function</span>(d) <span class="fu">mean</span>(d<span class="sc">$</span>nota))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb266"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb266-1"><a href="#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(por_curso, <span class="cf">function</span>(d) <span class="fu">mean</span>(d<span class="sc">$</span>nota))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  1º ESO   2º ESO 
 7.250000 6.233333 </code></pre>

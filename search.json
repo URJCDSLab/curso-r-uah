@@ -179,7 +179,7 @@
     "href": "sesion1.html#tus-propias-funciones",
     "title": "Sesión 1. Primeros pasos con R",
     "section": "Tus propias funciones",
-    "text": "Tus propias funciones\nCuando repites el mismo cálculo varias veces, conviene convertirlo en una función. Se crea con function(): entre paréntesis, los argumentos; entre llaves, lo que hace. La función devuelve el resultado de la última línea.\n\na_escala_100 &lt;- function(x) {\n  x * 10\n}\n\na_escala_100(7.5)\n\n[1] 75\n\na_escala_100(notas)       # funciona también con vectores\n\n[1] 65 80 45 92 50 38 71\n\n\nLos argumentos pueden tener un valor por defecto, que se usa si no indicamos otro:\n\nnota_ponderada &lt;- function(examen, trabajo, peso_examen = 0.7) {\n  peso_examen * examen + (1 - peso_examen) * trabajo\n}\n\nnota_ponderada(examen = 6, trabajo = 9)\n\n[1] 6.9\n\nnota_ponderada(examen = 6, trabajo = 9, peso_examen = 0.5)\n\n[1] 7.5"
+    "text": "Tus propias funciones\nCuando repites el mismo cálculo varias veces, conviene convertirlo en una función. Se crea con function(): entre paréntesis, los argumentos; entre llaves, lo que hace. La función devuelve el resultado de la última línea.\n\na_escala_100 &lt;- function(x) {\n  x * 10\n}\n\na_escala_100(7.5)\n\n[1] 75\n\na_escala_100(notas)       # funciona también con vectores\n\n[1] 65 80 45 92 50 38 71\n\n\nLos argumentos pueden tener un valor por defecto, que se usa si no indicamos otro:\n\nnota_ponderada &lt;- function(examen, trabajo, peso_examen = 0.7) {\n  peso_examen * examen + (1 - peso_examen) * trabajo\n}\n\nnota_ponderada(examen = 6, trabajo = 9)\n\n[1] 6.9\n\nnota_ponderada(examen = 6, trabajo = 9, peso_examen = 0.5)\n\n[1] 7.5\n\n\nSi la función cabe en una línea, no hacen falta las llaves. Y desde R 4.1 existe una forma abreviada de escribir function(x): \\(x).\n\nmedia_sin_na &lt;- function(x) mean(x, na.rm = TRUE)\nmedia_sin_na &lt;- \\(x) mean(x, na.rm = TRUE)     # exactamente lo mismo\nmedia_sin_na(notas_con_na)\n\n[1] 6\n\n\nUna función ni siquiera necesita nombre: cuando solo la usamos una vez, dentro de otra función, se escribe directamente ahí. Son las funciones anónimas, y en la sesión 2 las usaremos mucho: across(..., \\(x) mean(x, na.rm = TRUE)) significa “aplica a cada columna la media sin perdidos”."
   },
   {
     "objectID": "sesion1.html#condiciones-if-y-else",
@@ -431,7 +431,7 @@
     "href": "00_preparacion/preparacion.html#descarga-los-materiales-del-curso",
     "title": "Antes del curso: preparación",
     "section": "3. Descarga los materiales del curso",
-    "text": "3. Descarga los materiales del curso\nDescomprime el fichero curso_R_UAH.zip en una carpeta de tu ordenador que no esté sincronizada con OneDrive, Dropbox o Google Drive (por ejemplo, Documentos/curso_R_UAH). La sincronización puede interferir con la instalación de paquetes."
+    "text": "3. Descarga los materiales del curso\nDescarga la última versión de los materiales desde https://github.com/URJCDSLab/curso-r-uah/archive/refs/heads/main.zip.\nDescomprime el fichero en una carpeta de tu ordenador que no esté sincronizada con OneDrive, Dropbox o Google Drive (por ejemplo, Documentos/curso_R_UAH). La sincronización puede interferir con la instalación de paquetes. Al descomprimir se crea la carpeta curso-r-uah-main; puedes cambiarle el nombre si quieres."
   },
   {
     "objectID": "00_preparacion/preparacion.html#abre-el-proyecto-e-instala-los-paquetes",
