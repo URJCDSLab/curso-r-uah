@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://URJCDSLab.github.io/curso-r-uah/sesion2_ejercicios.html</loc>
-    <lastmod>2026-09-30T15:19:34.018Z</lastmod>
+    <lastmod>2026-10-02T11:31:44.358Z</lastmod>
   </url>
   <url>
-    <loc>https://URJCDSLab.github.io/curso-r-uah/sesion1_ejercicios.html</loc>
-    <lastmod>2026-09-30T15:19:34.017Z</lastmod>
-  </url>
-  <url>
-    <loc>https://URJCDSLab.github.io/curso-r-uah/00_preparacion/preparacion.html</loc>
-    <lastmod>2026-09-30T15:29:06.172Z</lastmod>
-  </url>
-  <url>
-    <loc>https://URJCDSLab.github.io/curso-r-uah/index.html</loc>
-    <lastmod>2026-09-30T15:27:21.445Z</lastmod>
+    <loc>https://URJCDSLab.github.io/curso-r-uah/informe_ejemplo.html</loc>
+    <lastmod>2026-10-04T17:34:41.131Z</lastmod>
   </url>
   <url>
     <loc>https://URJCDSLab.github.io/curso-r-uah/sesion1.html</loc>
-    <lastmod>2026-09-30T15:19:34.017Z</lastmod>
+    <lastmod>2026-10-05T17:51:55.314Z</lastmod>
+  </url>
+  <url>
+    <loc>https://URJCDSLab.github.io/curso-r-uah/index.html</loc>
+    <lastmod>2026-10-02T11:31:44.356Z</lastmod>
+  </url>
+  <url>
+    <loc>https://URJCDSLab.github.io/curso-r-uah/00_preparacion/preparacion.html</loc>
+    <lastmod>2026-10-02T16:00:03.375Z</lastmod>
+  </url>
+  <url>
+    <loc>https://URJCDSLab.github.io/curso-r-uah/sesion1_ejercicios.html</loc>
+    <lastmod>2026-10-02T11:31:44.357Z</lastmod>
   </url>
   <url>
     <loc>https://URJCDSLab.github.io/curso-r-uah/sesion2.html</loc>
-    <lastmod>2026-09-30T15:19:34.017Z</lastmod>
+    <lastmod>2026-10-04T17:34:41.126Z</lastmod>
   </url>
 </urlset>

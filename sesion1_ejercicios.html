@@ -151,6 +151,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./sesion1_ejercicios.html">
  <span class="dropdown-text">Ejercicios</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./informe_ejemplo.html">
+ <span class="dropdown-text">Ejemplo de informe</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -184,12 +188,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">En esta página</h2>
    
   <ul class="collapse">
-  <li><a href="#ejercicio-1.1.-r-como-calculadora" id="toc-ejercicio-1.1.-r-como-calculadora" class="nav-link active" data-scroll-target="#ejercicio-1.1.-r-como-calculadora">Ejercicio 1.1. R como calculadora</a></li>
-  <li><a href="#ejercicio-1.2.-puntuaciones-de-un-grupo" id="toc-ejercicio-1.2.-puntuaciones-de-un-grupo" class="nav-link" data-scroll-target="#ejercicio-1.2.-puntuaciones-de-un-grupo">Ejercicio 1.2. Puntuaciones de un grupo</a></li>
-  <li><a href="#ejercicio-1.3.-tu-primera-tabla-de-datos" id="toc-ejercicio-1.3.-tu-primera-tabla-de-datos" class="nav-link" data-scroll-target="#ejercicio-1.3.-tu-primera-tabla-de-datos">Ejercicio 1.3. Tu primera tabla de datos</a></li>
-  <li><a href="#ejercicio-1.4.-importar-datos" id="toc-ejercicio-1.4.-importar-datos" class="nav-link" data-scroll-target="#ejercicio-1.4.-importar-datos">Ejercicio 1.4. Importar datos</a></li>
-  <li><a href="#ejercicio-1.5.-explorar-la-encuesta" id="toc-ejercicio-1.5.-explorar-la-encuesta" class="nav-link" data-scroll-target="#ejercicio-1.5.-explorar-la-encuesta">Ejercicio 1.5. Explorar la encuesta</a></li>
-  <li><a href="#ejercicio-1.6.-tu-primer-script" id="toc-ejercicio-1.6.-tu-primer-script" class="nav-link" data-scroll-target="#ejercicio-1.6.-tu-primer-script">Ejercicio 1.6. Tu primer script</a></li>
+  <li><a href="#ejercicio-1.-las-notas-de-una-tutoría" id="toc-ejercicio-1.-las-notas-de-una-tutoría" class="nav-link active" data-scroll-target="#ejercicio-1.-las-notas-de-una-tutoría">Ejercicio 1. Las notas de una tutoría</a></li>
+  <li><a href="#ejercicio-2.-tu-primer-informe" id="toc-ejercicio-2.-tu-primer-informe" class="nav-link" data-scroll-target="#ejercicio-2.-tu-primer-informe">Ejercicio 2. Tu primer informe</a></li>
   </ul>
 </nav>
     </div>
@@ -248,171 +248,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Ejecuta cada línea con <kbd title="Ctrl+Enter" aria-hidden="true">Ctrl+Enter</kbd><span class="visually-hidden">Ctrl+Enter</span> (<kbd title="Cmd+Enter" aria-hidden="true">Cmd+Enter</kbd><span class="visually-hidden">Cmd+Enter</span> en Mac) o el bloque entero con el botón ▶ verde.</li>
-<li>Sustituye cada <code>___</code> por el código adecuado.</li>
-<li>Empieza por el nivel básico. Si terminas, pasa al intermedio y después al reto.</li>
-<li>Si te pierdes, ejecuta la línea <strong>Punto de control</strong> del inicio del bloque y continúa desde ahí.</li>
+<li>Cada ejercicio dura unos <strong>15 minutos</strong>. Sigue los pasos en orden; las pistas indican qué funciones necesitas.</li>
+<li>Si terminas antes, haz la <strong>ampliación</strong>.</li>
+<li>Escribe tu código en los bloques vacíos y ejecútalo con <kbd title="Ctrl+Enter" aria-hidden="true">Ctrl+Enter</kbd><span class="visually-hidden">Ctrl+Enter</span> (<kbd title="Cmd+Enter" aria-hidden="true">Cmd+Enter</kbd><span class="visually-hidden">Cmd+Enter</span> en Mac), o el bloque entero con el botón ▶ verde.</li>
+<li>Después del ejercicio haremos una puesta en común.</li>
 </ul>
 </div>
 </div>
-<section id="ejercicio-1.1.-r-como-calculadora" class="level1">
-<h1>Ejercicio 1.1. R como calculadora</h1>
-<p><strong>[EJERCICIO] Básico</strong>: calcula la nota media de una estudiante con estas cuatro notas: 5.5, 7, 8.5 y 6.</p>
+<section id="ejercicio-1.-las-notas-de-una-tutoría" class="level1">
+<h1>Ejercicio 1. Las notas de una tutoría</h1>
+<p>Eres tutor o tutora de un grupo de 12 estudiantes y tienes sus notas de las dos primeras evaluaciones y su porcentaje de asistencia. Ejecuta este bloque para crear los datos:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(___ <span class="sc">+</span> ___ <span class="sc">+</span> ___ <span class="sc">+</span> ___) <span class="sc">/</span> ___</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>alumno <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Ana"</span>, <span class="st">"Luis"</span>, <span class="st">"Marta"</span>, <span class="st">"Jorge"</span>, <span class="st">"Sara"</span>, <span class="st">"Iván"</span>, <span class="st">"Lucía"</span>, <span class="st">"Pablo"</span>, <span class="st">"Irene"</span>, <span class="st">"Hugo"</span>, <span class="st">"Nerea"</span>, <span class="st">"Adrián"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sexo <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Chica"</span>, <span class="st">"Chico"</span>, <span class="st">"Chica"</span>, <span class="st">"Chico"</span>, <span class="st">"Chica"</span>, <span class="st">"Chico"</span>, <span class="st">"Chica"</span>, <span class="st">"Chico"</span>, <span class="st">"Chica"</span>, <span class="st">"Chico"</span>, <span class="st">"Chica"</span>, <span class="st">"Chico"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>eval1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.5</span>, <span class="fl">4.0</span>, <span class="fl">7.8</span>, <span class="fl">5.2</span>, <span class="fl">8.9</span>, <span class="fl">3.5</span>, <span class="fl">6.0</span>, <span class="fl">4.8</span>, <span class="fl">9.1</span>, <span class="fl">5.5</span>, <span class="fl">7.2</span>, <span class="fl">2.9</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>eval2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">7.0</span>, <span class="fl">4.5</span>, <span class="fl">8.2</span>, <span class="fl">4.6</span>, <span class="fl">9.0</span>, <span class="fl">4.1</span>, <span class="fl">5.5</span>, <span class="cn">NA</span>, <span class="fl">8.7</span>, <span class="fl">6.0</span>, <span class="fl">7.8</span>, <span class="fl">3.8</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>asistencia <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">70</span>, <span class="dv">100</span>, <span class="dv">85</span>, <span class="dv">98</span>, <span class="dv">60</span>, <span class="dv">90</span>, <span class="dv">75</span>, <span class="dv">100</span>, <span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">55</span>)   <span class="co"># porcentaje de asistencia</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>[EJERCICIO] Intermedio</strong>: repite el cálculo redondeando el resultado a dos decimales con <code>round()</code>.</p>
-<p><strong>[EJERCICIO] Reto</strong>: consulta la ayuda de <code>round()</code> y de <code>mean()</code>. ¿Qué valor tiene <code>digits</code> por defecto? Calcula la misma media con <code>mean()</code> (pista: necesitarás <code>c()</code>).</p>
-</section>
-<section id="ejercicio-1.2.-puntuaciones-de-un-grupo" class="level1">
-<h1>Ejercicio 1.2. Puntuaciones de un grupo</h1>
-<p>Estas son las puntuaciones (0-10) de 15 estudiantes en una prueba de comprensión lectora:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>puntuaciones <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">7.5</span>, <span class="fl">4.0</span>, <span class="fl">6.2</span>, <span class="fl">8.8</span>, <span class="fl">3.5</span>, <span class="fl">5.0</span>, <span class="fl">9.1</span>, <span class="fl">6.7</span>, <span class="fl">4.8</span>, <span class="fl">7.0</span>, <span class="fl">5.5</span>, <span class="fl">2.9</span>, <span class="fl">8.0</span>, <span class="fl">6.4</span>, <span class="fl">5.9</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Básico</strong>: completa el código.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Suma total de las puntuaciones</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> <span class="fu">___</span>(puntuaciones)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Media del grupo</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">___</span>(puntuaciones)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Puntuación máxima</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>maximo <span class="ot">&lt;-</span> <span class="fu">___</span>(puntuaciones)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. ¿Cuántos estudiantes tienen menos de 5?</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>suspensos <span class="ot">&lt;-</span> <span class="fu">sum</span>(puntuaciones ___ <span class="dv">5</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Las puntuaciones de los 5 últimos estudiantes (posiciones 11 a 15)</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>ultimas_5 <span class="ot">&lt;-</span> puntuaciones[___<span class="sc">:</span>___]</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. "Aprobado" si la puntuación es 5 o más, "Suspenso" si no</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>calificacion <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(puntuaciones ___ <span class="dv">5</span>, <span class="st">"___"</span>, <span class="st">"___"</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>total</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>media</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>maximo</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>suspensos</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>ultimas_5</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>calificacion</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>: dos estudiantes no hicieron la prueba.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>puntuaciones_na <span class="ot">&lt;-</span> <span class="fu">c</span>(puntuaciones, <span class="cn">NA</span>, <span class="cn">NA</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<p><strong>[EJERCICIO]</strong></p>
 <ol type="1">
-<li>Calcula la media de <code>puntuaciones_na</code>. ¿Qué ocurre? Corrígelo.</li>
-<li>Cuenta cuántos valores perdidos hay.</li>
-<li>¿Qué proporción de estudiantes (de <code>puntuaciones</code>) tiene un 7 o más?</li>
-</ol>
-<p><strong>[EJERCICIO] Reto</strong>: clasifica cada puntuación como <em>Suspenso</em> (&lt; 5), <em>Aprobado</em> (5 a &lt; 7), <em>Notable</em> (7 a &lt; 9) o <em>Sobresaliente</em> (9 o más). Pista: consulta la ayuda de <code>cut()</code> y sus argumentos <code>breaks</code>, <code>labels</code> y <code>right</code>.</p>
-</section>
-<section id="ejercicio-1.3.-tu-primera-tabla-de-datos" class="level1">
-<h1>Ejercicio 1.3. Tu primera tabla de datos</h1>
-<p><strong>[EJERCICIO] Básico</strong>: crea una tabla con los datos de seis estudiantes de un programa de lectura y descríbela.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>grupo_lectura <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">alumno =</span> <span class="fu">c</span>(<span class="st">"Pablo"</span>, <span class="st">"Irene"</span>, <span class="st">"Hugo"</span>, <span class="st">"Nerea"</span>, <span class="st">"Adrián"</span>, <span class="st">"Carla"</span>),</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">grupo =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Intervención"</span>, <span class="st">"Control"</span>, <span class="st">"Intervención"</span>, <span class="st">"Control"</span>, <span class="st">"Intervención"</span>)),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">comprension =</span> <span class="fu">c</span>(<span class="dv">48</span>, <span class="dv">61</span>, <span class="dv">52</span>, <span class="dv">57</span>, <span class="dv">45</span>, <span class="dv">66</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">___</span>(grupo_lectura)                 <span class="co"># estructura de la tabla</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(grupo_lectura<span class="sc">$</span>___)            <span class="co"># media de comprensión</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(grupo_lectura<span class="sc">$</span>___)           <span class="co"># estudiantes por grupo</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>:</p>
-<ol type="1">
-<li>Muestra solo las filas del grupo <em>Intervención</em> (pista: <code>tabla[condición, ]</code>).</li>
-<li>Calcula la media de comprensión solo del grupo <em>Intervención</em>.</li>
-</ol>
-<p><strong>[EJERCICIO] Reto</strong>: calcula la media de comprensión de cada grupo en una sola instrucción. Pista: <code>?tapply</code>.</p>
-</section>
-<section id="ejercicio-1.4.-importar-datos" class="level1">
-<h1>Ejercicio 1.4. Importar datos</h1>
-<p><strong>[EJERCICIO] Básico</strong>: el fichero <code>datos/centros.csv</code> tiene información de los 10 centros de la encuesta. Ábrelo en el panel <strong>Archivos</strong> (clic sobre él y <em>View File</em>) para ver su formato y complétalo:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Separado por comas o por punto y coma? Elige read_csv o read_csv2</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>centros <span class="ot">&lt;-</span> <span class="fu">___</span>(<span class="st">"datos/centros.csv"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(___)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>: convierte <code>titularidad</code> y <code>zona</code> en factores y haz una tabla cruzada de ambas variables.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>centros <span class="ot">&lt;-</span> centros <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">titularidad =</span> <span class="fu">___</span>(titularidad),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">zona =</span> ___</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(___, ___)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Reto</strong>: en lugar de usar el diccionario, importa de nuevo <code>datos/encuesta_bruta.xlsx</code> y limpia los nombres de columna automáticamente con la función <code>clean_names()</code> del paquete <code>janitor</code>. Compara el resultado con los nombres del diccionario. ¿Qué ventajas e inconvenientes tiene cada enfoque?</p>
-</section>
-<section id="ejercicio-1.5.-explorar-la-encuesta" class="level1">
-<h1>Ejercicio 1.5. Explorar la encuesta</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Punto de control</strong></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_limpia.rds"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<p><strong>[EJERCICIO] Básico</strong>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. ¿Cuántos estudiantes hay en cada centro?</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(encuesta<span class="sc">$</span>___)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. ¿Qué porcentaje de estudiantes hay en cada curso?</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(encuesta<span class="sc">$</span>___)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. ¿Cuál es la edad media?</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">___</span>(encuesta<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>:</p>
-<ol type="1">
-<li>Obtén los descriptivos de los cuatro ítems de motivación (<code>m1</code> a <code>m4</code>) con <code>describe()</code>. ¿Ves algo raro en la media de <code>m4</code>? (Pista: mira su enunciado en el diccionario).</li>
-<li>¿Cuántos estudiantes no tienen nota?</li>
-<li>Haz una tabla de frecuencias de las respuestas al ítem <code>a1</code>, incluyendo los <code>NA</code> (pista: argumento <code>useNA</code> de <code>table()</code>).</li>
-</ol>
-<p><strong>[EJERCICIO] Reto</strong>:</p>
-<ol type="1">
-<li>Obtén los descriptivos de la nota por sexo.</li>
-<li>Calcula el porcentaje de chicas y chicos dentro de cada curso (cada fila debe sumar 100). Pista: argumento <code>margin</code> de <code>prop.table()</code>.</li>
-</ol>
-</section>
-<section id="ejercicio-1.6.-tu-primer-script" class="level1">
-<h1>Ejercicio 1.6. Tu primer script</h1>
-<p><strong>[EJERCICIO]</strong> Crea un <em>script</em> nuevo (<kbd title="Ctrl+Shift+N" aria-hidden="true">Ctrl+Shift+N</kbd><span class="visually-hidden">Ctrl+Shift+N</span>), guárdalo como <code>mi_primer_script.R</code> y escribe, con la estructura vista en clase (paquetes, importar, limpiar, explorar, guardar), un análisis de los datos de la intervención en comprensión lectora:</p>
-<ol type="1">
-<li><strong>Paquetes</strong>: carga <code>tidyverse</code> y <code>psych</code>.</li>
-<li><strong>Importar</strong>: lee <code>datos/intervencion_prepost.csv</code> (¿<code>read_csv</code> o <code>read_csv2</code>?) y <code>datos/centros.csv</code>.</li>
-<li><strong>Limpiar</strong>: convierte <code>grupo</code> en factor, con <em>Control</em> como primer nivel. En <code>centros</code>, convierte <code>titularidad</code> y <code>zona</code> en factores.</li>
-<li><strong>Explorar</strong>:
+<li>Reúne los cinco vectores en una tabla llamada <code>tutoria</code>, con <code>sexo</code> como factor. Comprueba su estructura. <em>Pista:</em> <code>tibble()</code>, <code>factor()</code>, <code>glimpse()</code>.</li>
+<li>Añade a la tabla una columna <code>media</code> con la media de las dos evaluaciones de cada estudiante. ¿Por qué la de Pablo sale <code>NA</code>? <em>Pista:</em> las operaciones entre columnas se hacen elemento a elemento: <code>tutoria$nueva &lt;- ...</code>.</li>
+<li>Responde con código:
 <ul>
-<li>¿Cuántos estudiantes hay en cada grupo?</li>
-<li>Descriptivos de la comprensión <strong>pre</strong> por grupo. ¿Parten los dos grupos de un nivel similar?</li>
-<li>¿Cuántos valores perdidos hay en cada variable?</li>
-</ul></li>
-<li><strong>Guardar</strong>: guarda las dos tablas como <code>checkpoints/intervencion.rds</code> y <code>checkpoints/centros.rds</code>.</li>
+<li>¿Cuál es la media del grupo (sin contar a Pablo)?</li>
+<li>¿Cuántos estudiantes aprueban (media de 5 o más) y qué proporción representan?</li>
+<li>¿Quiénes suspenden? (Muestra sus nombres).</li>
+</ul>
+<em>Pista:</em> <code>na.rm = TRUE</code>, <code>sum()</code> y <code>mean()</code> de una comparación, <code>tutoria$alumno[condición]</code>.</li>
+<li>El departamento sube medio punto a quien tiene una asistencia del 90 % o más, sin pasar de 10. Escribe una función <code>nota_final(media, asistencia)</code> que lo calcule y úsala para crear la columna <code>final</code>. <em>Pista:</em> dentro de la función, <code>ifelse()</code> dos veces: una para sumar el medio punto y otra para que no pase de 10.</li>
+<li>Compara la nota final media de chicas y chicos.</li>
 </ol>
-<p><strong>[EJERCICIO] Reto</strong>: calcula para cada estudiante la mejora (<code>comprension_post - comprension_pre</code>) y compara la mejora media de ambos grupos.</p>
-<p>Cuando termines: <em>Session &gt; Restart R</em> y ejecuta el <em>script</em> entero. ¿Funciona sin errores?</p>
+<p><strong>Ampliación</strong></p>
+<ul>
+<li>Escribe un bucle <code>for</code> que recorra los niveles de <code>sexo</code> y muestre con <code>cat()</code> una frase como <em>“Chica: nota final media = X.XX”</em>.</li>
+<li>Clasifica la nota final en <em>Suspenso</em> (&lt; 5), <em>Aprobado</em> (5 a &lt; 7), <em>Notable</em> (7 a &lt; 9) y <em>Sobresaliente</em> (9 o más), y cuenta cuántos hay de cada. <em>Pista:</em> consulta la ayuda de <code>cut()</code> y sus argumentos <code>breaks</code>, <code>labels</code> y <code>right</code>.</li>
+</ul>
+</section>
+<section id="ejercicio-2.-tu-primer-informe" class="level1">
+<h1>Ejercicio 2. Tu primer informe</h1>
+<p>El equipo del programa de comprensión lectora te pide un primer informe con los datos del estudio. Los datos están en <code>datos/intervencion_prepost.csv</code> (comprensión lectora antes, después y en el seguimiento de la intervención) y la información de los centros en <code>datos/centros.csv</code>.</p>
+<p><strong>[EJERCICIO]</strong> Crea un documento Quarto nuevo (<em>File &gt; New File &gt; Quarto Document…</em>), bórrale el contenido de ejemplo (deja el encabezado YAML) y guárdalo en la carpeta del curso como <code>informe_intervencion.qmd</code>.</p>
+<ol type="1">
+<li><strong>Encabezado</strong>: pon un título, tu nombre, <code>date: today</code> y <code>format: html</code>.</li>
+<li><strong>Preparación</strong>: un primer bloque con <code>#| include: false</code> que cargue <code>tidyverse</code>, <code>psych</code> y <code>knitr</code> e importe los dos ficheros.
+<ul>
+<li>Abre antes los dos ficheros en la pestaña <em>Files</em> (<em>View File</em>): ¿cuál necesita <code>read_csv()</code> y cuál <code>read_csv2()</code>? También puedes usar <em>Import Dataset</em> y copiar el código.</li>
+<li>Convierte <code>grupo</code> en un factor con <em>Control</em> como primer nivel.</li>
+</ul></li>
+<li><strong>Sección “Participantes”</strong>: una frase que diga cuántos estudiantes hay, calculado con código dentro del texto (<code>`r `</code>), y una tabla con el número de estudiantes de cada grupo (<code>kable(table(...))</code>).</li>
+<li><strong>Sección “Antes de la intervención”</strong>: una tabla con la media y la desviación típica de <code>comprension_pre</code> en cada grupo (<code>describeBy(..., mat = TRUE)</code> y <code>kable()</code>). Escribe una frase: ¿parten los dos grupos de un nivel similar?</li>
+<li><strong>Sección “Datos perdidos”</strong>: ¿cuántos valores perdidos hay en cada variable?</li>
+<li>Pulsa <strong>Render</strong>. Si da error, lee el mensaje: indica el bloque que falla. ¿Has cargado los paquetes y los datos dentro del documento?</li>
+</ol>
+<p><strong>Ampliación</strong></p>
+<ul>
+<li>Añade <code>#| echo: false</code> a los bloques (o <code>execute: echo: false</code> en el YAML) y vuelve a generar el informe. ¿Qué cambia?</li>
+<li>Añade la columna <code>mejora</code> (<code>comprension_post - comprension_pre</code>), un diagrama de caja de la mejora por grupo (<code>boxplot(mejora ~ grupo, data = intervencion)</code>) con un pie de figura (<code>#| fig-cap:</code>), y una frase con la mejora media de cada grupo calculada en el texto.</li>
+<li>Genera el informe también en Word: añade <code>docx: default</code> al formato.</li>
+<li>Añade una tabla cruzada de titularidad y zona de los centros.</li>
+</ul>
 
 
 </section>

@@ -151,6 +151,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./sesion1_ejercicios.html">
  <span class="dropdown-text">Ejercicios</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./informe_ejemplo.html">
+ <span class="dropdown-text">Ejemplo de informe</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -184,12 +188,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">En esta página</h2>
    
   <ul class="collapse">
-  <li><a href="#ejercicio-2.1.-transformar-datos-con-dplyr" id="toc-ejercicio-2.1.-transformar-datos-con-dplyr" class="nav-link active" data-scroll-target="#ejercicio-2.1.-transformar-datos-con-dplyr">Ejercicio 2.1. Transformar datos con <code>dplyr</code></a></li>
-  <li><a href="#ejercicio-2.2.-escalas-likert" id="toc-ejercicio-2.2.-escalas-likert" class="nav-link" data-scroll-target="#ejercicio-2.2.-escalas-likert">Ejercicio 2.2. Escalas Likert</a></li>
-  <li><a href="#ejercicio-2.3.-reorganizar-y-combinar-tablas" id="toc-ejercicio-2.3.-reorganizar-y-combinar-tablas" class="nav-link" data-scroll-target="#ejercicio-2.3.-reorganizar-y-combinar-tablas">Ejercicio 2.3. Reorganizar y combinar tablas</a></li>
-  <li><a href="#ejercicio-2.4.-gráficos" id="toc-ejercicio-2.4.-gráficos" class="nav-link" data-scroll-target="#ejercicio-2.4.-gráficos">Ejercicio 2.4. Gráficos</a></li>
-  <li><a href="#ejercicio-2.5.-primeros-análisis" id="toc-ejercicio-2.5.-primeros-análisis" class="nav-link" data-scroll-target="#ejercicio-2.5.-primeros-análisis">Ejercicio 2.5. Primeros análisis</a></li>
-  <li><a href="#ejercicio-2.6.-una-pregunta-de-principio-a-fin" id="toc-ejercicio-2.6.-una-pregunta-de-principio-a-fin" class="nav-link" data-scroll-target="#ejercicio-2.6.-una-pregunta-de-principio-a-fin">Ejercicio 2.6. Una pregunta de principio a fin</a></li>
+  <li><a href="#ejercicio-1.-un-informe-por-centro" id="toc-ejercicio-1.-un-informe-por-centro" class="nav-link active" data-scroll-target="#ejercicio-1.-un-informe-por-centro">Ejercicio 1. Un informe por centro</a></li>
+  <li><a href="#ejercicio-2.-una-pregunta-de-principio-a-fin" id="toc-ejercicio-2.-una-pregunta-de-principio-a-fin" class="nav-link" data-scroll-target="#ejercicio-2.-una-pregunta-de-principio-a-fin">Ejercicio 2. Una pregunta de principio a fin</a></li>
   </ul>
 </nav>
     </div>
@@ -248,14 +248,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Sustituye cada <code>___</code> por el código adecuado. Empieza por el nivel básico; si terminas, pasa al intermedio y al reto.</li>
-<li>Si te pierdes, ejecuta el <strong>punto de control</strong> del inicio del bloque y continúa desde ahí.</li>
-<li>Recuerda: <code>|&gt;</code> se lee “y después” (<kbd title="Ctrl+Shift+M" aria-hidden="true">Ctrl+Shift+M</kbd><span class="visually-hidden">Ctrl+Shift+M</span>).</li>
+<li>Cada ejercicio dura unos <strong>15 minutos</strong>. Sigue los pasos en orden; las pistas indican qué funciones necesitas.</li>
+<li>Si terminas antes, haz la <strong>ampliación</strong>.</li>
+<li>Empieza ejecutando el <strong>punto de control</strong> de cada ejercicio.</li>
+<li>Recuerda: <code>|&gt;</code> se lee “y después” (<kbd title="Ctrl+Shift+M" aria-hidden="true">Ctrl+Shift+M</kbd><span class="visually-hidden">Ctrl+Shift+M</span>). Construye las cadenas paso a paso: ejecuta, comprueba el resultado y añade el siguiente verbo.</li>
 </ul>
 </div>
 </div>
-<section id="ejercicio-2.1.-transformar-datos-con-dplyr" class="level1">
-<h1>Ejercicio 2.1. Transformar datos con <code>dplyr</code></h1>
+<section id="ejercicio-1.-un-informe-por-centro" class="level1">
+<h1>Ejercicio 1. Un informe por centro</h1>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -269,36 +270,23 @@ Tip
 <p><strong>Punto de control</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_limpia.rds"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">calificacion =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    nota <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Suspenso"</span>, nota <span class="sc">&lt;</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"Aprobado"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    nota <span class="sc">&lt;</span> <span class="dv">9</span> <span class="sc">~</span> <span class="st">"Notable"</span>, nota <span class="sc">&gt;=</span> <span class="dv">9</span> <span class="sc">~</span> <span class="st">"Sobresaliente"</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  ))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_escalas.rds"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
-<p><strong>[EJERCICIO] Básico</strong>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Estudiantes de 2º ESO con un 7 o más. Muestra solo id, sexo y nota</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>encuesta <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(curso <span class="sc">==</span> <span class="st">"2º ESO"</span> <span class="sc">&amp;</span> nota <span class="sc">&gt;=</span> <span class="dv">7</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(id, sexo, nota)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. ¿Cuántos estudiantes hay con cada calificación?</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>encuesta <span class="sc">|&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(calificacion)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Nota media de cada centro</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>encuesta <span class="sc">|&gt;</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___) <span class="sc">|&gt;</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">media_nota =</span> <span class="fu">mean</span>(___, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>: construye una tabla con una fila por centro que contenga el número de estudiantes con nota, la nota media y el <strong>porcentaje de aprobados</strong>, ordenada de mayor a menor porcentaje de aprobados. Pista: recuerda qué hacía <code>mean(nota &gt;= 5)</code> en la sesión 1.</p>
-<p><strong>[EJERCICIO] Reto</strong>: la encuesta se hizo en octubre, así que en 1º ESO lo habitual es tener 12 o 13 años, en 2º ESO 13 o 14, etc. Crea una variable <code>repetidor</code> (<code>TRUE</code> si la edad es mayor que 12 + el número del curso) y compara la nota media de repetidores y no repetidores. Pista: <code>as.integer(curso)</code> convierte el factor en 1, 2, 3, 4.</p>
+<p>La inspección educativa pide un resumen de la encuesta por centro y algunos datos adicionales.</p>
+<p><strong>[EJERCICIO]</strong></p>
+<ol type="1">
+<li>Construye una tabla <code>por_centro</code> con una fila por centro y estas columnas: número de estudiantes, número de estudiantes con nota, nota media, <strong>porcentaje de aprobados</strong> y motivación media. Ordénala de mayor a menor porcentaje de aprobados. <em>Pista:</em> <code>group_by()</code> + <code>summarise()</code>; <code>n()</code>; <code>sum(!is.na(nota))</code>; recuerda qué hacía <code>mean(nota &gt;= 5)</code> en la sesión 1.</li>
+<li>A partir de <code>por_centro</code>, quédate solo con los centros que tienen al menos 30 estudiantes y, de ellos, con los 3 de mayor porcentaje de aprobados. <em>Pista:</em> <code>filter()</code>, <code>slice_max()</code>.</li>
+<li>Calcula la media de las tres escalas (<code>motivacion</code>, <code>ansiedad</code>, <code>autoeficacia</code>) para cada combinación de <code>ciclo</code> y <code>sexo</code>, sin incluir a quienes prefirieron no decir su sexo, con dos decimales. ¿Dónde es mayor la ansiedad? <em>Pista:</em> <code>summarise(across(..., \(x) ...))</code>.</li>
+<li>¿Cuántos estudiantes tienen una nota al menos 1 punto por encima de la media <strong>de su centro</strong>? Cuéntalos por curso. <em>Pista:</em> <code>group_by()</code> + <code>mutate()</code>, después <code>ungroup()</code>, <code>filter()</code> y <code>count()</code>.</li>
+</ol>
+<p><strong>Ampliación</strong></p>
+<p>El departamento de orientación quiere identificar perfiles. Crea una variable <code>perfil</code> con <code>case_when()</code>: <em>“En riesgo”</em> si la ansiedad es 4 o más <strong>y</strong> la autoeficacia 2.5 o menos; <em>“Ansiedad alta”</em> si solo la ansiedad es 4 o más; <em>“Sin indicadores”</em> en el resto. Cuenta los estudiantes de cada perfil en cada curso y presenta el resultado como tabla de doble entrada (cursos en filas, perfiles en columnas). <em>Pista:</em> <code>count()</code> y <code>pivot_wider()</code>, que verás después del descanso, o <code>table()</code>.</p>
 </section>
-<section id="ejercicio-2.2.-escalas-likert" class="level1">
-<h1>Ejercicio 2.2. Escalas Likert</h1>
+<section id="ejercicio-2.-una-pregunta-de-principio-a-fin" class="level1">
+<h1>Ejercicio 2. Una pregunta de principio a fin</h1>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -311,149 +299,40 @@ Tip
 <div class="callout-body-container callout-body">
 <p><strong>Punto de control</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_escalas.rds"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_escalas.rds"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>centros <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"datos/centros.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>intervencion <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datos/intervencion_prepost.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">grupo =</span> <span class="fu">factor</span>(grupo, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Intervención"</span>)))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
-<p><strong>[EJERCICIO] Básico</strong>: calcula el alfa de Cronbach de la escala de ansiedad (<code>a1</code> a <code>a4</code>) y de la de autoeficacia. ¿Qué ítem de autoeficacia debes usar, <code>ae3</code> o <code>ae3_inv</code>?</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(___) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">alpha</span>()</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>encuesta <span class="sc">|&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ae1, ae2, ___, ae4) <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>: calcula la media de las tres escalas (<code>motivacion</code>, <code>ansiedad</code>, <code>autoeficacia</code>) en cada curso, en una sola tabla. Pista: puedes escribir tres medias dentro de <code>summarise()</code>, o usar <code>across()</code>.</p>
-<p><strong>[EJERCICIO] Reto</strong>: crea una variable con el número de ítems de autoeficacia sin responder de cada estudiante (pista: <code>rowSums(is.na(pick(...)))</code>). Crea después una puntuación <code>autoeficacia_estricta</code> que sea <code>NA</code> si falta más de un ítem. ¿A cuántos estudiantes afecta?</p>
-</section>
-<section id="ejercicio-2.3.-reorganizar-y-combinar-tablas" class="level1">
-<h1>Ejercicio 2.3. Reorganizar y combinar tablas</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Punto de control</strong></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_escalas.rds"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>centros <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"datos/centros.csv"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>intervencion <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datos/intervencion_prepost.csv"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>intervencion_larga <span class="ot">&lt;-</span> intervencion <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"comprension_"</span>), <span class="at">names_to =</span> <span class="st">"momento"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_prefix =</span> <span class="st">"comprension_"</span>, <span class="at">values_to =</span> <span class="st">"comprension"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">momento =</span> <span class="fu">factor</span>(momento, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"pre"</span>, <span class="st">"post"</span>, <span class="st">"seguimiento"</span>)))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<p><strong>[EJERCICIO] Básico</strong>: añade a la encuesta la información de los centros y compara la nota media de centros públicos y concertados.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>encuesta_centros <span class="ot">&lt;-</span> encuesta <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(centros, <span class="at">by =</span> <span class="st">"___"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>encuesta_centros <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___) <span class="sc">|&gt;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">media_nota =</span> <span class="fu">mean</span>(nota, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>: la tabla <code>intervencion</code> no tiene el curso ni el sexo de los estudiantes, pero la encuesta sí. Añádelos (solo esas dos columnas, más <code>id</code>) y cuenta cuántos estudiantes de cada curso hay en cada grupo.</p>
-<p><strong>[EJERCICIO] Reto</strong>: vuelve a convertir <code>intervencion_larga</code> a formato ancho con <code>pivot_wider()</code>. ¿Obtienes la tabla original?</p>
-</section>
-<section id="ejercicio-2.4.-gráficos" class="level1">
-<h1>Ejercicio 2.4. Gráficos</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Punto de control</strong></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_escalas.rds"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>centros <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"datos/centros.csv"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<p><strong>[EJERCICIO] Básico</strong>: histograma de la motivación.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(encuesta, <span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(<span class="at">binwidth =</span> <span class="fl">0.25</span>, <span class="at">fill =</span> <span class="st">"darkorange"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span>   <span class="co"># ¿qué geom_ dibuja un histograma?</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Motivación (1-5)"</span>, <span class="at">y =</span> <span class="st">"Número de estudiantes"</span>) <span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>: diagrama de caja de la motivación por curso. ¿Qué tendencia observas?</p>
-<p><strong>[EJERCICIO] Reto</strong>: diagrama de dispersión de la ansiedad (eje x) y la nota (eje y), con un color para cada zona (urbana/rural) y una recta de regresión para cada una. Guárdalo como <code>ansiedad_nota.png</code> de 16 × 10 cm.</p>
-</section>
-<section id="ejercicio-2.5.-primeros-análisis" class="level1">
-<h1>Ejercicio 2.5. Primeros análisis</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Punto de control</strong></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"checkpoints/encuesta_escalas.rds"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>intervencion <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datos/intervencion_prepost.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">grupo =</span> <span class="fu">factor</span>(grupo, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Intervención"</span>)))</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>encuesta_2sexos <span class="ot">&lt;-</span> encuesta <span class="sc">|&gt;</span> <span class="fu">filter</span>(sexo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Chica"</span>, <span class="st">"Chico"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<p><strong>[EJERCICIO] Básico</strong>: ¿se relaciona la motivación con la nota? Contrasta la correlación e interpreta el resultado.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(encuesta<span class="sc">$</span>___, encuesta<span class="sc">$</span>___)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Intermedio</strong>: calcula la mejora de cada estudiante (<code>comprension_post - comprension_pre</code>) y compara con una prueba <em>t</em> la mejora media del grupo de intervención y del grupo control.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>intervencion_mejora <span class="ot">&lt;-</span> intervencion <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mejora =</span> ___)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> intervencion_mejora)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>[EJERCICIO] Reto</strong>: ajusta un modelo de regresión que explique la ansiedad a partir del sexo y el curso (usa <code>encuesta_2sexos</code>). ¿Cuál es la categoría de referencia de cada factor? ¿Cómo interpretas los coeficientes?</p>
-</section>
-<section id="ejercicio-2.6.-una-pregunta-de-principio-a-fin" class="level1">
-<h1>Ejercicio 2.6. Una pregunta de principio a fin</h1>
-<p><strong>[EJERCICIO]</strong> Crea un <em>script</em> nuevo y responde a una de estas preguntas con una tabla de descriptivos por grupo, un gráfico y una prueba estadística:</p>
+<p><strong>[EJERCICIO]</strong> Elige <strong>una</strong> de estas preguntas y respóndela en un documento Quarto nuevo (<code>pregunta.qmd</code>):</p>
 <ol type="1">
 <li>¿Tienen los estudiantes de centros rurales una motivación distinta a los de centros urbanos?</li>
 <li>¿Es la ansiedad ante los exámenes mayor en el segundo ciclo de la ESO (3º y 4º) que en el primero (1º y 2º)?</li>
 <li>En el estudio de intervención, ¿se mantiene en el seguimiento la mejora del grupo de intervención? (Compara <em>pre</em> y <em>seguimiento</em>).</li>
 </ol>
-<p>Estructura sugerida:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Paquetes ---------------------------------------------------------------</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Importar ---------------------------------------------------------------</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Preparar ---------------------------------------------------------------</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Describir --------------------------------------------------------------</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Graficar ---------------------------------------------------------------</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Analizar ---------------------------------------------------------------</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<p>El informe debe tener:</p>
+<ol type="1">
+<li>Un bloque inicial con <code>#| include: false</code> que cargue los paquetes y los datos (el punto de control de arriba) y prepare lo necesario:
+<ul>
+<li>Pregunta 1: unir la encuesta con <code>centros</code> (<code>left_join()</code>).</li>
+<li>Pregunta 2: la variable <code>ciclo</code> ya está en los datos.</li>
+<li>Pregunta 3: pasar <code>intervencion</code> a formato largo (<code>pivot_longer()</code>) para el gráfico.</li>
+</ul></li>
+<li><strong>Descriptivos</strong>: una tabla con el número de casos, la media y la desviación típica de cada grupo (<code>group_by()</code> + <code>summarise()</code> + <code>knitr::kable()</code>).</li>
+<li><strong>Gráfico</strong>: el que mejor responda a la pregunta (diagrama de caja con puntos, o medias por momento), con etiquetas en castellano y un pie de figura (<code>#| fig-cap:</code>).</li>
+<li><strong>Prueba estadística</strong>: la prueba <em>t</em> adecuada (independiente o relacionada), guardada en un objeto.</li>
+<li><strong>Conclusión</strong>: una o dos frases que respondan a la pregunta, con las medias y el valor <em>p</em> calculados dentro del texto (<code>`r `</code> y <code>prueba$estimate</code>, <code>prueba$p.value</code>).</li>
+<li>Ponle <code>execute: echo: false</code> en el YAML y pulsa <strong>Render</strong>.</li>
+</ol>
+<p><strong>Ampliación</strong></p>
+<ul>
+<li>Genera también una versión en Word (<code>docx</code>).</li>
+<li>Guarda el gráfico como imagen de 16 × 10 cm con <code>ggsave()</code>.</li>
+<li>Responde a una segunda pregunta en el mismo informe.</li>
+</ul>
 <p>Cuando termines, sigue los pasos del apartado <strong>Tu propio proyecto con <code>renv</code></strong> de los apuntes para crear el proyecto de tu próximo análisis.</p>
 
 
