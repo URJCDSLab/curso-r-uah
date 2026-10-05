@@ -317,6 +317,7 @@ texto.
 
 ```{r}
 edad_texto <- "14"     # entre comillas, así que es texto
+# edad_texto + 1
 ```
 
 La solución es **convertir** el tipo con las funciones `as.*()`:
@@ -456,6 +457,42 @@ Para etiquetar cada valor según una condición, usamos
 ```{r}
 ifelse(notas >= 5, "Aprobado", "Suspenso")
 ```
+
+### Preguntas sobre texto
+
+Con el texto también podemos hacer preguntas de sí o no. Estas son las
+funciones más habituales:
+
+```{r}
+startsWith(alumnos, "L")         # ¿empieza por "L"?
+endsWith(alumnos, "a")           # ¿termina en "a"?
+grepl("ar", alumnos)             # ¿contiene "ar" en cualquier posición?
+grepl("^m", alumnos, ignore.case = TRUE)   # ^ = al principio, sin distinguir mayúsculas
+```
+
+Como devuelven `TRUE`/`FALSE`, sirven para contar y filtrar:
+
+```{r}
+alumnos[startsWith(alumnos, "L")]
+sum(endsWith(alumnos, "a"))
+```
+
+Y otras para transformar o medir el texto:
+
+```{r}
+nchar(alumnos)                   # número de caracteres
+substr(alumnos, 1, 3)            # del carácter 1 al 3
+tolower(alumnos)                 # en minúsculas
+gsub("a", "@", alumnos)          # sustituir "a" por "@"
+trimws("  Ana  ")                # quitar espacios sobrantes
+```
+
+::: callout-tip
+El paquete `stringr` (incluido en `tidyverse`) tiene versiones de estas
+funciones con nombres que empiezan por `str_`: `str_starts()`,
+`str_ends()`, `str_detect()`, `str_length()`, `str_sub()`,
+`str_to_lower()`, `str_replace_all()`, `str_trim()`...
+:::
 
 ## Valores perdidos: `NA`
 
