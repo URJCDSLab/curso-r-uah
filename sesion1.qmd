@@ -723,6 +723,21 @@ nota_ponderada(examen = 6, trabajo = 9)
 nota_ponderada(examen = 6, trabajo = 9, peso_examen = 0.5)
 ```
 
+Si la función cabe en una línea, no hacen falta las llaves. Y desde R
+4.1 existe una forma abreviada de escribir `function(x)`: `\(x)`.
+
+```{r}
+media_sin_na <- function(x) mean(x, na.rm = TRUE)
+media_sin_na <- \(x) mean(x, na.rm = TRUE)     # exactamente lo mismo
+media_sin_na(notas_con_na)
+```
+
+Una función ni siquiera necesita nombre: cuando solo la usamos una vez,
+dentro de otra función, se escribe directamente ahí. Son las **funciones
+anónimas**, y en la sesión 2 las usaremos mucho:
+`across(..., \(x) mean(x, na.rm = TRUE))` significa "aplica a cada
+columna la media sin perdidos".
+
 ## Condiciones: `if` y `else`
 
 `if` ejecuta un código solo si se cumple una condición; `else`, si no se
