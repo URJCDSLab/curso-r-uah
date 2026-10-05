@@ -27,9 +27,13 @@ RStudio es el programa desde el que usaremos R. Se instala **después** de R.
 
 ## 3. Descarga los materiales del curso
 
-Descomprime el fichero `curso_R_UAH.zip` en una carpeta de tu ordenador que **no** esté sincronizada
+Descarga la última versión de los materiales desde
+<https://github.com/URJCDSLab/curso-r-uah/archive/refs/heads/main.zip>.
+
+Descomprime el fichero en una carpeta de tu ordenador que **no** esté sincronizada
 con OneDrive, Dropbox o Google Drive (por ejemplo, `Documentos/curso_R_UAH`). La sincronización puede
-interferir con la instalación de paquetes.
+interferir con la instalación de paquetes. Al descomprimir se crea la carpeta `curso-r-uah-main`;
+puedes cambiarle el nombre si quieres.
 
 ## 4. Abre el proyecto e instala los paquetes
 
